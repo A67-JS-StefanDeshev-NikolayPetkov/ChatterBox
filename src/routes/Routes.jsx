@@ -6,11 +6,11 @@ import { Navigate } from "react-router-dom";
 
 //View imports
 import Home from "../views/Home/Home";
-import Login from "../views/Login/Login";
-import Register from "../views/Register/Register";
-import RegistrationSuccess from "../components/informational/RegistrationSuccess/RegistrationSuccess";
+// import Login from "../views/Login/Login";
+// import Register from "../views/Register/Register";
+// import RegistrationSuccess from "../components/informational/RegistrationSuccess/RegistrationSuccess";
 
-function Routes() {
+function NavigationRoutes() {
   return (
     <Routes>
       <Route
@@ -26,7 +26,7 @@ function Routes() {
         path="/home"
         element={<Home />}
       ></Route>
-      <Route
+      {/* <Route
         path="/login"
         element={<Login />}
       ></Route>
@@ -37,9 +37,9 @@ function Routes() {
       <Route
         path="/registration-success"
         element={<RegistrationSuccess />}
-      ></Route>
+      ></Route> */}
     </Routes>
   );
 }
 
-export default Routes;
+export default NavigationRoutes;

@@ -18,7 +18,7 @@ export function AppContextProvider({ children }) {
     userData: null,
   });
 
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
 
   if (appState.user !== user) {
     setAppState({ user });
@@ -30,11 +30,29 @@ export function AppContextProvider({ children }) {
     });
   }
 
+  useEffect(() => {
+    if (user === null) return;
+
+    getUserData(user.uid)
+      .then((snapshot) => {
+        if (!snapshot.exists()) {
+          throw new Error("Couldnt get user data.");
+        }
+
+        setAppState({
+          ...appState,
+          userData: snapshot.val()[Object.keys(snapshot.val())[0]],
+        });
+      })
+      .catch((e) => alert(e.message));
+  }, [user]);
+
   return (
     <AppContext.Provider
       value={{
         user: appState.user,
         userData: appState.userData,
+        loading,
         setContext: setAppState,
         onLogout,
       }}
