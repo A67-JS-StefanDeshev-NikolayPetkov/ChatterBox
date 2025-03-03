@@ -1,0 +1,72 @@
+.login-form {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.fields-container {
+  /* background-color: aqua; */
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 20px;
+}
+
+.field-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 5px;
+}
+
+.login-form h2 {
+  padding-bottom: 10px;
+}
+
+.additional-links {
+  display: flex;
+  width: 100%;
+  align-items: start;
+  flex-direction: column;
+}
+
+/* Form Input Fields */
+.login-input {
+  width: 220px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Forgot Password Link */
+.redirection-link {
+  font-size: 14px;
+}
+
+.redirection-link a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.redirection-link a:hover {
+  text-decoration: underline;
+}
+
+.submit-login-btn {
+  color: white;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.submit-login-btn:hover {
+  color: black;
+  background-color: greenyellow;
+}

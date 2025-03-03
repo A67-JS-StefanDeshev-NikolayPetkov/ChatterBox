@@ -1,0 +1,19 @@
+.logo {
+  background: url("../../assets/chatterbox-logo-nobackground-white.svg");
+  height: 50px;
+  width: 50px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+}
+
+.logo-text {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: bolder;
+  font-family: "Madimi One", sans-serif;
+}

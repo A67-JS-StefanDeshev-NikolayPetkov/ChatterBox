@@ -47,6 +47,10 @@ export function AppContextProvider({ children }) {
       .catch((e) => alert(e.message));
   }, [user]);
 
+  useEffect(() => {
+    console.log(appState.userData, appState.user);
+  }, [appState]);
+
   return (
     <AppContext.Provider
       value={{

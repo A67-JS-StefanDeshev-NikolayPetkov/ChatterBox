@@ -4,16 +4,13 @@ import "./Header.css";
 //Dependency imports
 import { NavLink } from "react-router-dom";
 
+//Component
+import LogoWithText from "../../components/logo/LogoWithText";
+
 function Header() {
   return (
     <div className="header">
-      <NavLink
-        className="logo-container"
-        to="/home"
-      >
-        <div className="logo"></div>
-        <p className="logo-text">CHATTERBOX</p>
-      </NavLink>
+      <LogoWithText></LogoWithText>
 
       <nav>
         <NavLink to="/register">register</NavLink>

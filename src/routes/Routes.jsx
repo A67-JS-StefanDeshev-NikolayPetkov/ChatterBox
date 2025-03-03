@@ -2,13 +2,10 @@
 import { Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 
-//Component imports
-
 //View imports
 import Home from "../views/Home/Home";
-// import Login from "../views/Login/Login";
-// import Register from "../views/Register/Register";
-// import RegistrationSuccess from "../components/informational/RegistrationSuccess/RegistrationSuccess";
+import Login from "../views/Login/Login";
+import Register from "../views/Register/Register";
 
 function NavigationRoutes() {
   return (
@@ -26,7 +23,7 @@ function NavigationRoutes() {
         path="/home"
         element={<Home />}
       ></Route>
-      {/* <Route
+      <Route
         path="/login"
         element={<Login />}
       ></Route>
@@ -34,10 +31,6 @@ function NavigationRoutes() {
         path="/register"
         element={<Register />}
       ></Route>
-      <Route
-        path="/registration-success"
-        element={<RegistrationSuccess />}
-      ></Route> */}
     </Routes>
   );
 }

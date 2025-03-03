@@ -11,7 +11,7 @@ import Button from "../../components/button/Button";
 import "./Home.css";
 
 function Home() {
-  const { user } = useContext(AppContext);
+  const { user, onLogout } = useContext(AppContext);
   const navigate = useNavigate();
 
   if (!user)
@@ -54,7 +54,7 @@ function Home() {
       </>
     );
 
-  return <p>logged in</p>;
+  return <button onClick={() => onLogout()}>log out</button>;
 }
 
 export default Home;

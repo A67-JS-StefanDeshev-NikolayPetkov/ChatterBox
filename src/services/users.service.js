@@ -5,13 +5,11 @@ export const getUserByHandle = (handle) => {
   return get(ref(db, `users/${handle}`));
 };
 
-export const createUserHandle = (handle, uid, email) => {
-  return set(ref(db, `users/${handle}`), {
-    handle,
+export const createUserHandle = (username, uid, email) => {
+  return set(ref(db, `users/${username}`), {
     uid,
     email,
-    createdOn: new Date(),
-    likedTweets: {},
+    createdOn: Date.now(),
   });
 };
 
