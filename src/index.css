@@ -10,6 +10,15 @@
   padding: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Madimi One", sans-serif;
+}
+
 html {
   font-size: 62.5%;
   height: 100%;
@@ -39,7 +48,7 @@ select {
 }
 
 :root {
-  font-family: system-ui, Helvetica, Arial, sans-serif;
+  font-family: "Inter" !important;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

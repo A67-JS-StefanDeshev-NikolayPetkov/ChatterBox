@@ -17,7 +17,7 @@ nav {
 }
 
 nav a {
-  color: rgb(0, 0, 0);
+  color: white;
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
@@ -25,11 +25,11 @@ nav a {
 }
 
 nav a:hover {
-  color: white;
+  color: black;
 }
 
 .logo {
-  background: url("../../assets/chatterbox-logo-nobackground-black.svg");
+  background: url("../../assets/chatterbox-logo-nobackground-white.svg");
   height: 50px;
   width: 50px;
 }
@@ -42,8 +42,8 @@ nav a:hover {
 }
 
 .logo-text {
-  color: black;
+  color: white;
   font-size: 2.2rem;
   font-weight: bolder;
-  font-family: "Madimi One";
+  font-family: "Madimi One", sans-serif;
 }

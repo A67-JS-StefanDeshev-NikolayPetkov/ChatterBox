@@ -1,7 +1,82 @@
 .home-content {
+  /* top: 80px; */
   width: 1200px;
-  height: 100vh;
+  height: calc(100vh - 80px);
   margin: auto;
-  padding-top: 80px;
-  background-color: red;
+  margin-top: 80px;
+  padding: 60px;
+  /* background-color: red; */
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.info-container {
+  /* background-color: aqua; */
+  width: 800px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-evenly;
+}
+
+h1 {
+  font-family: "Madimi One", sans-serif;
+  font-size: 80px;
+  text-transform: uppercase;
+  line-height: 62px;
+}
+
+.stats-container {
+  /* background-color: aqua; */
+  width: 310px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.stat-container {
+  /* background-color: blueviolet; */
+  width: 180px;
+  height: 180px;
+  border-radius: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed black;
+}
+
+.btns-container {
+  display: flex;
+  gap: 15px;
+}
+
+.stat-container p {
+  font-family: "Madimi One", sans-serif;
+}
+
+.register-btn {
+  color: white;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.register-btn:hover {
+  background-color: greenyellow;
+  color: black;
+  border-radius: 4px;
+}
+
+.login-btn {
+  background-color: white;
+  border: 1px solid gainsboro;
+  border-radius: 4px;
+}
+
+.login-btn:hover {
+  background-color: gainsboro;
 }
