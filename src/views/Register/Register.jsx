@@ -9,11 +9,13 @@ import "./Register.css";
 
 //Dependency imports
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 //Component imports
 import RegisterForm from "../../components/forms/register/RegisterForm";
 import Loader from "../../components/loader/Loader";
 import LogoWithText from "../../components/logo/LogoWithText";
+import Button from "../../components/button/Button";
 
 //Services
 import { AppContext } from "../../context/AppContext";
@@ -33,6 +35,7 @@ function Register() {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const validateRegistrationForm = function () {
     const newErrors = {};
@@ -100,7 +103,21 @@ function Register() {
 
   if (loading) return <Loader></Loader>;
 
-  if (success) return <p>successful registration!</p>;
+  if (success)
+    return (
+      <div className="center">
+        <LogoWithText></LogoWithText>
+        <div className="success-container">
+          <h2>Success!</h2>
+          <p>Your account has been creates successfully!</p>
+          <Button
+            label="Login"
+            className="success-login-btn"
+            onClick={() => navigate("/login")}
+          ></Button>
+        </div>
+      </div>
+    );
 
   return (
     <div className="center">

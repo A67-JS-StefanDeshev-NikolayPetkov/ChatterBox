@@ -61,12 +61,5 @@
 }
 
 .submit-login-btn {
-  color: white;
   margin-bottom: 20px;
-  border-radius: 5px;
-}
-
-.submit-login-btn:hover {
-  color: black;
-  background-color: greenyellow;
 }
