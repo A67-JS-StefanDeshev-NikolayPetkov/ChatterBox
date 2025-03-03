@@ -56,11 +56,11 @@ h1 {
 }
 
 .register-btn {
-  color: white;
   font-weight: 700;
 }
 
 .login-btn {
+  color: black;
   background-color: white;
   border: 1px solid gainsboro;
 }
