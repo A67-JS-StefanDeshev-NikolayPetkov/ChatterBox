@@ -1,7 +1,14 @@
-.sidebar {
+.user-info-sidebar {
     width: 20%;
-    background-color: #f4f4f4;
     padding: 20px;
     border: 1px solid #ccc;
+    display: flex;
   }
   
+.logout-button, .logout-button:hover {
+  background-color: transparent;
+}
+
+  .logout-button:hover {
+    color:rgba(202, 70, 70, 0.664);
+  }

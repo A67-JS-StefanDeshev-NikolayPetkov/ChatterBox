@@ -1,18 +1,17 @@
 .chat-container {
     display: flex;
     height: 100vh;
+    background-color: rgba(0, 128, 0, 0.682);
   }
   
   .sidebar {
     width: 20%;
-    background-color: #f4f4f4;
     padding: 20px;
     overflow-y: auto;
   }
   
   .chat-window {
     width: 60%;
-    background-color: #fff;
     padding: 20px;
     overflow-y: auto;
   }

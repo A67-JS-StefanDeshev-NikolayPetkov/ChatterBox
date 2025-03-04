@@ -7,7 +7,7 @@ import LogoWithText from "../../../components/logo/LogoWithText";
 function ChannelsSidebar() {
   return (
     <div className="sidebar">
-      <div className="logo-container">
+      <div className="logo-container-sidebar">
         <LogoWithText />
       </div>
       <h2>Channels</h2>

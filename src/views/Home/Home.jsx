@@ -54,7 +54,8 @@ function Home() {
       </>
     );
 
-  return <button onClick={() => onLogout()}>log out</button>;
+  // return <button onClick={() => onLogout()}>log out</button>;
+  navigate("/chat");
 }
 
 export default Home;
