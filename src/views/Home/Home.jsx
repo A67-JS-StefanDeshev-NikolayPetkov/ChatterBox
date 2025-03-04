@@ -1,5 +1,5 @@
 //Dependency
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
@@ -11,8 +11,14 @@ import Button from "../../components/button/Button";
 import "./Home.css";
 
 function Home() {
-  const { user, onLogout } = useContext(AppContext);
+  const { user } = useContext(AppContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/chat");
+    }
+  }, [user, navigate]);
 
   if (!user)
     return (
@@ -54,8 +60,7 @@ function Home() {
       </>
     );
 
-  // return <button onClick={() => onLogout()}>log out</button>;
-  navigate("/chat");
+  return null;
 }
 
 export default Home;
