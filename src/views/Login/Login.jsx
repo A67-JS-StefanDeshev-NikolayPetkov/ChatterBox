@@ -35,7 +35,7 @@ function Login() {
         setContext({ user: credentials.user });
       })
       .then(() => {
-        navigate("/");
+        navigate("/chat");
       })
       .catch((e) => setLoginError(e.message));
   };
