@@ -1,10 +1,10 @@
 .logo {
-  background: url("../../assets/chatterbox-logo-nobackground-white.svg");
+  background: url("../../../assets/chatterbox-logo-nobackground-white.svg");
   height: 50px;
   width: 50px;
 }
 
-.logo-container {
+.logo-container-text {
   display: flex;
   align-items: center;
   gap: 15px;

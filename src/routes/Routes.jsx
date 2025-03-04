@@ -6,19 +6,36 @@ import { Navigate } from "react-router-dom";
 import Home from "../views/Home/Home";
 import Login from "../views/Login/Login";
 import Register from "../views/Register/Register";
-import Chat from "../components/chat/Chat";
+import Chat from "../views/Chat/Chat";
 
 function NavigationRoutes() {
   return (
     <Routes>
       <Route
         path="/"
-        element={<Navigate replace to="/home"></Navigate>}
+        element={
+          <Navigate
+            replace
+            to="/home"
+          ></Navigate>
+        }
       ></Route>
-      <Route path="/home" element={<Home />}></Route>
-      <Route path="/login" element={<Login />}></Route>
-      <Route path="/register" element={<Register />}></Route>
-      <Route path="/chat" element={<Chat />}></Route>
+      <Route
+        path="/home"
+        element={<Home />}
+      ></Route>
+      <Route
+        path="/login"
+        element={<Login />}
+      ></Route>
+      <Route
+        path="/register"
+        element={<Register />}
+      ></Route>
+      <Route
+        path="/chat"
+        element={<Chat />}
+      ></Route>
     </Routes>
   );
 }

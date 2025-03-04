@@ -39,17 +39,15 @@ export function AppContextProvider({ children }) {
           throw new Error("Couldnt get user data.");
         }
 
+        const username = Object.keys(snapshot.val())[0];
+
         setAppState({
           ...appState,
-          userData: snapshot.val()[Object.keys(snapshot.val())[0]],
+          userData: { username, ...snapshot.val()[username] },
         });
       })
       .catch((e) => alert(e.message));
   }, [user]);
-
-  useEffect(() => {
-    console.log(appState.userData, appState.user);
-  }, [appState]);
 
   return (
     <AppContext.Provider

@@ -8,13 +8,13 @@ import {
 import "./Register.css";
 
 //Dependency imports
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 //Component imports
 import RegisterForm from "../../components/forms/register/RegisterForm";
 import Loader from "../../components/loader/Loader";
-import LogoWithText from "../../components/logo/LogoWithText";
+import LogoWithText from "../../components/logo/LogoWithText/LogoWithText";
 import Button from "../../components/button/Button";
 
 //Services
@@ -27,7 +27,7 @@ import { registerUser } from "../../services/auth.service";
 
 function Register() {
   const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState(null);
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const { onLogout } = useContext(AppContext);
   const [formData, setFormData] = useState({

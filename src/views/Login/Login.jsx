@@ -9,7 +9,7 @@ import { AppContext } from "../../context/AppContext.jsx";
 
 //Component imports
 import LoginForm from "../../components/forms/login/LoginForm";
-import LogoWithText from "../../components/logo/LogoWithText";
+import LogoWithText from "../../components/logo/LogoWithText/LogoWithText.jsx";
 
 function Login() {
   const { setContext } = useContext(AppContext);

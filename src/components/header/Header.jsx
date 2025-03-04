@@ -5,7 +5,7 @@ import "./Header.css";
 import { NavLink } from "react-router-dom";
 
 //Component
-import LogoWithText from "../../components/logo/LogoWithText";
+import LogoWithText from "../logo/LogoWithText/LogoWithText";
 
 function Header() {
   return (

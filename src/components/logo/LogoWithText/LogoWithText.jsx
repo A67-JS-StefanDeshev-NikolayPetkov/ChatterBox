@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 function LogoWithText() {
   return (
     <NavLink
-      className="logo-container"
+      className="logo-container-text"
       to="/home"
     >
       <div className="logo"></div>

@@ -18,7 +18,7 @@ function Home() {
     if (user) {
       navigate("/chat");
     }
-  }, [user, navigate]);
+  }, []);
 
   if (!user)
     return (
