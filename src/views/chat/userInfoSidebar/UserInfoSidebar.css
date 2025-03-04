@@ -9,6 +9,7 @@
   background-color: transparent;
 }
 
-  .logout-button:hover {
-    color:rgba(202, 70, 70, 0.664);
+  .username {
+    font-size: 1em;
+    font-weight: bold;
   }
