@@ -2,8 +2,8 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
+    /* overflow: hidden; */
+    cursor: pointer; 
     margin: 10px;
 }
   
@@ -19,3 +19,6 @@
     object-fit: cover;
 }
   
+
+
+
