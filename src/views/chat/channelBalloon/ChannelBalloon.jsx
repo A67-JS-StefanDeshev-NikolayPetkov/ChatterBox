@@ -7,18 +7,29 @@ import { useState } from "react";
 //Component imports
 import Tooltip from "../../../components/tooltip/Tooltip";
 function ChannelBalloon({ channelName, imageUrl, onClick, title }) {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsTooltipVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsTooltipVisible(false);
+  };
 
   return (
     <div
       className="channel-balloon"
       onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      // style={{ position: "relative", display: "inline-block" }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <img src={imageUrl} alt={channelName} className="channel-image" />
-      {isHovered && <Tooltip text={title} position="top" />}
+      <Tooltip
+        text={title}
+        position="top"
+        style={{ display: isTooltipVisible ? "inline-block" : "none" }}
+      />
     </div>
   );
 }

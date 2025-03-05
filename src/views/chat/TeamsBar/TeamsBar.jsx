@@ -8,6 +8,8 @@ import ChannelBalloon from "../channelBalloon/ChannelBalloon";
 import FieldError from "../../../components/forms/error/FieldError";
 import Button from "../../../components/button/Button";
 import Input from "../../../components/input/Input";
+import Modal from "../../../components/modal/Modal";
+import Tooltip from "../../../components/tooltip/Tooltip";
 
 // Dependency imports
 import { useNavigate } from "react-router-dom";
@@ -15,7 +17,6 @@ import { useContext, useState, useEffect } from "react";
 import { createTeam } from "../../../services/teams.service";
 import { AppContext } from "../../../context/AppContext";
 import { getTeams } from "../../../services/teams.service";
-import Modal from "../../../components/modal/Modal";
 
 function TeamsBar() {
   const [teamName, setTeamName] = useState("");
@@ -24,10 +25,18 @@ function TeamsBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { user, userData } = useContext(AppContext);
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsTooltipVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsTooltipVisible(false);
+  };
 
   // Fetch teams from Firebase
   const fetchTeams = async () => {
-    
     try {
       const teamsData = await getTeams();
       const teamsArray = Object.keys(teamsData).map((key) => ({
@@ -84,7 +93,18 @@ function TeamsBar() {
       </div>
       <div className="team-list">
         {teams.length === 0 ? (
-          <p>No teams available for you, {userData.username}</p>
+          <div
+            className="channel-balloon"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <p>No teams available for you, {userData.username}</p>
+            <Tooltip
+              text={`No teams available for you, ${userData.username}`}
+              position="top"
+              style={{ display: isTooltipVisible ? "inline-block" : "none" }}
+            />
+          </div>
         ) : (
           teams.map((team) => (
             <div className="team" key={team.id}>
@@ -104,15 +124,17 @@ function TeamsBar() {
         <div>
           <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
             <h2>Create Team</h2>
-            {/* <input
-              type="text"
+            <Input
               placeholder="Enter team name"
               value={teamName}
-              onChange={(e) => setTeamName(e.target.value)}
+              setValue={setTeamName}
               className="team-input"
-            /> */}
-            <Input placeholder="Enter team name" value={teamName} setValue={setTeamName} className="team-input"/>
-            <Button onClick={handleCreateTeam} label="Submit" className="submit-input"/>
+            />
+            <Button
+              onClick={handleCreateTeam}
+              label="Submit"
+              className="submit-input"
+            />
           </Modal>
         </div>
         <ChannelBalloon
