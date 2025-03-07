@@ -6,6 +6,7 @@ import TeamsBar from "./TeamsBar/TeamsBar";
 import ChatsBar from "./ChatsBar/ChatsBar";
 import ChatWindow from "./ChatWindow/ChatWindow";
 import Loader from "../../components/loader/Loader";
+import Center from "../../components/center/Center";
 
 //Dependency
 import { AppContext } from "../../context/AppContext";
@@ -22,10 +23,15 @@ function Chat() {
     }
   }, []);
 
-  if (!userData) return <Loader></Loader>;
+  if (!userData)
+    return (
+      <Center>
+        <Loader></Loader>
+      </Center>
+    );
 
   return (
-    <div className="chat-container">
+    <div className="app-container">
       <TeamsBar />
       <ChatsBar />
       <ChatWindow />

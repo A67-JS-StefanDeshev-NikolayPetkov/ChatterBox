@@ -1,15 +1,56 @@
-.user-info-sidebar {
-    width: 20%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    display: flex;
-  }
-  
-.logout-button, .logout-button:hover {
-  background-color: transparent;
+.chats-bar {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  background-color: aqua;
 }
 
-  .username {
-    font-size: 1em;
-    font-weight: bold;
-  }
+.logged-user-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px;
+  border-bottom: 1px solid gainsboro;
+  background-color: red;
+}
+
+.user-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  background-color: green;
+}
+
+.user-image {
+  background-color: blue;
+  width: 40px;
+  height: 40px;
+}
+
+.settings-btn {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.chats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background-color: brown;
+  padding: 10px;
+}
+
+.chat-container {
+  background-color: greenyellow;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}

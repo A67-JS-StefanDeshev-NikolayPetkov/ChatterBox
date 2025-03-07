@@ -4,12 +4,11 @@ import teamLogo from "../../../assets/chatterbox-logo-background-black.svg";
 import plusSign from "../../../assets/plus.svg";
 
 // Component imports
-import ChannelBalloon from "../channelBalloon/ChannelBalloon";
+import Avatar from "../../../components/avatar/Avatar";
 import FieldError from "../../../components/forms/error/FieldError";
 import Button from "../../../components/button/Button";
 import Input from "../../../components/input/Input";
 import Modal from "../../../components/modal/Modal";
-import Tooltip from "../../../components/tooltip/Tooltip";
 
 // Dependency imports
 import { useNavigate } from "react-router-dom";
@@ -24,16 +23,7 @@ function TeamsBar() {
   const [teams, setTeams] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const { user, userData } = useContext(AppContext);
-  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsTooltipVisible(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsTooltipVisible(false);
-  };
+  const { user } = useContext(AppContext);
 
   // Fetch teams from Firebase
   const fetchTeams = async () => {
@@ -82,47 +72,33 @@ function TeamsBar() {
   };
 
   return (
-    <div className="sidebar">
+    <div className="teams-bar">
       <div className="team-logo">
-        <ChannelBalloon
+        <Avatar
           imageUrl={logo}
-          channelName="home"
+          type="team"
           onClick={() => handleNavigation("")}
           title={"Home"}
         />
       </div>
-      <div className="team-list">
-        {teams.length === 0 ? (
-          <div
-            className="channel-balloon"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <p>No teams available for you, {userData.username}</p>
-            <Tooltip
-              text={`No teams available for you, ${userData.username}`}
-              position="top"
-              style={{ display: isTooltipVisible ? "inline-block" : "none" }}
-            />
-          </div>
-        ) : (
+      <div className="teams-list">
+        {teams.length !== 0 &&
           teams.map((team) => (
-            <div className="team" key={team.id}>
-              <ChannelBalloon
-                className="team-item"
-                channelName={team.name}
-                imageUrl={teamLogo}
-                onClick={() => handleNavigation(team.name)}
-                title={team.name}
-              />
-            </div>
-          ))
-        )}
+            <Avatar
+              type="team"
+              imageUrl={teamLogo}
+              onClick={() => handleNavigation(team.name)}
+              teamName={team.name}
+            />
+          ))}
       </div>
 
       <div className="add-team">
         <div>
-          <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <Modal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          >
             <h2>Create Team</h2>
             <Input
               placeholder="Enter team name"
@@ -137,12 +113,10 @@ function TeamsBar() {
             />
           </Modal>
         </div>
-        <ChannelBalloon
-          className="add-channel"
+        <Avatar
           onClick={() => setIsModalOpen(true)}
-          channelName="Create Team"
+          type="team"
           imageUrl={plusSign}
-          title="Create Team"
         />
         <FieldError label={error} />
       </div>

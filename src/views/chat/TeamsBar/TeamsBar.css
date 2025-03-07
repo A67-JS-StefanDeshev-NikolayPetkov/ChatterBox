@@ -1,19 +1,28 @@
-.sidebar {
-    width:80px;
-    /* overflow-x: hidden; */
-    /* overflow: scroll; */
+.teams-bar {
+  background-color: blueviolet;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
 }
 .add-channel {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .submit-input {
-    margin-top:20px;
+  margin-top: 20px;
 }
 
-.team-list p {
-    white-space: nowrap;
-    overflow: hidden;            
-    text-overflow: ellipsis;                   
-    display: block; 
+.teams-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.teams-list p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
