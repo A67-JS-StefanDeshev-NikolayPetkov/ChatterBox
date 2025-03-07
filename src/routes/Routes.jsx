@@ -33,7 +33,7 @@ function NavigationRoutes() {
         element={<Register />}
       ></Route>
       <Route
-        path="/chat"
+        path="/chat/*"
         element={<Chat />}
       ></Route>
     </Routes>

@@ -5,23 +5,28 @@ import plusSign from "../../../assets/plus.svg";
 
 // Component imports
 import Avatar from "../../../components/avatar/Avatar";
-import FieldError from "../../../components/forms/error/FieldError";
-import Button from "../../../components/button/Button";
-import Input from "../../../components/input/Input";
 import Modal from "../../../components/modal/Modal";
+import ChannelsList from "./channelList/ChannelList";
 
 // Dependency imports
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-import { createTeam } from "../../../services/teams.service";
+import { createTeam, getChannels, createChannel } from "../../../services/teams.service";
 import { AppContext } from "../../../context/AppContext";
 import { getTeams } from "../../../services/teams.service";
+import CreateMedia from "../../../components/createMedia/CreateMedia";
+import { validateMedia } from "../../../utils/helpers";
 
 function TeamsBar() {
   const [teamName, setTeamName] = useState("");
   const [error, setError] = useState(null);
   const [teams, setTeams] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [channels, setChannels] = useState([]);
+  const [viewChannels, setViewChannels] = useState(false);
+  const [newChannelTitle, setNewChannelTitle] = useState("");
+  const [isPublic, setIsPublic] = useState(true);
   const navigate = useNavigate();
   const { user } = useContext(AppContext);
 
@@ -46,28 +51,56 @@ function TeamsBar() {
     fetchTeams();
   }, []);
 
-  const handleNavigation = (channelName) => {
-    if (typeof channelName !== "string") return;
-    navigate(`/home/${channelName}`);
+  const handleNavigation = (teamId, channelName) => {
+    if (typeof channelName !== "string" || typeof teamId !== "string") return;
+    const team = teams.find((team) => team.id === teamId);
+    team ? team.name : "";
+    navigate(`/chat/${team.name}/${channelName}`);
   };
 
   const handleCreateTeam = async () => {
-    if (!teamName.trim()) {
-      setError("Team name cannot be empty.");
-      return;
-    }
 
     try {
+      validateMedia(teamName);
       // Create team in Firebase
-      await createTeam(teamName, user.uid, [user.uid], []);
+      const newTeam = await createTeam(teamName, user.uid, [user.uid], []);
       setError(null);
       setTeamName("");
       fetchTeams();
+      setIsModalOpen(false);
+      const channelsData = await getChannels(newTeam.id);
+      setChannels(channelsData ? Object.values(channelsData) : []);
     } catch (err) {
       setError(err.message);
-    } finally {
       setTeamName("");
+    }
+  };
+
+  const handleTeamClick = async (teamId) => {
+    setSelectedTeam(teamId);
+    try {
+      const channelsData = await getChannels(teamId);
+      setChannels(channelsData ? Object.values(channelsData) : []);
+      setViewChannels(true);
+    } catch (error) {
+      setError("Failed to load channels");
+    }
+  };
+
+  const handleCreateChannel = async () => {
+    try {
+      validateMedia(newChannelTitle);
+      // Create channel in Firebase
+      await createChannel(selectedTeam, newChannelTitle, [user.uid], isPublic);
+      setError(null);
+      setNewChannelTitle("");
+      const channelsData = await getChannels(selectedTeam);
+      setChannels(channelsData ? Object.values(channelsData) : []);
       setIsModalOpen(false);
+      // handleNavigation(selectedTeam,newChannelTitle);
+    } catch (err) {
+      setError(err.message);
+      setNewChannelTitle("");
     }
   };
 
@@ -77,48 +110,74 @@ function TeamsBar() {
         <Avatar
           imageUrl={logo}
           type="team"
-          onClick={() => handleNavigation("")}
+          onClick={() => navigate("/home")}
           title={"Home"}
+          teamName="Home"
         />
       </div>
       <div className="teams-list">
-        {teams.length !== 0 &&
+      {!viewChannels ? (
+        teams.length !== 0 && (
           teams.map((team) => (
             <Avatar
+              key={team.id}
               type="team"
               imageUrl={teamLogo}
-              onClick={() => handleNavigation(team.name)}
+              onClick={() => handleTeamClick(team.id)}
               teamName={team.name}
             />
-          ))}
-      </div>
+          ))
+        )
+      ) : (
+        channels.length !== 0 && (
+          channels.map((channel) => (
+            <Avatar
+              key={channel.id}
+              type="team"
+              onClick={() => handleNavigation(selectedTeam, channel.title)}
+              teamName={channel.title} 
+            />
+          ))
+        )
+      )}
+      </div> 
 
       <div className="add-team">
         <div>
           <Modal
             isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
+            onClose={() => {
+              setIsModalOpen(false)
+              setError(null)
+            }}
           >
-            <h2>Create Team</h2>
-            <Input
-              placeholder="Enter team name"
-              value={teamName}
-              setValue={setTeamName}
-              className="team-input"
+            {!viewChannels ? (
+            <CreateMedia
+            title="Create Team"
+            placeholder="Enter team name"
+            value={teamName}
+            setValue={setTeamName}
+            onSubmit={handleCreateTeam}
+            error={error}
+          />
+          ) : (
+            <CreateMedia
+              title="Create Channel"
+              placeholder="Enter channel name"
+              value={newChannelTitle}
+              setValue={setNewChannelTitle}
+              onSubmit={handleCreateChannel}
+              error={error}
             />
-            <Button
-              onClick={handleCreateTeam}
-              label="Submit"
-              className="submit-input"
-            />
+            )}
           </Modal>
         </div>
         <Avatar
           onClick={() => setIsModalOpen(true)}
           type="team"
           imageUrl={plusSign}
+          teamName={viewChannels ? "Create Channel" : "Create Team"}
         />
-        <FieldError label={error} />
       </div>
     </div>
   );

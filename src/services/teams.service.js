@@ -28,6 +28,9 @@ export const createTeam = async (
   const teamData = { id: teamId, name, owner: ownerId, members, channels };
 
   await set(newTeamRef, teamData);
+
+  //Create a default "General" channel for the team
+  await createDefaultChannel(teamId, "General", [ownerId], true);
   return teamData;
 };
 
@@ -42,5 +45,45 @@ export const getTeams = async () => {
   } catch (error) {
     console.error("Error fetching teams:", error);
     throw error;
+  }
+};
+
+// Function to get channels for a team
+export const getChannels = async (teamId) => {
+  try {
+    const channelsRef = ref(db, `teams/${teamId}/channels`);
+    const snapshot = await get(channelsRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    }
+  } catch (error) {
+    console.error("Error fetching channels:", error);
+    throw error;
+  }
+};
+
+// Function to create a new channel
+export const createChannel = async (teamId, title, participants, isPublic) => {
+  if (title.length < 3 || title.length > 40) {
+    throw new Error("Channel title must be between 3 and 40 characters.");
+  }
+  if (participants.length < 1) {
+    throw new Error("A channel must have at least one participant.");
+  }
+
+  const channelsRef = ref(db, `teams/${teamId}/channels`);
+  const newChannelRef = push(channelsRef);
+  const channelId = newChannelRef.key;
+  const channelData = { id: channelId, title, participants, isPublic };
+
+  await set(newChannelRef, channelData);
+  return channelData;
+};
+
+// Function to create a default "General" channel if no channels exist
+export const createDefaultChannel = async (teamId, ownerId) => {
+  const channels = await getChannels(teamId);
+  if (!channels) {
+    await createChannel(teamId, "General", [ownerId], true);
   }
 };

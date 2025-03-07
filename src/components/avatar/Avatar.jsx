@@ -1,4 +1,5 @@
 //Misc imports
+import Tooltip from "../tooltip/Tooltip";
 import "./Avatar.css";
 
 import { useState } from "react";
@@ -35,14 +36,15 @@ function Avatar({ imageUrl, type, status, teamName, onClick }) {
         alt="avatar"
         className={`avatar ${`${type}-image`}`}
       />
-      {status && <span className={`status-icon ${status}`}></span>}
+      <div className="avatar-status">{status && <span className={`status-icon ${status}`}></span>}</div>
       {type === "team" && (
-        <span
-          className="tooltip"
-          style={{ display: isTooltipVisible ? "inline-block" : "none" }}
-        >
-          {teamName ? teamName : type}
-        </span>
+        <>
+          <span
+            style={{display: isTooltipVisible ? "inline-block" : "none" }}
+          >
+            <Tooltip text={teamName ? teamName : type} position="top" />
+          </span>
+        </>
       )}
     </div>
   );

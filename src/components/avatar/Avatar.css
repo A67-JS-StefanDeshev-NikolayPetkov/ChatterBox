@@ -1,7 +1,11 @@
 .avatar-container {
   width: 40px;
   height: 40px;
+}
+
+.avatar-status {
   position: relative;
+  z-index: 1;
 }
 
 .avatar {
@@ -59,7 +63,7 @@
   transform: scale(1.1);
 }
 
-/* Tooltip styles */
+/* Tooltip styles
 
 .tooltip {
   position: absolute;
@@ -99,4 +103,4 @@
   top: 50%;
   bottom: auto;
   border-color: rgb(71, 255, 47) transparent transparent transparent;
-}
+} */

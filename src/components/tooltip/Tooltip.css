@@ -9,7 +9,7 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
     border: 1px solid rgb(6, 119, 6);
     white-space: nowrap;
-    z-index: 9999;
+    z-index: 99999;
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
   }
@@ -20,7 +20,7 @@
     bottom: -6px;
     left: 50%;
     transform: translateX(-50%);
-    border-width: 6px;
+    border-width: 16px;
     border-style: solid;
     border-color: rgb(71, 255, 47) transparent transparent transparent;
   }
@@ -33,7 +33,7 @@
   
   .tooltip.top::after {
     left: 0%;
-    top:50%;
+    top:30%;
     bottom: auto;
     border-color: rgb(71, 255, 47) transparent transparent transparent;
   }

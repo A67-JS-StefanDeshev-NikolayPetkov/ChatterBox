@@ -11,3 +11,12 @@ export const validatePassword = function (password) {
     password
   );
 };
+
+export const validateMedia = function (media) {
+  if (!media.trim()) {
+    throw new Error(`${media} name cannot be empty`);
+  }
+  if (media.length < 3 || media.length > 40) {
+    throw new Error(`${media} name should be between 3 and 40 symbols.`);
+  }
+}
