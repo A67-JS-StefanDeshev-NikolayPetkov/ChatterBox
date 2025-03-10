@@ -11,7 +11,11 @@ import ChannelsList from "./channelList/ChannelList";
 // Dependency imports
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-import { createTeam, getChannels, createChannel } from "../../../services/teams.service";
+import {
+  createTeam,
+  getChannels,
+  createChannel,
+} from "../../../services/teams.service";
 import { AppContext } from "../../../context/AppContext";
 import { getTeams } from "../../../services/teams.service";
 import CreateMedia from "../../../components/createMedia/CreateMedia";
@@ -59,7 +63,6 @@ function TeamsBar() {
   };
 
   const handleCreateTeam = async () => {
-
     try {
       validateMedia(teamName);
       // Create team in Firebase
@@ -112,63 +115,59 @@ function TeamsBar() {
           type="team"
           onClick={() => navigate("/home")}
           title={"Home"}
-          teamName="Home"
+          name="Home"
         />
       </div>
       <div className="teams-list">
-      {!viewChannels ? (
-        teams.length !== 0 && (
-          teams.map((team) => (
-            <Avatar
-              key={team.id}
-              type="team"
-              imageUrl={teamLogo}
-              onClick={() => handleTeamClick(team.id)}
-              teamName={team.name}
-            />
-          ))
-        )
-      ) : (
-        channels.length !== 0 && (
-          channels.map((channel) => (
-            <Avatar
-              key={channel.id}
-              type="team"
-              onClick={() => handleNavigation(selectedTeam, channel.title)}
-              teamName={channel.title} 
-            />
-          ))
-        )
-      )}
-      </div> 
+        {!viewChannels
+          ? teams.length !== 0 &&
+            teams.map((team) => (
+              <Avatar
+                key={team.id}
+                type="team"
+                imageUrl={teamLogo}
+                onClick={() => handleTeamClick(team.id)}
+                name={team.name}
+              />
+            ))
+          : channels.length !== 0 &&
+            channels.map((channel) => (
+              <Avatar
+                key={channel.id}
+                type="team"
+                onClick={() => handleNavigation(selectedTeam, channel.title)}
+                name={channel.title}
+              />
+            ))}
+      </div>
 
       <div className="add-team">
         <div>
           <Modal
             isOpen={isModalOpen}
             onClose={() => {
-              setIsModalOpen(false)
-              setError(null)
+              setIsModalOpen(false);
+              setError(null);
             }}
           >
             {!viewChannels ? (
-            <CreateMedia
-            title="Create Team"
-            placeholder="Enter team name"
-            value={teamName}
-            setValue={setTeamName}
-            onSubmit={handleCreateTeam}
-            error={error}
-          />
-          ) : (
-            <CreateMedia
-              title="Create Channel"
-              placeholder="Enter channel name"
-              value={newChannelTitle}
-              setValue={setNewChannelTitle}
-              onSubmit={handleCreateChannel}
-              error={error}
-            />
+              <CreateMedia
+                title="Create Team"
+                placeholder="Enter team name"
+                value={teamName}
+                setValue={setTeamName}
+                onSubmit={handleCreateTeam}
+                error={error}
+              />
+            ) : (
+              <CreateMedia
+                title="Create Channel"
+                placeholder="Enter channel name"
+                value={newChannelTitle}
+                setValue={setNewChannelTitle}
+                onSubmit={handleCreateChannel}
+                error={error}
+              />
             )}
           </Modal>
         </div>
@@ -176,7 +175,7 @@ function TeamsBar() {
           onClick={() => setIsModalOpen(true)}
           type="team"
           imageUrl={plusSign}
-          teamName={viewChannels ? "Create Channel" : "Create Team"}
+          name={viewChannels ? "Create Channel" : "Create Team"}
         />
       </div>
     </div>

@@ -1,18 +1,26 @@
 //Misc imports
 import "./ChatsBar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
 //Dependency imports
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 
 //Components imports
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import Dropdown from "../../../components/dropdown/Dropdown";
 import Avatar from "../../../components/avatar/Avatar";
+import ChatPreview from "../../../components/chat-preview/ChatPreview";
 
 function ChatsBar() {
   const { onLogout, userData } = useContext(AppContext);
+  const [chats, setChats] = useState([
+    { id: "sadf3", name: "MelonMan", imageUrl: "", status: "online" },
+    { id: "sadf4", name: "Pesho0o0o", imageUrl: "", status: "away" },
+    { id: "sadf5", name: "Pistaka", imageUrl: "", status: "dont-disturb" },
+  ]);
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -20,14 +28,23 @@ function ChatsBar() {
     navigate("/login");
   };
 
+  //Change imageUrl to userData.img once implemented !!!
   return (
     <div className="chats-bar">
       <div className="logged-user-container">
         <div className="user-details">
-          <div className="user-image"></div>
+          <Avatar
+            className="user-image"
+            status={"online"}
+            type={"user"}
+            imageUrl={""}
+          ></Avatar>
           <div className="user-status">
             <p className="username">{userData.username}</p>
-            <p className="status">Online</p>
+            <Dropdown
+              options={["online", "away", "dont-disturb", "offline"]}
+              userData={userData}
+            ></Dropdown>
           </div>
         </div>
         <FontAwesomeIcon
@@ -37,14 +54,15 @@ function ChatsBar() {
         ></FontAwesomeIcon>
       </div>
       <div className="chats-container">
-        <div className="chat-container">
-          <Avatar
-            type="chat-image"
-            status="online"
-          ></Avatar>
-          <div className="chat-name">Pesho</div>
-        </div>
-        <div className="chat-container"></div>
+        {chats.length >= 0 &&
+          chats.map((chat) => (
+            <ChatPreview
+              key={chat.id}
+              imageUrl={chat.imageUrl}
+              name={chat.name}
+              status={chat.status}
+            ></ChatPreview>
+          ))}
       </div>
     </div>
   );

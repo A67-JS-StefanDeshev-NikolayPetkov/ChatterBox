@@ -16,3 +16,10 @@ export const createUserHandle = (username, uid, email) => {
 export const getUserData = (uid) => {
   return get(query(ref(db, "users"), orderByChild("uid"), equalTo(uid)));
 };
+
+// export const updateUserStatus = (username, userData, status) => {
+//   const userRef = ref(db, `users/${username}`);
+//   const newUserData = { ...userData };
+//   // newUserData.status = "online";
+//   set(userRef, { ...newUserData });
+// };

@@ -8,12 +8,12 @@ import { useState } from "react";
  *
  * @param {Object} props component props
  * @param {string} props.imageUrl source of image
- * @param {string} props.type the type of avatar e.g. team, user or chat
+ * @param {string} props.type the type of avatar (team, user or chat)
  * @param {function} props.onClick function that handles the on click behavior
  * @param {string} props.status optional: status of user (online, away, dont-disturb, offline)
  * @returns
  */
-function Avatar({ imageUrl, type, status, teamName, onClick }) {
+function Avatar({ imageUrl, type, status, name, onClick }) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
   const handleMouseEnter = () => {
@@ -36,13 +36,16 @@ function Avatar({ imageUrl, type, status, teamName, onClick }) {
         alt="avatar"
         className={`avatar ${`${type}-image`}`}
       />
-      <div className="avatar-status">{status && <span className={`status-icon ${status}`}></span>}</div>
+      <div className="avatar-status">
+        {status && <span className={`status-icon ${status}`}></span>}
+      </div>
       {type === "team" && (
         <>
-          <span
-            style={{display: isTooltipVisible ? "inline-block" : "none" }}
-          >
-            <Tooltip text={teamName ? teamName : type} position="top" />
+          <span style={{ display: isTooltipVisible ? "inline-block" : "none" }}>
+            <Tooltip
+              text={name ? name : type}
+              position="top"
+            />
           </span>
         </>
       )}
