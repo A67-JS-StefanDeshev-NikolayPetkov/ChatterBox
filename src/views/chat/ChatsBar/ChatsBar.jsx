@@ -49,7 +49,7 @@ function ChatsBar() {
         </div>
         <FontAwesomeIcon
           icon={faRightToBracket}
-          className="settings-btn"
+          className="icon-btn"
           onClick={handleLogout}
         ></FontAwesomeIcon>
       </div>
