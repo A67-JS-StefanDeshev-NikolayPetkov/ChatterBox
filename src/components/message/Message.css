@@ -1,0 +1,46 @@
+.message-container {
+  background-color: aqua;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.first-message {
+  display: flex;
+  gap: 10px;
+  border: 1px solid black;
+}
+
+.message-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.message-header {
+  display: flex;
+  background-color: red;
+  gap: 10px;
+}
+
+.message-content {
+  background-color: red;
+  width: 100%;
+}
+
+.subsequent-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.subsequent-message {
+  display: flex;
+  gap: 10px;
+  background-color: salmon;
+}
+.subsequent-timestamp {
+  width: 40px;
+}

@@ -1,11 +1,18 @@
 .avatar-container {
   width: 40px;
   height: 40px;
+  display: flex;
 }
 
 .avatar-status {
   position: relative;
   z-index: 1;
+}
+
+.photo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatar {

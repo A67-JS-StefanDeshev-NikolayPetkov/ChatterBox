@@ -1,0 +1,12 @@
+.chat-body {
+  background-color: orangered;
+  height: 100vh;
+  width: 100%;
+  padding: 10px;
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

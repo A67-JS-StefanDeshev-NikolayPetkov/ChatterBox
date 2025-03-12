@@ -1,34 +1,5 @@
 .active-chat-window {
   width: 100%;
+  min-width: 400px;
   background-color: orange;
-}
-
-.active-chat-header {
-  background-color: blueviolet;
-  border-bottom: 1px solid gainsboro;
-  height: 61px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 0 20px;
-}
-
-.active-chat-status {
-  background-color: red;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-
-.active-chat-status h2 {
-  font-size: 16px;
-}
-
-.active-chat-status span {
-  font-size: 12px;
-}
-.active-chat-body {
-  background-color: orangered;
-  height: 100vh;
-  width: 100%;
 }
