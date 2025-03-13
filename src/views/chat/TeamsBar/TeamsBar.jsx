@@ -59,7 +59,7 @@ function TeamsBar() {
     if (typeof channelName !== "string" || typeof teamId !== "string") return;
     const team = teams.find((team) => team.id === teamId);
     team ? team.name : "";
-    navigate(`/chat/${team.name}/${channelName}`);
+    navigate(`/dashboard/${channelName}/general`);
   };
 
   const handleCreateTeam = async () => {

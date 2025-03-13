@@ -6,19 +6,28 @@ import { useNavigate } from "react-router-dom";
 //Components
 import Header from "../../components/header/Header";
 import Button from "../../components/button/Button";
+import Loader from "../../components/loader/Loader";
 
 //Misc
 import "./Home.css";
+import Center from "../../components/center/Center";
 
 function Home() {
-  const { user } = useContext(AppContext);
+  const { user, userData } = useContext(AppContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      navigate("/chat");
+    if (user && userData) {
+      navigate(`/dashboard/${userData.username}/${userData.chats}`);
     }
-  }, []);
+  }, [userData]);
+
+  if (user && !userData)
+    return (
+      <Center>
+        <Loader></Loader>
+      </Center>
+    );
 
   if (!user)
     return (

@@ -1,25 +1,20 @@
 import { get, set, ref, query, equalTo, orderByChild } from "firebase/database";
 import { db } from "../config/firebase-config";
 
-export const getUserByHandle = (handle) => {
-  return get(ref(db, `users/${handle}`));
+export const getUserByUid = (uid) => {
+  return get(ref(db, `users/${uid}`));
 };
 
 export const createUserHandle = (username, uid, email) => {
-  return set(ref(db, `users/${username}`), {
-    uid,
+  return set(ref(db, `users/${uid}`), {
+    username,
     email,
     createdOn: Date.now(),
   });
 };
 
-export const getUserData = (uid) => {
-  return get(query(ref(db, "users"), orderByChild("uid"), equalTo(uid)));
+export const getUserByUsername = (username) => {
+  return get(
+    query(ref(db, "users"), orderByChild("username"), equalTo(username))
+  );
 };
-
-// export const updateUserStatus = (username, userData, status) => {
-//   const userRef = ref(db, `users/${username}`);
-//   const newUserData = { ...userData };
-//   // newUserData.status = "online";
-//   set(userRef, { ...newUserData });
-// };

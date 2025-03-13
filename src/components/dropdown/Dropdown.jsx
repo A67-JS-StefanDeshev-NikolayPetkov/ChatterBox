@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 //Dependency
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 /**
  *
@@ -16,9 +16,6 @@ import { useState, useEffect } from "react";
  */
 function Dropdown({ options, userData }) {
   const [open, setOpen] = useState(false);
-  useEffect(() => {
-    console.log(open);
-  }, [open]);
 
   return (
     <div

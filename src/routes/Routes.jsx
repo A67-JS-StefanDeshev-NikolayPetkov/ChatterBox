@@ -33,9 +33,14 @@ function NavigationRoutes() {
         element={<Register />}
       ></Route>
       <Route
-        path="/chat/*"
+        path="/dashboard"
         element={<Chat />}
-      ></Route>
+      >
+        <Route
+          path=":team/:chat?"
+          element={<Chat />}
+        ></Route>
+      </Route>
     </Routes>
   );
 }

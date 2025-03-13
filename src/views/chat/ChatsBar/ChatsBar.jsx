@@ -16,16 +16,16 @@ import ChatPreview from "../../../components/chat-preview/ChatPreview";
 function ChatsBar() {
   const { onLogout, userData } = useContext(AppContext);
   const [chats, setChats] = useState([
-    { id: "sadf3", name: "MelonMan", imageUrl: "", status: "online" },
-    { id: "sadf4", name: "Pesho0o0o", imageUrl: "", status: "away" },
-    { id: "sadf5", name: "Pistaka", imageUrl: "", status: "dont-disturb" },
+    { id: "sadf3", name: "MelonMan", imageUrl: null, status: "online" },
+    { id: "sadf4", name: "Pesho0o0o", imageUrl: null, status: "away" },
+    { id: "sadf5", name: "Pistaka", imageUrl: null, status: "dont-disturb" },
   ]);
 
   const navigate = useNavigate();
 
   const handleLogout = () => {
     onLogout();
-    navigate("/login");
+    navigate("/home");
   };
 
   //Change imageUrl to userData.img once implemented !!!
@@ -37,7 +37,7 @@ function ChatsBar() {
             className="user-image"
             status={"online"}
             type={"user"}
-            imageUrl={""}
+            imageUrl={null}
           ></Avatar>
           <div className="user-status">
             <p className="username">{userData.username}</p>

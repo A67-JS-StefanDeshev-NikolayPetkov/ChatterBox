@@ -8,7 +8,7 @@ import {
 import "./Register.css";
 
 //Dependency imports
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 //Component imports
@@ -16,11 +16,12 @@ import RegisterForm from "../../components/forms/register/RegisterForm";
 import Loader from "../../components/loader/Loader";
 import LogoWithText from "../../components/logo/LogoWithText/LogoWithText";
 import Button from "../../components/button/Button";
+import Center from "../../components/center/Center";
 
 //Services
 import { AppContext } from "../../context/AppContext";
 import {
-  getUserByHandle,
+  getUserByUsername,
   createUserHandle,
 } from "../../services/users.service";
 import { registerUser } from "../../services/auth.service";
@@ -68,7 +69,7 @@ function Register() {
     if (validateRegistrationForm()) {
       try {
         //Check if user already exists
-        const snapshot = await getUserByHandle(formData.username);
+        const snapshot = await getUserByUsername(formData.username);
         if (snapshot.exists()) {
           throw new Error(
             `Username @${formData.username} has already been taken!`
@@ -101,7 +102,12 @@ function Register() {
     }
   };
 
-  if (loading) return <Loader></Loader>;
+  if (loading)
+    return (
+      <Center>
+        <Loader></Loader>
+      </Center>
+    );
 
   if (success)
     return (

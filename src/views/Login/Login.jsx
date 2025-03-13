@@ -2,7 +2,7 @@
 import "./Login.css";
 
 //Dependency imports
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/auth.service.js";
 import { AppContext } from "../../context/AppContext.jsx";
@@ -10,11 +10,14 @@ import { AppContext } from "../../context/AppContext.jsx";
 //Component imports
 import LoginForm from "../../components/forms/login/LoginForm";
 import LogoWithText from "../../components/logo/LogoWithText/LogoWithText.jsx";
+import Center from "../../components/center/Center.jsx";
+import Loader from "../../components/loader/Loader.jsx";
 
 function Login() {
-  const { setContext } = useContext(AppContext);
+  const { setContext, user, userData } = useContext(AppContext);
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -29,16 +32,27 @@ function Login() {
 
   const handleSubmit = function (e) {
     e.preventDefault();
-
+    setLoading(true);
     loginUser(formData.email, formData.password)
       .then((credentials) => {
         setContext({ user: credentials.user });
       })
-      .then(() => {
-        navigate("/chat");
-      })
-      .catch((e) => setLoginError(e.message));
+      .catch((e) => setLoginError(e.message))
+      .finally(() => setLoading(false));
   };
+
+  useEffect(() => {
+    if (user && userData) {
+      navigate(`/dashboard/${userData.username}/${userData.chats}`);
+    }
+  }, [userData]);
+
+  if (loading || (user && !userData))
+    return (
+      <Center>
+        <Loader></Loader>
+      </Center>
+    );
 
   return (
     <div className="center">

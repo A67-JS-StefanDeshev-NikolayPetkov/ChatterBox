@@ -17,11 +17,23 @@ function Chat() {
   const { user, userData } = useContext(AppContext);
   const navigate = useNavigate();
 
+  //If no user, go to home page
   useEffect(() => {
     if (!user) {
       navigate("/");
     }
   }, []);
+
+  //Once we get the userData, go to updated route
+  useEffect(() => {
+    if (userData) {
+      navigate(
+        `/dashboard/${userData.username}${
+          userData.chats ? userData.chats[0] : ""
+        }`
+      );
+    }
+  }, [userData]);
 
   if (!userData)
     return (
