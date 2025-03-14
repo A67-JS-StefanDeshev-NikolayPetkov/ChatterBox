@@ -4,17 +4,20 @@ import "./ChatPreview.css";
 //Components
 import Avatar from "../avatar/Avatar";
 
-function ChatPreview({ name, imgUrl, status }) {
+function ChatPreview({ chat, setActiveChat }) {
   return (
-    <div className="chat-container">
+    <div
+      className="chat-container"
+      onClick={() => setActiveChat(chat)}
+    >
       <Avatar
-        imgUrl={imgUrl}
+        imgUrl={chat.imgUrl}
         type="chat-image"
-        status={status}
+        status={chat.status}
       ></Avatar>
       <div className="chat-details">
-        <div className="chat-name">{name}</div>
-        <div className="chat-status">{status}</div>
+        <div className="chat-name">{chat.name}</div>
+        <div className="chat-status">{chat.status}</div>
       </div>
     </div>
   );

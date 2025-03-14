@@ -5,36 +5,6 @@
   background-color: aqua;
 }
 
-.logged-user-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px;
-  border-bottom: 1px solid gainsboro;
-  background-color: red;
-}
-
-.user-details {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  background-color: green;
-}
-
-.user-image {
-  background-color: blue;
-  width: 40px;
-  height: 40px;
-}
-
-.icon-btn {
-  cursor: pointer;
-  width: 22px;
-  height: 22px;
-}
-
 .chats-container {
   display: flex;
   flex-direction: column;

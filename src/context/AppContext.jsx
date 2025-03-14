@@ -31,7 +31,6 @@ export function AppContextProvider({ children }) {
   }
 
   useEffect(() => {
-    console.log(user);
     if (user === null) return;
     isUserOnline(user.uid);
 

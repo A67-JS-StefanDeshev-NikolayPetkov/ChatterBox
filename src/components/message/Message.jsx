@@ -3,7 +3,23 @@ import "./Message.css";
 //Components
 import Avatar from "../avatar/Avatar";
 
-function Message() {
+function Message({ message, isLastSender }) {
+  if (isLastSender) {
+    return (
+      <div className="subsequent-messages">
+        <div className="subsequent-message">
+          <p className="subsequent-timestamp">
+            {new Date(message.timestamp).toLocaleTimeString("en-GB", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
+          <p className="message-content">{message.text}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="message-container">
       <div className="first-message">
@@ -13,20 +29,15 @@ function Message() {
 
         <div className="message-right">
           <div className="message-header">
-            <p className="sender">message.sender</p>
-            <p className="timestamp">message.timestamp</p>
+            <p className="sender">{message.senderId}</p>
+            <p className="timestamp">
+              {new Date(message.timestamp).toLocaleTimeString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
           </div>
-          <p className="message-content">message.content</p>
-        </div>
-      </div>
-      <div className="subsequent-messages">
-        <div className="subsequent-message">
-          <p className="subsequent-timestamp">16:45</p>
-          <p className="message-content">message.content</p>
-        </div>
-        <div className="subsequent-message">
-          <p className="subsequent-timestamp">16:46</p>
-          <p className="message-content">message.content</p>
+          <p className="message-content">{message.text}</p>
         </div>
       </div>
     </div>

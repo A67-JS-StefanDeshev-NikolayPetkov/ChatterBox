@@ -10,7 +10,7 @@ import { useState } from "react";
  * @param {string} props.imageUrl source of image
  * @param {string} props.type the type of avatar (team, user or chat)
  * @param {function} props.onClick function that handles the on click behavior
- * @param {string} props.status optional: status of user (online, away, dont-disturb, offline)
+ * @param {string} props.status optional: status of user (online, away, buy, offline)
  * @returns
  */
 function Avatar({ imageUrl, type, status, name, onClick }) {

@@ -7,7 +7,7 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 function StatusDropdown({ status, handleStatus }) {
-  const options = ["online", "away", "dont-disturb", "offline"];
+  const options = ["online", "away", "busy", "offline"];
   const [open, setOpen] = useState(false);
 
   return (

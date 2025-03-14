@@ -2,3 +2,11 @@
   display: flex;
   height: 100vh;
 }
+
+.icon-btn {
+  cursor: pointer;
+  background-color: bisque;
+  width: 22px;
+  height: 22px;
+  padding: 2px;
+}

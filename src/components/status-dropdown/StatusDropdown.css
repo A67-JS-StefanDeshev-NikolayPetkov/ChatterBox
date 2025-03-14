@@ -3,28 +3,37 @@
   align-items: center;
   gap: 5px;
   cursor: pointer;
+}
+
+.status-dropdown {
   position: relative;
 }
 
 .status-dropdown-options {
+  width: 47px;
   position: absolute;
   display: flex;
   flex-direction: column;
   background-color: aqua;
   padding: 3px;
   gap: 3px;
-  width: 101px;
   border-radius: 5px;
   opacity: 0;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   visibility: hidden;
   cursor: pointer;
+  right: 0;
+  z-index: 2;
 }
 
 .status-dropdown-options.show {
   opacity: 1;
   transform: translateY(0);
   visibility: visible;
+}
+
+.dropdown-option {
+  background-color: bisque;
 }
 
 .icon {
