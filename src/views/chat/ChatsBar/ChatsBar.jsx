@@ -4,47 +4,60 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
 //Dependency imports
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
+import { updateUserStatus } from "../../../services/users.service";
 
 //Components imports
-import Dropdown from "../../../components/dropdown/Dropdown";
+import StatusDropdown from "../../../components/status-dropdown/StatusDropdown";
 import Avatar from "../../../components/avatar/Avatar";
 import ChatPreview from "../../../components/chat-preview/ChatPreview";
 
 function ChatsBar() {
-  const { onLogout, userData } = useContext(AppContext);
+  const { user, userData, onLogout } = useContext(AppContext);
   const [chats, setChats] = useState([
     { id: "sadf3", name: "MelonMan", imageUrl: null, status: "online" },
     { id: "sadf4", name: "Pesho0o0o", imageUrl: null, status: "away" },
     { id: "sadf5", name: "Pistaka", imageUrl: null, status: "dont-disturb" },
   ]);
+  const [status, setStatus] = useState(userData.status);
+
+  useEffect(() => {
+    updateUserStatus(user.uid, status)
+      .then(() => {
+        userData.status = status;
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [status]);
 
   const navigate = useNavigate();
+
+  const handleStatus = (option) => setStatus(option);
 
   const handleLogout = () => {
     onLogout();
     navigate("/home");
   };
 
-  //Change imageUrl to userData.img once implemented !!!
   return (
     <div className="chats-bar">
       <div className="logged-user-container">
         <div className="user-details">
           <Avatar
             className="user-image"
-            status={"online"}
+            status={status}
             type={"user"}
             imageUrl={null}
           ></Avatar>
           <div className="user-status">
             <p className="username">{userData.username}</p>
-            <Dropdown
-              options={["online", "away", "dont-disturb", "offline"]}
-              userData={userData}
-            ></Dropdown>
+            <StatusDropdown
+              handleStatus={handleStatus}
+              status={status}
+            ></StatusDropdown>
           </div>
         </div>
         <FontAwesomeIcon

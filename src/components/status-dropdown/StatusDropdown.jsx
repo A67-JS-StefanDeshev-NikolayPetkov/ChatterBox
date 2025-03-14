@@ -1,41 +1,34 @@
 //Misc
-import "./Dropdown.css";
+import "./StatusDropdown.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 //Dependency
 import { useState } from "react";
 
-/**
- *
- * @param {object} props
- * @param {array} props.options array of strings representing the dropdown menu options
- * @param {string} props.status the status of the user
- * @param {function} props.setStatus the set state function that sets the status
- * @returns
- */
-function Dropdown({ options, userData }) {
+function StatusDropdown({ status, handleStatus }) {
+  const options = ["online", "away", "dont-disturb", "offline"];
   const [open, setOpen] = useState(false);
 
   return (
     <div
-      className="dropdown"
+      className="status-dropdown"
       onClick={() => setOpen(!open)}
       options={options}
     >
       <div className="status-container">
-        <p className="status">userData.status</p>
+        <p className="status">{status}</p>
         <FontAwesomeIcon
           icon={faCaretDown}
           className={`icon ${open ? "rotated" : ""}`}
         ></FontAwesomeIcon>
       </div>
-      <div className={`dropdown-options ${open ? "show" : ""}`}>
+      <div className={`status-dropdown-options ${open ? "show" : ""}`}>
         {options.length >= 0 &&
           options.map((option) => (
             <span
               key={option}
-              onClick={() => (userData.status = option)}
+              onClick={() => handleStatus(option)}
               className="dropdown-option"
             >
               {option}
@@ -46,4 +39,4 @@ function Dropdown({ options, userData }) {
   );
 }
 
-export default Dropdown;
+export default StatusDropdown;
