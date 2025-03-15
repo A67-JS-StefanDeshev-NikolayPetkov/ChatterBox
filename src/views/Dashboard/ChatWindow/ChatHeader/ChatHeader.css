@@ -22,3 +22,10 @@
 .active-chat-status span {
   font-size: 12px;
 }
+
+.friends-btn {
+  background-color: red;
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}

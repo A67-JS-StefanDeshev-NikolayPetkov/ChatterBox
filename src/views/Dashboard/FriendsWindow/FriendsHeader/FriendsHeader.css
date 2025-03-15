@@ -1,0 +1,16 @@
+.friends-header {
+  background-color: blueviolet;
+  border-bottom: 1px solid gainsboro;
+  height: 61px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+}
+
+.friends-btn {
+  background-color: red;
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}

@@ -1,10 +1,6 @@
 //Font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMessage,
-  faUsers,
-  faRightToBracket,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
 //CSS
 import "./UserHeader.css";
@@ -64,14 +60,11 @@ function UserHeader({ setFriendsWindow }) {
       </div>
       <div className="user-btns">
         <FontAwesomeIcon
-          icon={faMessage}
-          className="icon-btn"
-          onClick={() => setFriendsWindow(false)}
-        ></FontAwesomeIcon>
-        <FontAwesomeIcon
           icon={faUsers}
           className="icon-btn"
-          onClick={() => setFriendsWindow(true)}
+          onClick={() => {
+            setFriendsWindow(true);
+          }}
         ></FontAwesomeIcon>
         <FontAwesomeIcon
           icon={faRightToBracket}

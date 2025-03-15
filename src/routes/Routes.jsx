@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 import Home from "../views/Home/Home";
 import Login from "../views/Login/Login";
 import Register from "../views/Register/Register";
-import Chat from "../views/Chat/Chat";
+import Dashboard from "../views/Dashboard/Dashboard";
 
 function NavigationRoutes() {
   return (
@@ -34,11 +34,11 @@ function NavigationRoutes() {
       ></Route>
       <Route
         path="/dashboard"
-        element={<Chat />}
+        element={<Dashboard />}
       >
         <Route
           path=":team/:chat?"
-          element={<Chat />}
+          element={<Dashboard />}
         ></Route>
       </Route>
     </Routes>

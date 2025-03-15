@@ -1,4 +1,4 @@
-.chat-body {
+.friends-body {
   background-color: orangered;
   height: 100vh;
   width: 100%;
@@ -6,8 +6,10 @@
   overflow: scroll;
 }
 
-.messages-container {
+.friends-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: aqua;
+  height: 100%;
 }
