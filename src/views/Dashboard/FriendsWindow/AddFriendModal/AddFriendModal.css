@@ -1,4 +1,4 @@
-.modal-overlay {
+.friend-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -8,14 +8,59 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 3;
 }
 
-.modal-content {
-  background: white;
+.friend-modal-content {
+  background: aqua;
   padding: 20px;
   border-radius: 8px;
-  width: 300px;
-  text-align: center;
+  width: 400px;
+  height: 600px;
+  text-align: start;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
+.friend-search-form {
+  background-color: red;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.friend-search-input {
+  width: 240px;
+}
+.friend-search-dropdown {
+  background-color: aqua;
+}
+
+.friend-search-results {
+  background-color: red;
+  padding: 10px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.friends-modal-loader-container {
+  background-color: red;
+  padding: 10px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

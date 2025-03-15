@@ -11,15 +11,22 @@ import Avatar from "../avatar/Avatar";
 function UserPreview({ user }) {
   return (
     <div className="user-container">
-      <Avatar
-        imgUrl={user.imageUrl}
-        type="user-image"
-      ></Avatar>
-      <div className="user-details">
-        <p className="user-name">{user.name}</p>
-        <p className="user-email">{user.email}</p>
+      <div className="friend-details">
+        <Avatar
+          imgUrl={user.imageUrl ? user.imageUrl : null}
+          type="user-image"
+        ></Avatar>
+        <div className="user-details">
+          <p className="user-name">Username: {user.username}</p>
+          <p className="user-name">Email: {user.email}</p>
+        </div>
       </div>
-      <FontAwesomeIcon icon={faPlusSquare}></FontAwesomeIcon>
+      <div className="friend-actions">
+        <FontAwesomeIcon
+          className="icon-btn icon-big"
+          icon={faPlusSquare}
+        ></FontAwesomeIcon>
+      </div>
     </div>
   );
 }

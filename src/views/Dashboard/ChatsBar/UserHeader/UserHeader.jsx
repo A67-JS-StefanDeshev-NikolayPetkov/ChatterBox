@@ -43,7 +43,7 @@ function UserHeader({ setFriendsWindow }) {
 
   return (
     <div className="user-header">
-      <div className="user-details">
+      <div className="user-header-details">
         <Avatar
           className="user-image"
           status={status}
@@ -55,6 +55,7 @@ function UserHeader({ setFriendsWindow }) {
           <StatusDropdown
             handleStatus={handleStatus}
             status={status}
+            options={["online", "away", "busy", "offline"]}
           ></StatusDropdown>
         </div>
       </div>

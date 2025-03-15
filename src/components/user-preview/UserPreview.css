@@ -1,0 +1,44 @@
+.user-container {
+  background-color: greenyellow;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.user-container:hover {
+  background-color: rgba(172, 255, 47, 0.77);
+}
+
+.user-details {
+  background-color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.friend-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.friend-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  height: 100%;
+}
+.user-name {
+  font-size: 12px;
+}
+
+.user-status {
+  font-size: 10px;
+}

@@ -8,7 +8,7 @@
   background-color: red;
 }
 
-.user-details {
+.user-header-details {
   display: flex;
   align-items: center;
   gap: 10px;

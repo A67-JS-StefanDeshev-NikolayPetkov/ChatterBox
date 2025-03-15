@@ -42,3 +42,29 @@ export const isUserOnline = (uid) => {
 export const updateUserStatus = (uid, status) => {
   return set(ref(db, `users/${uid}/status`), status);
 };
+
+export const searchUsers = async (searchBy = "username", searchValue) => {
+  try {
+    const snapshot = await get(ref(db, "users"));
+    if (snapshot.exists()) {
+      const users = snapshot.val();
+
+      let filteredUsers = Object.entries(users).filter((user) => {
+        //If we decide that the search should be exact, use this:
+        // return (
+        //   user[1][searchBy].toLowerCase() === searchValue.toLowerCase()
+        // );
+
+        return user[1][searchBy]
+          .toLowerCase()
+          .includes(searchValue.toLowerCase());
+      });
+
+      return filteredUsers;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
