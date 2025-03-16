@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 function Dashboard() {
   const { user, userData } = useContext(AppContext);
   const [friendsWindow, setFriendsWindow] = useState(true);
+  const [selectedTeamChannels, setSelectedTeamChannels] = useState([]);
 
   const navigate = useNavigate();
 
@@ -47,8 +48,8 @@ function Dashboard() {
 
   return (
     <div className="app-container">
-      <TeamsBar />
-      <ChatsBar setFriendsWindow={setFriendsWindow} />
+      <TeamsBar setSelectedTeamChannels={setSelectedTeamChannels} />
+      <ChatsBar setFriendsWindow={setFriendsWindow} channels={selectedTeamChannels}/>
       {friendsWindow ? <FriendsWindow /> : <ChatWindow />}
     </div>
   );
