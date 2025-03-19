@@ -1,0 +1,14 @@
+.pending-friend-requests-bubble {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  height: 16px;
+  background-color: red;
+  border: 1px solid black;
+  border-radius: 50%;
+  top: -6px;
+  left: -6px;
+  font-size: 12px;
+}

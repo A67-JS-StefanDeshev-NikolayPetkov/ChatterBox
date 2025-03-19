@@ -16,6 +16,7 @@ import { updateUserStatus } from "../../../../services/users.service";
 //Components imports
 import StatusDropdown from "../../../../components/status-dropdown/StatusDropdown";
 import Avatar from "../../../../components/avatar/Avatar";
+import PendingRequestsBubble from "../../../../components/pending-requests/PendingRequestsBubble/PendingRequestsBubble";
 
 function UserHeader({ setFriendsWindow }) {
   const { user, userData, onLogout } = useContext(AppContext);
@@ -67,6 +68,7 @@ function UserHeader({ setFriendsWindow }) {
             setFriendsWindow(true);
           }}
         ></FontAwesomeIcon>
+        <PendingRequestsBubble></PendingRequestsBubble>
         <FontAwesomeIcon
           icon={faRightToBracket}
           className="icon-btn"

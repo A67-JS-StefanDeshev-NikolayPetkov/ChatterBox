@@ -1,0 +1,6 @@
+.pending-requests {
+  display: flex;
+  background-color: pink;
+  justify-content: space-evenly;
+  height: 100%;
+}

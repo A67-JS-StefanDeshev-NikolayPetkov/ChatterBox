@@ -1,15 +1,8 @@
 .friends-body {
   background-color: orangered;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   padding: 10px;
+  padding-bottom: 10px;
   overflow: scroll;
-}
-
-.friends-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: aqua;
-  height: 100%;
 }

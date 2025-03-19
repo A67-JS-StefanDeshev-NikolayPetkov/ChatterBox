@@ -26,4 +26,5 @@
   background-color: blue;
   display: flex;
   gap: 10px;
+  position: relative;
 }

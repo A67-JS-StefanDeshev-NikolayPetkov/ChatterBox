@@ -1,16 +1,35 @@
 //CSS
 import "./FriendsHeader.css";
 
-function FriendsHeader({ setIsAddFriendOpen }) {
+//Components
+import PendingRequestsBubble from "../../../../components/pending-requests/PendingRequestsBubble/PendingRequestsBubble";
+
+function FriendsHeader({ setOpenWindow }) {
   return (
     <div className="friends-header">
       <h2>Friends</h2>
-      <div className="friends-btn">All</div>
-      <div className="friends-btn">Online</div>
-      <div className="friends-btn">Pending</div>
       <div
         className="friends-btn"
-        onClick={() => setIsAddFriendOpen(true)}
+        onClick={() => setOpenWindow("all")}
+      >
+        All
+      </div>
+      <div
+        className="friends-btn"
+        onClick={() => setOpenWindow("online")}
+      >
+        Online
+      </div>
+      <div
+        className="friends-btn pending-btn"
+        onClick={() => setOpenWindow("pending")}
+      >
+        Pending
+        <PendingRequestsBubble></PendingRequestsBubble>
+      </div>
+      <div
+        className="friends-btn"
+        onClick={() => setOpenWindow("add")}
       >
         Add friend
       </div>

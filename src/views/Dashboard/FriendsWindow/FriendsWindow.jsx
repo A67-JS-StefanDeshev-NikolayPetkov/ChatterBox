@@ -9,16 +9,15 @@ import { useState } from "react";
 
 function FriendsWindow() {
   const [isAddFriendOpen, setIsAddFriendOpen] = useState(false);
+  const [openWindow, setOpenWindow] = useState("all");
 
   return (
     <div className="friends-window">
-      <FriendsHeader setIsAddFriendOpen={setIsAddFriendOpen}></FriendsHeader>
-      <FriendsBody setIsAddFriendOpen={setIsAddFriendOpen}></FriendsBody>
-      {isAddFriendOpen && (
-        <AddFriendModal
-          setIsAddFriendOpen={setIsAddFriendOpen}
-        ></AddFriendModal>
-      )}
+      <FriendsHeader setOpenWindow={setOpenWindow}></FriendsHeader>
+      <FriendsBody
+        setOpenWindow={setOpenWindow}
+        openWindow={openWindow}
+      ></FriendsBody>
     </div>
   );
 }
