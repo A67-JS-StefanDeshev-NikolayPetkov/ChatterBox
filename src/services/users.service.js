@@ -120,26 +120,74 @@ export async function sendFriendRequest(sender, receiver) {
   });
 }
 
-export async function cancelFriendRequest(sender, receiver) {
+export async function cancelFriendRequest(senderUid, receiverUid) {
   const receivedRequestsRef = ref(
     db,
-    `users/${receiver.uid}/friendRequests/received`
+    `users/${receiverUid}/friendRequests/received`
   );
-  const sentRequestsRef = ref(db, `users/${sender.uid}/friendRequests/sent`);
+  const sentRequestsRef = ref(db, `users/${senderUid}/friendRequests/sent`);
 
   runTransaction(receivedRequestsRef, (currentData) => {
     if (!currentData) {
-      return { [sender.uid]: null };
+      return { [senderUid]: null };
     }
-    currentData[sender.uid] = null;
+    currentData[senderUid] = null;
     return currentData;
   });
 
   runTransaction(sentRequestsRef, (currentData) => {
     if (!currentData) {
-      return { [receiver.uid]: null };
+      return { [receiverUid]: null };
     }
-    currentData[receiver.uid] = null;
+    currentData[receiverUid] = null;
+    return currentData;
+  });
+}
+
+export async function acceptFriendRequest(senderUid, receiverUid) {
+  console.log("accept func running");
+  const receivedRequestsRef = ref(
+    db,
+    `users/${receiverUid}/friendRequests/received`
+  );
+  const sentRequestsRef = ref(db, `users/${senderUid}/friendRequests/sent`);
+
+  const receiverFriendsList = ref(db, `users/${receiverUid}/friends`);
+  const senderFriendsList = ref(db, `users/${senderUid}/friends`);
+
+  //Remove received request
+  runTransaction(receivedRequestsRef, (currentData) => {
+    if (!currentData) {
+      return { [senderUid]: null };
+    }
+    currentData[senderUid] = null;
+    return currentData;
+  });
+
+  //Remove sent request
+  runTransaction(sentRequestsRef, (currentData) => {
+    if (!currentData) {
+      return { [receiverUid]: null };
+    }
+    currentData[receiverUid] = null;
+    return currentData;
+  });
+
+  //Add to receiver friends list
+  runTransaction(receiverFriendsList, (currentData) => {
+    if (!currentData) {
+      return { [senderUid]: true };
+    }
+    currentData[senderUid] = true;
+    return currentData;
+  });
+
+  //Add to sender friends list
+  runTransaction(senderFriendsList, (currentData) => {
+    if (!currentData) {
+      return { [receiverUid]: true };
+    }
+    currentData[receiverUid] = true;
     return currentData;
   });
 }

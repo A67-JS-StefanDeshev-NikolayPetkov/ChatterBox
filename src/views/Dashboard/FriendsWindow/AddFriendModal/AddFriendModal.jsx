@@ -5,20 +5,18 @@ import "./AddFriendModal.css";
 import Loader from "../../../../components/loader/Loader";
 
 // //Dependency import
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../../../../context/AppContext";
 
 //Services
 import {
   searchUsers,
   sendFriendRequest,
-  cancelFriendRequest,
-  getUserByUid,
 } from "../../../../services/users.service";
 import UserPreview from "../../../../components/user-preview/UserPreview";
 import StatusDropdown from "../../../../components/status-dropdown/StatusDropdown";
 
-function AddFriendModal() {
+function AddFriendModal({ handleCancelFriendRequest }) {
   const { user, userData, setContext } = useContext(AppContext);
   const [searchResult, setSearchResult] = useState(null);
   const [searchBy, setSearchBy] = useState("username");
@@ -27,18 +25,26 @@ function AddFriendModal() {
   const [loading, setLoading] = useState(false);
 
   async function handleFriendRequest(user, foundUser, setAddButton) {
-    await sendFriendRequest(user, foundUser);
-    setAddButton(false);
+    try {
+      await sendFriendRequest(user, foundUser);
+      setAddButton(false);
+      setContext((prevState) => {
+        const updatedState = { ...prevState };
+        if (!updatedState.userData.friendRequests)
+          updatedState.userData.friendRequests = { sent: {} };
+
+        updatedState.userData.friendRequests.sent[foundUser.uid] = {
+          email: foundUser.email,
+          username: foundUser.username,
+        };
+        return { ...updatedState };
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  async function handleCancelFriendRequest(
-    userUid,
-    foundUserUid,
-    setAddButton
-  ) {
-    cancelFriendRequest(userUid, foundUserUid);
-    setAddButton(true);
-  }
+  useEffect(() => console.log("userData change", userData), [userData]);
 
   async function handleSearch(e) {
     e.preventDefault();

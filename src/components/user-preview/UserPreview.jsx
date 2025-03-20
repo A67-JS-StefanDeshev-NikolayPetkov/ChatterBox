@@ -51,11 +51,7 @@ function UserPreview({
             className="icon-btn icon-big"
             icon={faMinusSquare}
             onClick={() => {
-              handleCancelFriendRequest(
-                { ...userData, uid: user.uid },
-                { ...foundUser[1], uid: foundUser[0] },
-                setAddButton
-              );
+              handleCancelFriendRequest(user.uid, foundUser[0], setAddButton);
             }}
           ></FontAwesomeIcon>
         )}

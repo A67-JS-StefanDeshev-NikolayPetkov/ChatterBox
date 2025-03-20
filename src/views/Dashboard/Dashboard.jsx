@@ -21,6 +21,8 @@ function Dashboard() {
 
   const navigate = useNavigate();
 
+  useEffect(() => console.log("userData in dashboard", userData));
+
   //If no user, go to home page
   useEffect(() => {
     if (!user) {
@@ -49,7 +51,10 @@ function Dashboard() {
   return (
     <div className="app-container">
       <TeamsBar setSelectedTeamChannels={setSelectedTeamChannels} />
-      <ChatsBar setFriendsWindow={setFriendsWindow} channels={selectedTeamChannels}/>
+      <ChatsBar
+        setFriendsWindow={setFriendsWindow}
+        channels={selectedTeamChannels}
+      />
       {friendsWindow ? <FriendsWindow /> : <ChatWindow />}
     </div>
   );

@@ -4,11 +4,17 @@ import "./PendingRequests.css";
 import PendingRequest from "./PendingRequest/PendingRequest";
 
 //Dependency
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
 
-function PendingRequests() {
+function PendingRequests({
+  handleCancelFriendRequest,
+  handleAcceptFriendRequest,
+}) {
   const { userData } = useContext(AppContext);
+  useEffect(() => console.log("pending user data", userData), [userData]);
+  useEffect(() => console.log(handleCancelFriendRequest));
+
   return (
     <div className="pending-requests">
       <div className="received-requests">
@@ -18,7 +24,8 @@ function PendingRequests() {
           Object.entries(userData.friendRequests.received).map((request) => (
             <PendingRequest
               key={request[0]}
-              request={request[1]}
+              request={{ ...request[1], uid: request[0] }}
+              handleRequest={handleAcceptFriendRequest}
             />
           ))
         ) : (
@@ -32,7 +39,8 @@ function PendingRequests() {
           Object.entries(userData.friendRequests.sent).map((request) => (
             <PendingRequest
               key={request[0]}
-              request={request[1]}
+              request={{ ...request[1], uid: request[0] }}
+              handleRequest={handleCancelFriendRequest}
             />
           ))
         ) : (
