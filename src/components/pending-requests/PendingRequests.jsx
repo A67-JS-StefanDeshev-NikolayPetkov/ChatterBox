@@ -13,7 +13,6 @@ function PendingRequests({
 }) {
   const { userData } = useContext(AppContext);
   useEffect(() => console.log("pending user data", userData), [userData]);
-  useEffect(() => console.log(handleCancelFriendRequest));
 
   return (
     <div className="pending-requests">
@@ -35,14 +34,18 @@ function PendingRequests({
 
       <div className="sent-requests">
         <h2>Sent requests</h2>
-        {userData?.friendRequests?.sent ? (
-          Object.entries(userData.friendRequests.sent).map((request) => (
-            <PendingRequest
-              key={request[0]}
-              request={{ ...request[1], uid: request[0] }}
-              handleRequest={handleCancelFriendRequest}
-            />
-          ))
+
+        {userData?.friendRequests?.sent &&
+        Object.keys(userData.friendRequests.sent).length > 0 ? (
+          Object.entries(userData.friendRequests.sent).map((request) => {
+            return (
+              <PendingRequest
+                key={request[0]}
+                request={{ ...request[1], uid: request[0] }}
+                handleRequest={handleCancelFriendRequest}
+              />
+            );
+          })
         ) : (
           <p>No friend requests sent.</p>
         )}

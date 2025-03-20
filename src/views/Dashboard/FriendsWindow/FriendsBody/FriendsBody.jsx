@@ -5,25 +5,24 @@ import "./FriendsBody.css";
 import AddFriendModal from "../AddFriendModal/AddFriendModal";
 import AllFriends from "../../../../components/all-friends/AllFriends";
 import PendingRequests from "../../../../components/pending-requests/PendingRequests";
-function FriendsBody({
-  openWindow,
-  handleCancelFriendRequest,
-  handleAcceptFriendRequest,
-}) {
+
+import { useParams } from "react-router-dom";
+function FriendsBody({ handleCancelFriendRequest, handleAcceptFriendRequest }) {
+  const { filter } = useParams();
   return (
     <div className="friends-body">
-      {openWindow === "add" && (
+      {filter === "add" && (
         <AddFriendModal
           handleCancelFriendRequest={handleCancelFriendRequest}
         ></AddFriendModal>
       )}
-      {openWindow === "pending" && (
+      {filter === "pending" && (
         <PendingRequests
           handleCancelFriendRequest={handleCancelFriendRequest}
           handleAcceptFriendRequest={handleAcceptFriendRequest}
         />
       )}
-      {openWindow === "all" && <AllFriends></AllFriends>}
+      {filter === "all" && <AllFriends></AllFriends>}
     </div>
   );
 }

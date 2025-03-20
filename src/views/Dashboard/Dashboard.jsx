@@ -12,16 +12,16 @@ import Center from "../../components/center/Center";
 //Dependency
 import { AppContext } from "../../context/AppContext";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Dashboard() {
   const { user, userData } = useContext(AppContext);
-  const [friendsWindow, setFriendsWindow] = useState(true);
   const [selectedTeamChannels, setSelectedTeamChannels] = useState([]);
+  const { filter, chat } = useParams();
+
+  const isFriendsView = !chat;
 
   const navigate = useNavigate();
-
-  useEffect(() => console.log("userData in dashboard", userData));
 
   //If no user, go to home page
   useEffect(() => {
@@ -29,17 +29,6 @@ function Dashboard() {
       navigate("/");
     }
   }, []);
-
-  //Once we get the userData, go to updated route
-  useEffect(() => {
-    if (userData) {
-      navigate(
-        `/dashboard/${userData.details.username}${
-          userData.chats ? userData.chats[0] : ""
-        }`
-      );
-    }
-  }, [userData]);
 
   if (!userData)
     return (
@@ -51,11 +40,12 @@ function Dashboard() {
   return (
     <div className="app-container">
       <TeamsBar setSelectedTeamChannels={setSelectedTeamChannels} />
-      <ChatsBar
-        setFriendsWindow={setFriendsWindow}
-        channels={selectedTeamChannels}
-      />
-      {friendsWindow ? <FriendsWindow /> : <ChatWindow />}
+      <ChatsBar channels={selectedTeamChannels} />
+      {isFriendsView ? (
+        <FriendsWindow filter={filter} />
+      ) : (
+        <ChatWindow chatId={chat} />
+      )}
     </div>
   );
 }

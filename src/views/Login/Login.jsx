@@ -43,8 +43,13 @@ function Login() {
 
   useEffect(() => {
     if (user && userData) {
-      console.log(userData);
-      navigate(`/dashboard/${userData.details.username}/${userData.chats}`);
+      if (userData?.chats && Object.keys(userData.chats).length > 1) {
+        navigate(
+          `/${userData.details.username}/chats/${userData.details.chats}`
+        );
+      } else {
+        navigate(`/${userData.details.username}/friends/all`);
+      }
     }
   }, [userData]);
 

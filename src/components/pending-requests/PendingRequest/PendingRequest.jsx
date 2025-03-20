@@ -1,11 +1,10 @@
 import "./PendingRequest.css";
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AppContext } from "../../../context/AppContext";
 
 function PendingRequest({ request, handleRequest }) {
   const { user } = useContext(AppContext);
-  useEffect(() => console.log(handleRequest));
 
   return (
     <div className="pending-request">

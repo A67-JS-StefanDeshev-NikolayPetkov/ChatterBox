@@ -5,7 +5,7 @@ import "./AddFriendModal.css";
 import Loader from "../../../../components/loader/Loader";
 
 // //Dependency import
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { AppContext } from "../../../../context/AppContext";
 
 //Services
@@ -30,8 +30,13 @@ function AddFriendModal({ handleCancelFriendRequest }) {
       setAddButton(false);
       setContext((prevState) => {
         const updatedState = { ...prevState };
-        if (!updatedState.userData.friendRequests)
+        if (
+          !updatedState.userData.friendRequests ||
+          !updatedState.userData.friendRequests.sent
+        )
           updatedState.userData.friendRequests = { sent: {} };
+
+        console.log(updatedState);
 
         updatedState.userData.friendRequests.sent[foundUserUid] = true;
         return { ...updatedState };
@@ -41,8 +46,6 @@ function AddFriendModal({ handleCancelFriendRequest }) {
     }
   }
 
-  useEffect(() => console.log("userData change", userData), [userData]);
-
   async function handleSearch(e) {
     e.preventDefault();
     if (!searchInputValue)
@@ -51,7 +54,6 @@ function AddFriendModal({ handleCancelFriendRequest }) {
 
     try {
       const matchedUsers = await searchUsers(searchBy, searchInputValue);
-      console.log(matchedUsers);
       setSearchResult(matchedUsers);
     } catch (error) {
       console.error(error);
@@ -92,12 +94,13 @@ function AddFriendModal({ handleCancelFriendRequest }) {
         <div className="friend-search-results">
           {searchResult?.length > 0 ? (
             searchResult.map((foundUser) => {
-              console.log;
               if (foundUser[0] === user.uid) return null;
 
               const sentRequests = userData?.friendRequests?.sent;
               const friendsList = userData?.friends;
               let renderButton = true;
+
+              console.log(sentRequests, friendsList);
 
               if (sentRequests) {
                 if (Object.keys(sentRequests).includes(foundUser[0]))
@@ -105,8 +108,7 @@ function AddFriendModal({ handleCancelFriendRequest }) {
               }
 
               if (friendsList) {
-                if (Object.keys(friendsList).includes(foundUser[0]))
-                  renderButton = false;
+                if (Object.keys(friendsList).includes(foundUser[0])) return;
               }
 
               return (

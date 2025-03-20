@@ -2,7 +2,6 @@
 import "./ChatsBar.css";
 import plusSign from "../../../assets/plus.svg";
 
-
 //Dependency imports
 import { useContext, useState } from "react";
 import { AppContext } from "../../../context/AppContext";
@@ -16,7 +15,7 @@ import Modal from "../../../components/modal/Modal";
 import CreateMedia from "../../../components/createMedia/CreateMedia";
 import Avatar from "../../../components/avatar/Avatar";
 
-function ChatsBar({ setFriendsWindow, channels }) {
+function ChatsBar({ channels }) {
   const { userData } = useContext(AppContext);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,7 +26,7 @@ function ChatsBar({ setFriendsWindow, channels }) {
   const handleNavigation = (channelName) => {
     if (typeof channelName !== "string") return;
     navigate(`/dashboard/${channelName}/general`);
-  };  
+  };
 
   const handleCreateChannel = async () => {
     try {
@@ -48,7 +47,7 @@ function ChatsBar({ setFriendsWindow, channels }) {
 
   return (
     <div className="chats-bar">
-      <UserHeader setFriendsWindow={setFriendsWindow}></UserHeader>
+      <UserHeader></UserHeader>
       <div className="search-bar"></div>
       <div className={`chats-container ${!userData.chats && "center-flexbox"}`}>
         {/* {!userData.chats && (
@@ -57,43 +56,42 @@ function ChatsBar({ setFriendsWindow, channels }) {
             <p> Send a friend a message!</p>
           </div>
         )} */}
-        {
-          channels.map((chat) => (
-            <ChatPreview 
-              key={chat.id} 
-              chat={{
-                name:chat.title,
-                status: chat.isPublic ? "Public" : "Private",
-              }}
-              setActiveChat={() => console.log(`Active chat: ${chat.title}`)}
-              />
-          ))}
-          <div className="add-team">
-            <div>
-              <Modal
-                isOpen={isModalOpen}
-                onClose={() => {
+        {channels.map((chat) => (
+          <ChatPreview
+            key={chat.id}
+            chat={{
+              name: chat.title,
+              status: chat.isPublic ? "Public" : "Private",
+            }}
+            setActiveChat={() => console.log(`Active chat: ${chat.title}`)}
+          />
+        ))}
+        <div className="add-team">
+          <div>
+            <Modal
+              isOpen={isModalOpen}
+              onClose={() => {
                 setIsModalOpen(false);
                 setError(null);
-                }}
-              >
-                <CreateMedia
-                  title="Create Channel"
-                  placeholder="Enter channel name"
-                  value={newChannelTitle}
-                  setValue={setNewChannelTitle}
-                  onSubmit={handleCreateChannel}
-                  error={error}
-                />
-              </Modal>
-            </div>
-        <Avatar
-          onClick={() => setIsModalOpen(true)}
-          type="team"
-          imageUrl={plusSign}
-          name="Create Channel"
-        />
-      </div>
+              }}
+            >
+              <CreateMedia
+                title="Create Channel"
+                placeholder="Enter channel name"
+                value={newChannelTitle}
+                setValue={setNewChannelTitle}
+                onSubmit={handleCreateChannel}
+                error={error}
+              />
+            </Modal>
+          </div>
+          <Avatar
+            onClick={() => setIsModalOpen(true)}
+            type="team"
+            imageUrl={plusSign}
+            name="Create Channel"
+          />
+        </div>
       </div>
     </div>
   );

@@ -32,3 +32,9 @@
   display: none;
   opacity: 0;
 }
+
+.main-content {
+  width: 100%;
+  width: 100%;
+  background-color: pink;
+}

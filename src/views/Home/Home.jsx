@@ -18,9 +18,13 @@ function Home() {
 
   useEffect(() => {
     if (user && userData) {
-      navigate(
-        `/dashboard/${userData.details.username}/${userData.details.chats}`
-      );
+      if (userData?.chats && Object.keys(userData.chats).length > 1) {
+        navigate(
+          `/${userData.details.username}/chats/${userData.details.chats}`
+        );
+      } else {
+        navigate(`/${userData.details.username}/friends/all`);
+      }
     }
   }, [userData]);
 

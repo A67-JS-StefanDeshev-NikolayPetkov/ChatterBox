@@ -7,7 +7,7 @@ import "./UserHeader.css";
 
 //Dependencies
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../../../../context/AppContext";
 
 //Services
@@ -18,9 +18,11 @@ import StatusDropdown from "../../../../components/status-dropdown/StatusDropdow
 import Avatar from "../../../../components/avatar/Avatar";
 import PendingRequestsBubble from "../../../../components/pending-requests/PendingRequestsBubble/PendingRequestsBubble";
 
-function UserHeader({ setFriendsWindow }) {
+function UserHeader() {
   const { user, userData, onLogout } = useContext(AppContext);
   const [status, setStatus] = useState(userData.details.status);
+  const { filter } = useParams();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -65,7 +67,8 @@ function UserHeader({ setFriendsWindow }) {
           icon={faUsers}
           className="icon-btn"
           onClick={() => {
-            setFriendsWindow(true);
+            console.log(!filter);
+            if (!filter) navigate(`${userData.details.username}/friends/all`);
           }}
         ></FontAwesomeIcon>
         <PendingRequestsBubble></PendingRequestsBubble>

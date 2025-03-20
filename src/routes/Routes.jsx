@@ -33,14 +33,14 @@ function NavigationRoutes() {
         element={<Register />}
       ></Route>
       <Route
-        path="/dashboard"
+        path="/:team/friends/:filter"
         element={<Dashboard />}
-      >
-        <Route
-          path=":team/:chat?"
-          element={<Dashboard />}
-        ></Route>
-      </Route>
+      ></Route>
+
+      <Route
+        path="/:team/chats/:chat"
+        element={<Dashboard />}
+      ></Route>
     </Routes>
   );
 }

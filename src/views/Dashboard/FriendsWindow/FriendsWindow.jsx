@@ -4,7 +4,7 @@ import "./FriendsWindow.css";
 import FriendsHeader from "./FriendsHeader/FriendsHeader";
 import FriendsBody from "./FriendsBody/FriendsBody";
 
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import {
   cancelFriendRequest,
   acceptFriendRequest,
@@ -12,7 +12,6 @@ import {
 import { AppContext } from "../../../context/AppContext";
 
 function FriendsWindow() {
-  const [openWindow, setOpenWindow] = useState("all");
   const { setContext } = useContext(AppContext);
 
   async function handleCancelFriendRequest(
@@ -35,18 +34,18 @@ function FriendsWindow() {
     setContext((prevState) => {
       const updatedState = { ...prevState };
       if (!updatedState.userData.friends) updatedState.userData.friends = {};
-
+      delete updatedState.userData.friendRequests.received[foundUserUid];
       updatedState.userData.friends[foundUserUid] = true;
+
+      console.log(updatedState);
       return { ...updatedState };
     });
   }
 
   return (
     <div className="friends-window">
-      <FriendsHeader setOpenWindow={setOpenWindow}></FriendsHeader>
+      <FriendsHeader></FriendsHeader>
       <FriendsBody
-        setOpenWindow={setOpenWindow}
-        openWindow={openWindow}
         handleCancelFriendRequest={handleCancelFriendRequest}
         handleAcceptFriendRequest={handleAcceptFriendRequest}
       ></FriendsBody>
