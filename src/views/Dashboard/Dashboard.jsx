@@ -34,7 +34,7 @@ function Dashboard() {
   useEffect(() => {
     if (userData) {
       navigate(
-        `/dashboard/${userData.username}${
+        `/dashboard/${userData.details.username}${
           userData.chats ? userData.chats[0] : ""
         }`
       );

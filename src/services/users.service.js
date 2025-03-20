@@ -12,14 +12,18 @@ import {
 import { db } from "../config/firebase-config";
 
 export const createUserHandle = (username, uid, email) => {
-  return set(ref(db, `users/${uid}`), {
+  return set(ref(db, `users/${uid}/details`), {
     username,
     email,
     createdOn: Date.now(),
   });
 };
 
-export const getUserByUid = (uid) => {
+export const getUserDetailsByUid = (uid) => {
+  return get(ref(db, `users/${uid}/details`));
+};
+
+export const getAllUserDataByUid = (uid) => {
   return get(ref(db, `users/${uid}`));
 };
 
@@ -34,14 +38,14 @@ export const isUserOnline = (uid) => {
 
   onValue(connectedRef, (snapshot) => {
     if (snapshot.val() === true) {
-      set(ref(db, `users/${uid}/status`), "online");
-      onDisconnect(ref(db, `users/${uid}/status`)).set("offline");
+      set(ref(db, `users/${uid}/details/status`), "online");
+      onDisconnect(ref(db, `users/${uid}/details/status`)).set("offline");
     }
   });
 };
 
 export const updateUserStatus = (uid, status) => {
-  return set(ref(db, `users/${uid}/status`), status);
+  return set(ref(db, `users/${uid}/details/status`), status);
 };
 
 export const searchUsers = async (searchBy = "username", searchValue) => {
@@ -56,7 +60,7 @@ export const searchUsers = async (searchBy = "username", searchValue) => {
         //   user[1][searchBy].toLowerCase() === searchValue.toLowerCase()
         // );
 
-        return user[1][searchBy]
+        return user[1].details[searchBy]
           .toLowerCase()
           .includes(searchValue.toLowerCase());
       });
@@ -70,30 +74,22 @@ export const searchUsers = async (searchBy = "username", searchValue) => {
   }
 };
 
-export async function sendFriendRequest(sender, receiver) {
+export async function sendFriendRequest(senderUid, receiverUid) {
   const receivedRequests = ref(
     db,
-    `users/${receiver.uid}/friendRequests/received`
+    `users/${receiverUid}/friendRequests/received`
   );
-  const sentRequests = ref(db, `users/${sender.uid}/friendRequests/sent`);
+  const sentRequests = ref(db, `users/${senderUid}/friendRequests/sent`);
 
   //Add to receiving end
   runTransaction(receivedRequests, (receivedRequests) => {
     if (!receivedRequests)
       return {
-        [sender.uid]: {
-          email: sender.email,
-          username: sender.username,
-          uid: null,
-        },
+        [senderUid]: true,
       };
     receivedRequests = {
       ...receivedRequests,
-      [sender.uid]: {
-        email: sender.email,
-        username: sender.username,
-        uid: null,
-      },
+      [senderUid]: true,
     };
     return receivedRequests;
   });
@@ -102,19 +98,11 @@ export async function sendFriendRequest(sender, receiver) {
   runTransaction(sentRequests, (sentRequests) => {
     if (!sentRequests)
       return {
-        [receiver.uid]: {
-          email: receiver.email,
-          username: receiver.username,
-          uid: null,
-        },
+        [receiverUid]: true,
       };
     sentRequests = {
       ...sentRequests,
-      [receiver.uid]: {
-        email: receiver.email,
-        username: receiver.username,
-        uid: null,
-      },
+      [receiverUid]: true,
     };
     return sentRequests;
   });
@@ -190,4 +178,16 @@ export async function acceptFriendRequest(senderUid, receiverUid) {
     currentData[receiverUid] = true;
     return currentData;
   });
+}
+
+export async function fetchSentRequestsData(userUid) {
+  const requestsRef = ref(db, `users/${userUid}/friendRequests/received`);
+  const snapshot = await get(requestsRef);
+
+  if (!snapshot.exists()) return [];
+
+  const requestUids = Object.keys(snapshot.val());
+
+  // Fetch user details for each request
+  return Promise.all(requestUids.map(getUserDetailsByUid));
 }

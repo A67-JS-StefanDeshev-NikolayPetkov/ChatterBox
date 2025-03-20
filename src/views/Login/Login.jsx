@@ -43,7 +43,8 @@ function Login() {
 
   useEffect(() => {
     if (user && userData) {
-      navigate(`/dashboard/${userData.username}/${userData.chats}`);
+      console.log(userData);
+      navigate(`/dashboard/${userData.details.username}/${userData.chats}`);
     }
   }, [userData]);
 

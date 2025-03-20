@@ -18,7 +18,9 @@ function Home() {
 
   useEffect(() => {
     if (user && userData) {
-      navigate(`/dashboard/${userData.username}/${userData.chats}`);
+      navigate(
+        `/dashboard/${userData.details.username}/${userData.details.chats}`
+      );
     }
   }, [userData]);
 

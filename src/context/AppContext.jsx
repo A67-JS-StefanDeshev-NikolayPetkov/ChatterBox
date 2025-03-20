@@ -2,7 +2,7 @@
 import { useState, useEffect, createContext } from "react";
 import { logoutUser } from "../services/auth.service";
 import { auth } from "../config/firebase-config";
-import { getUserByUid, isUserOnline } from "../services/users.service";
+import { getAllUserDataByUid, isUserOnline } from "../services/users.service";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export const AppContext = createContext({
@@ -34,7 +34,7 @@ export function AppContextProvider({ children }) {
     if (user === null) return;
     isUserOnline(user.uid);
 
-    getUserByUid(user.uid)
+    getAllUserDataByUid(user.uid)
       .then((snapshot) => {
         if (!snapshot.exists()) {
           throw new Error("Couldnt get user data.");

@@ -24,19 +24,16 @@ function AddFriendModal({ handleCancelFriendRequest }) {
   const [searchError, setSearchError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  async function handleFriendRequest(user, foundUser, setAddButton) {
+  async function handleFriendRequest(userUid, foundUserUid, setAddButton) {
     try {
-      await sendFriendRequest(user, foundUser);
+      await sendFriendRequest(userUid, foundUserUid);
       setAddButton(false);
       setContext((prevState) => {
         const updatedState = { ...prevState };
         if (!updatedState.userData.friendRequests)
           updatedState.userData.friendRequests = { sent: {} };
 
-        updatedState.userData.friendRequests.sent[foundUser.uid] = {
-          email: foundUser.email,
-          username: foundUser.username,
-        };
+        updatedState.userData.friendRequests.sent[foundUserUid] = true;
         return { ...updatedState };
       });
     } catch (e) {
@@ -54,6 +51,7 @@ function AddFriendModal({ handleCancelFriendRequest }) {
 
     try {
       const matchedUsers = await searchUsers(searchBy, searchInputValue);
+      console.log(matchedUsers);
       setSearchResult(matchedUsers);
     } catch (error) {
       console.error(error);

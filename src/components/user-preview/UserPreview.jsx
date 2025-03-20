@@ -25,12 +25,14 @@ function UserPreview({
     <div className="user-preview-container">
       <div className="friend-details">
         <Avatar
-          imgUrl={foundUser[1].imageUrl ? foundUser[1].imageUrl : null}
+          imgUrl={
+            foundUser[1].details.imageUrl ? foundUser[1].details.imageUrl : null
+          }
           type="user-image"
         ></Avatar>
         <div className="user-details">
-          <p className="user-name">Username: {foundUser[1].username}</p>
-          <p className="user-name">Email: {foundUser[1].email}</p>
+          <p className="user-name">Username: {foundUser[1].details.username}</p>
+          <p className="user-name">Email: {foundUser[1].details.email}</p>
         </div>
       </div>
       <div className="friend-actions">
@@ -39,11 +41,7 @@ function UserPreview({
             className="icon-btn icon-big"
             icon={faPlusSquare}
             onClick={() => {
-              handleFriendRequest(
-                { ...userData, uid: user.uid },
-                { ...foundUser[1], uid: foundUser[0] },
-                setAddButton
-              );
+              handleFriendRequest(user.uid, foundUser[0], setAddButton);
             }}
           ></FontAwesomeIcon>
         ) : (

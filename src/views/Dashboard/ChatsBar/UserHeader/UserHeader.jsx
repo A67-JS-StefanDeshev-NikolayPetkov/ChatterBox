@@ -20,7 +20,7 @@ import PendingRequestsBubble from "../../../../components/pending-requests/Pendi
 
 function UserHeader({ setFriendsWindow }) {
   const { user, userData, onLogout } = useContext(AppContext);
-  const [status, setStatus] = useState(userData.status);
+  const [status, setStatus] = useState(userData.details.status);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function UserHeader({ setFriendsWindow }) {
     updateUserStatus(user.uid, status)
       .then(() => {
         //Update the status locally
-        userData.status = status;
+        userData.details.status = status;
       })
       .catch((e) => {
         console.error(e);
@@ -52,7 +52,7 @@ function UserHeader({ setFriendsWindow }) {
           imageUrl={null}
         ></Avatar>
         <div className="user-status">
-          <p className="username">{userData.username}</p>
+          <p className="username">{userData.details.username}</p>
           <StatusDropdown
             handleStatus={handleStatus}
             status={status}
