@@ -35,6 +35,7 @@ function Register() {
     username: "",
     email: "",
     password: "",
+    profilePicture: null,
   });
   const navigate = useNavigate();
 
@@ -50,15 +51,28 @@ function Register() {
     if (!validatePassword(formData.password)) {
       newErrors.password = "Invalid password.";
     }
-
+    if (!formData.profilePicture) {
+      newErrors.profilePicture = "Profile picture is required.";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleInput = function (eventTarget) {
-    const newFormData = { ...formData };
+    const newFormData = ({ ...formData, [eventTarget.name]: eventTarget.value });
     newFormData[eventTarget.name] = eventTarget.value;
     setFormData(newFormData);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, profilePicture: reader.result }); 
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async function (e) {
@@ -84,11 +98,12 @@ function Register() {
         );
 
         //Log user in database
-        createUserHandle(
-          formData.username,
-          userCredentials.user.uid,
-          userCredentials.user.email
-        );
+        createUserHandle({
+          username: formData.username,
+          uid: userCredentials.user.uid,
+          email: userCredentials.user.email,
+          profilePicture: formData.profilePicture,
+        });
 
         //Logout user (firebase automatically logs users in)
         onLogout();
@@ -132,6 +147,7 @@ function Register() {
       <RegisterForm
         handleSubmit={handleSubmit}
         handleInput={handleInput}
+        handleFileChange={handleFileChange}
         formData={formData}
         errors={errors}
       ></RegisterForm>

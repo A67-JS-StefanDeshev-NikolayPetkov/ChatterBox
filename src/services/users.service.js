@@ -11,10 +11,11 @@ import {
 } from "firebase/database";
 import { db } from "../config/firebase-config";
 
-export const createUserHandle = (username, uid, email) => {
+export const createUserHandle = ({username, uid, email, profilePicture}) => {
   return set(ref(db, `users/${uid}/details`), {
     username,
     email,
+    profilePicture,
     createdOn: Date.now(),
   });
 };

@@ -9,7 +9,7 @@ import { useRef, useEffect } from "react";
 import Button from "../../button/Button";
 import FieldError from "../error/FieldError";
 
-function RegisterForm({ handleInput, handleSubmit, formData, errors }) {
+function RegisterForm({ handleInput, handleSubmit, handleFileChange,  formData, errors }) {
   const paragraphRef = useRef(null);
 
   useEffect(() => {
@@ -83,6 +83,18 @@ function RegisterForm({ handleInput, handleSubmit, formData, errors }) {
           />
           {errors.password && <FieldError label={errors.password}></FieldError>}
         </div>
+        <div className="field-container">
+          <label htmlFor="profilePicture">Profile Picture</label>
+          <input
+            type="file"
+            id="profilePicture"
+            name="profilePicture"
+            accept="image/*"
+            required
+            onChange={handleFileChange}
+          />
+          {errors.profilePicture && <p className="error">{errors.profilePicture}</p>}
+        </div>
       </div>
 
       <div className="redirection-links">
@@ -94,7 +106,7 @@ function RegisterForm({ handleInput, handleSubmit, formData, errors }) {
       <Button
         className={"submit-register-btn"}
         label="Register"
-      ></Button>
+      />
     </form>
   );
 }

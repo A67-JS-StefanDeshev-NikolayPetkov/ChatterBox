@@ -49,7 +49,7 @@ function UserHeader({ setFriendsWindow }) {
           className="user-image"
           status={status}
           type={"user"}
-          imageUrl={null}
+          imageUrl={userData.details.profilePicture || "default-avatar.png"}
         ></Avatar>
         <div className="user-status">
           <p className="username">{userData.details.username}</p>
