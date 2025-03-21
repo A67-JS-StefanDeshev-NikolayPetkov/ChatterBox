@@ -87,3 +87,18 @@ export const createDefaultChannel = async (teamId, ownerId) => {
     await createChannel(teamId, "General", [ownerId], true);
   }
 };
+
+export const fetchChatData = async (chatId) => {
+  try {
+    const chatRef = ref(db, `chats/${chatId}`);
+    const snapshot = await get(chatRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      throw new Error("Chat not found");
+    }
+  } catch (error) {
+    throw new Error("Error fetching chat data");
+    throw error;
+  }
+};
