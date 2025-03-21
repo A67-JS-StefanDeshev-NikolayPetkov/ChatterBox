@@ -4,11 +4,11 @@ import "./ChatPreview.css";
 //Components
 import Avatar from "../avatar/Avatar";
 
-function ChatPreview({ chat, setActiveChat }) {
+function ChatPreview({ chat, isActive , setActiveChat }) {
   return (
     <div
-      className="chat-container"
-      onClick={() => setActiveChat(chat)}
+      className={`chat-container ${isActive ? "active" : ""}`}
+      onClick={setActiveChat}
     >
       <Avatar
         imgUrl={chat.imgUrl}

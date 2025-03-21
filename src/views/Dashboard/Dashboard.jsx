@@ -17,7 +17,8 @@ import { useNavigate, useParams } from "react-router-dom";
 function Dashboard() {
   const { user, userData } = useContext(AppContext);
   const [selectedTeamChannels, setSelectedTeamChannels] = useState([]);
-  const { filter, chat } = useParams();
+  const { teamName, channelId } = useParams();
+  const { filter, chat} = useParams();
 
   const isFriendsView = !chat;
 
@@ -40,7 +41,11 @@ function Dashboard() {
   return (
     <div className="app-container">
       <TeamsBar setSelectedTeamChannels={setSelectedTeamChannels} />
-      <ChatsBar channels={selectedTeamChannels} />
+      <ChatsBar 
+        channels={selectedTeamChannels}
+        activeChannelId={channelId}
+        teamName={teamName}
+        />
       {isFriendsView ? (
         <FriendsWindow filter={filter} />
       ) : (

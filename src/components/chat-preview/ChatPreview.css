@@ -9,6 +9,11 @@
   cursor: pointer;
 }
 
+.chat-container.active {
+  background-color: #007bff;
+  color: white;
+}
+
 .chat-container:hover {
   background-color: rgba(172, 255, 47, 0.77);
 }

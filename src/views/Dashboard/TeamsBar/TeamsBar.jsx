@@ -60,7 +60,7 @@ function TeamsBar({ setSelectedTeamChannels }) {
     try {
       validateMedia(teamName);
       // Create team in Firebase
-      const newTeam = await createTeam(teamName, user.uid, [user.uid], []);
+      await createTeam(teamName, user.uid, [user.uid], []);
       setError(null);
       setTeamName("");
       fetchTeams();
@@ -76,6 +76,10 @@ function TeamsBar({ setSelectedTeamChannels }) {
       const channelsData = await getChannels(teamId);
       const channelsArray = channelsData ? Object.values(channelsData) : [];
       setSelectedTeamChannels(channelsArray);
+      const team = teams.find((team) => team.id === teamId);
+      if (channelsArray.length > 0 && team) {
+        navigate(`/${team.name}/${channelsArray[0].id}`);
+      }
     } catch (error) {
       setError("Failed to load channels");
     } finally {

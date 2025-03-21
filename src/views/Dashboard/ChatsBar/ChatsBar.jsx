@@ -4,6 +4,7 @@ import plusSign from "../../../assets/plus.svg";
 
 //Dependency imports
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 import { validateMedia } from "../../../utils/helpers";
 import { createChannel, getChannels } from "../../../services/teams.service";
@@ -15,8 +16,9 @@ import Modal from "../../../components/modal/Modal";
 import CreateMedia from "../../../components/createMedia/CreateMedia";
 import Avatar from "../../../components/avatar/Avatar";
 
-function ChatsBar({ channels }) {
+function ChatsBar({ channels, activeChannelId, teamName }) {
   const { userData } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [chats, setChats] = useState([]);
@@ -45,6 +47,10 @@ function ChatsBar({ channels }) {
     }
   };
 
+  const handleChannelClick = (channelId) => {
+    navigate(`/${teamName}/${channelId}`);
+  };
+
   return (
     <div className="chats-bar">
       <UserHeader></UserHeader>
@@ -63,7 +69,8 @@ function ChatsBar({ channels }) {
               name: chat.title,
               status: chat.isPublic ? "Public" : "Private",
             }}
-            setActiveChat={() => console.log(`Active chat: ${chat.title}`)}
+            isActive={chat.id === activeChannelId}
+            setActiveChat={() => handleChannelClick(chat.id)}
           />
         ))}
         <div className="add-team">

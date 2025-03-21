@@ -36,11 +36,14 @@ function NavigationRoutes() {
         path="/:team/friends/:filter"
         element={<Dashboard />}
       ></Route>
-
       <Route
-        path="/:team/chats/:chat"
+        path="/:teamName/:channelId"
         element={<Dashboard />}
       ></Route>
+      {/* <Route
+        path="/:team/chats/:chat"
+        element={<Dashboard />}
+      ></Route> */}
     </Routes>
   );
 }
