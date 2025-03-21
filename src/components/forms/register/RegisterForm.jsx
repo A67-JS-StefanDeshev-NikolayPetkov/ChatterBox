@@ -83,8 +83,11 @@ function RegisterForm({ handleInput, handleSubmit, handleFileChange,  formData, 
           />
           {errors.password && <FieldError label={errors.password}></FieldError>}
         </div>
-        <div className="field-container">
+        <div className="picture-container">
           <label htmlFor="profilePicture">Profile Picture</label>
+          <label htmlFor="profilePicture" className="custom-file-label">
+            Choose file
+          </label>
           <input
             type="file"
             id="profilePicture"
@@ -93,7 +96,7 @@ function RegisterForm({ handleInput, handleSubmit, handleFileChange,  formData, 
             required
             onChange={handleFileChange}
           />
-          {errors.profilePicture && <p className="error">{errors.profilePicture}</p>}
+          {errors.profilePicture && <FieldError label={errors.profilePicture}></FieldError>}
         </div>
       </div>
 

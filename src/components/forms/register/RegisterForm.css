@@ -62,3 +62,40 @@
 .submit-register-btn {
   margin-bottom: 20px;
 }
+
+/* picture container */
+.picture-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.picture-container label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.picture-container input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.picture-container .custom-file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 2px solid #15bf20;
+  border-radius: 4px;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
