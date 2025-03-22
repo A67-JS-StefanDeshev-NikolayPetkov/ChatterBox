@@ -13,6 +13,8 @@ import {
   removeFromFriends,
 } from "../../services/users.service";
 
+import { checkIfDmsExist, startDms } from "../../services/teams.service";
+
 //Components
 import FriendPreview from "../friend-preview/FriendPreview";
 
@@ -25,7 +27,15 @@ function AllFriends({ filtered }) {
   const { user, userData, setContext } = useContext(AppContext);
   const [friendsData, setFriendsData] = useState(null);
 
-  console.log(filtered);
+  async function handleOpenChat(receiverUid) {
+    console.log("opening chat", userData.details.username);
+    let chatId;
+    if (userData.chats)
+      chatId = await checkIfDmsExist(userData.chats, receiverUid);
+
+    if (!chatId) chatId = await startDms(user.uid, receiverUid);
+    navigate(`/${userData.details.username}/chats/${chatId}`);
+  }
 
   function handleRemoveFromFriends(senderUid, receiverUid) {
     //rework friendsData to be an object at some point
@@ -78,6 +88,7 @@ function AllFriends({ filtered }) {
             friend={friend}
             senderUid={user.uid}
             handleRemoveFromFriends={handleRemoveFromFriends}
+            handleOpenChat={handleOpenChat}
           ></FriendPreview>
         ))}
       </div>
@@ -94,6 +105,7 @@ function AllFriends({ filtered }) {
           friend={friend}
           senderUid={user.uid}
           handleRemoveFromFriends={handleRemoveFromFriends}
+          handleOpenChat={handleOpenChat}
         ></FriendPreview>
       ))}
     </div>

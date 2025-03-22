@@ -8,7 +8,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 import { validateMedia } from "../../../utils/helpers";
-import { createChannel, getChannels } from "../../../services/teams.service";
+import { createTeamChat, getChannels } from "../../../services/teams.service";
 
 //Component imports
 import UserHeader from "./UserHeader/UserHeader";
@@ -41,16 +41,16 @@ function ChatsBar({
     navigate(`/dashboard/${channelName}/general`);
   };
 
-  const handleCreateChannel = async () => {
+  const handleCreateTeamChat = async () => {
     try {
       if (!selectedTeam) {
         throw new Error("No team selected.");
       }
       validateMedia(newChannelTitle);
 
-      ("Channel Image Base64:", channelImage);
+      "Channel Image Base64:", channelImage;
       // Create channel in Firebase
-      await createChannel(
+      await createTeamChat(
         selectedTeam,
         newChannelTitle,
         [user.uid],
@@ -108,7 +108,7 @@ function ChatsBar({
                 placeholder="Enter channel name"
                 value={newChannelTitle}
                 setValue={setNewChannelTitle}
-                onSubmit={handleCreateChannel}
+                onSubmit={handleCreateTeamChat}
                 error={error}
                 setImage={setChannelImage}
               >

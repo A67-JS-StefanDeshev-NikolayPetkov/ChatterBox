@@ -26,7 +26,14 @@ export const createTeam = async (
   // Create a new team with a unique ID
   const newTeamRef = push(teamsRef);
   const teamId = newTeamRef.key;
-  const teamData = { id: teamId, name, owner: ownerId, members, channels, imageUrl };
+  const teamData = {
+    id: teamId,
+    name,
+    owner: ownerId,
+    members,
+    channels,
+    imageUrl,
+  };
 
   await set(newTeamRef, teamData);
 
@@ -63,7 +70,13 @@ export const getChannels = async (teamId) => {
 };
 
 // Function to create a new channel
-export const createChannel = async (teamId, title, participants, isPublic, imageUrl = "default-chat.png") => {
+export const createTeamChat = async (
+  teamId,
+  title,
+  participants,
+  isPublic,
+  imageUrl = "default-chat.png"
+) => {
   if (title.length < 3 || title.length > 40) {
     throw new Error("Channel title must be between 3 and 40 characters.");
   }
@@ -74,9 +87,15 @@ export const createChannel = async (teamId, title, participants, isPublic, image
   const channelsRef = ref(db, `teams/${teamId}/channels`);
   const newChannelRef = push(channelsRef);
   const channelId = newChannelRef.key;
-  const channelData = { id: channelId, title, participants, isPublic, imageUrl };
+  const channelData = {
+    id: channelId,
+    title,
+    participants,
+    isPublic,
+    imageUrl,
+  };
 
-  ("Saving Channel Data:", channelData);
+  "Saving Channel Data:", channelData;
 
   await set(newChannelRef, channelData);
   return channelData;
@@ -86,9 +105,80 @@ export const createChannel = async (teamId, title, participants, isPublic, image
 export const createDefaultChannel = async (teamId, ownerId) => {
   const channels = await getChannels(teamId);
   if (!channels) {
-    await createChannel(teamId, "General", [ownerId], true);
+    await createTeamChat(teamId, "General", [ownerId], true);
   }
 };
+
+export const startDms = async function (senderUid, receiverUid) {
+  //references to new chat and sender/receiver chats object
+  const chatsRef = ref(db, `chats`);
+  const senderRef = ref(db, `users/${senderUid}/chats`);
+  const receiverRef = ref(db, `users/${receiverUid}/chats`);
+
+  //Create and get new chat id
+  const newChatRef = push(chatsRef);
+  const chatId = newChatRef.key;
+
+  // Create and get first message id
+  // const messagesRef = ref(db, `chats/${chatId}/messages`);
+  // const newMessageRef = push(messagesRef);
+  // const messageId = newMessageRef.key;
+
+  //get sender and receiver chat lists
+  const senderSnapshot = await get(senderRef);
+  const receiverSnapshot = await get(receiverRef);
+
+  //Format new entry depending on if chats object exists
+  const senderNewChats = senderSnapshot.exists()
+    ? { ...senderSnapshot.val(), [chatId]: true }
+    : { [chatId]: true };
+  const receiverNewChats = receiverSnapshot.exists()
+    ? { ...receiverSnapshot.val(), [chatId]: true }
+    : { [chatId]: true };
+
+  const chatData = {
+    type: "dm",
+    members: { [senderUid]: true, [receiverUid]: true },
+    // messages: { [messageId]: messageContent },
+  };
+
+  try {
+    await Promise.all(
+      set(newChatRef, chatData),
+      set(senderRef, senderNewChats),
+      set(receiverRef, receiverNewChats)
+    );
+  } catch (e) {
+    console.error(e);
+  } finally {
+  }
+
+  console.log(chatId);
+
+  return chatId;
+};
+
+export const checkIfDmsExist = async function (userChats, receiverUid) {
+  let existingChatId;
+
+  //loop through all chats and check if it already exists
+  for (const chatId in userChats) {
+    const chatRef = ref(db, `chats/${chatId}`);
+    const chatSnapshot = await get(chatRef);
+    const chatData = chatSnapshot.val();
+
+    if (
+      chatData.type === "dm" &&
+      Object.keys(chatData.members).includes(receiverUid)
+    ) {
+      existingChatId = chatId;
+      break;
+    }
+  }
+  if (existingChatId) return existingChatId;
+};
+
+export const sendMessage = async function () {};
 
 export const fetchChatData = async (chatId) => {
   try {

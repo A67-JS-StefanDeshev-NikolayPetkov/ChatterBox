@@ -10,11 +10,7 @@ import Modal from "../../../components/modal/Modal";
 // Dependency imports
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-import {
-  createTeam,
-  getChannels,
-  createChannel,
-} from "../../../services/teams.service";
+import { createTeam, getChannels } from "../../../services/teams.service";
 import { AppContext } from "../../../context/AppContext";
 import { getTeams } from "../../../services/teams.service";
 import CreateMedia from "../../../components/createMedia/CreateMedia";
@@ -33,12 +29,14 @@ function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
   const fetchTeams = async () => {
     try {
       const teamsData = await getTeams();
-      const teamsArray = Object.keys(teamsData).map((key) => ({
-        id: key,
-        name: teamsData[key].name,
-        imageUrl: teamsData[key].imageUrl,
-        members: teamsData[key].members,
-      })).filter((team) => team.members && team.members.includes(user.uid));
+      const teamsArray = Object.keys(teamsData)
+        .map((key) => ({
+          id: key,
+          name: teamsData[key].name,
+          imageUrl: teamsData[key].imageUrl,
+          members: teamsData[key].members,
+        }))
+        .filter((team) => team.members && team.members.includes(user.uid));
       setTeams(teamsArray);
     } catch (error) {
       setError("Failed to load teams");
@@ -104,15 +102,15 @@ function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
         />
       </div>
       <div className="teams-list">
-            {teams.map((team) => (
-              <Avatar
-                key={team.id}
-                type="team"
-                imageUrl={team.imageUrl || teamLogo}
-                onClick={() => handleTeamClick(team.id)}
-                name={team.name}
-              />
-            ))}
+        {teams.map((team) => (
+          <Avatar
+            key={team.id}
+            type="team"
+            imageUrl={team.imageUrl || teamLogo}
+            onClick={() => handleTeamClick(team.id)}
+            name={team.name}
+          />
+        ))}
       </div>
 
       <div className="add-team">
@@ -124,15 +122,15 @@ function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
               setError(null);
             }}
           >
-              <CreateMedia
-                title="Create Team"
-                placeholder="Enter team name"
-                value={teamName}
-                setValue={setTeamName}
-                onSubmit={handleCreateTeam}
-                error={error}
-                setImage={setTeamImage}
-              />
+            <CreateMedia
+              title="Create Team"
+              placeholder="Enter team name"
+              value={teamName}
+              setValue={setTeamName}
+              onSubmit={handleCreateTeam}
+              error={error}
+              setImage={setTeamImage}
+            />
           </Modal>
         </div>
         <Avatar

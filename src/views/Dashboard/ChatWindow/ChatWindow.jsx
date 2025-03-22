@@ -5,7 +5,7 @@ import ChatHeader from "./ChatHeader/ChatHeader";
 import ChatBody from "./ChatBody/ChatBody";
 import AddFriendModal from "../FriendsWindow/AddFriendModal/AddFriendModal";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { fetchChatData } from "../../../services/teams.service";
 

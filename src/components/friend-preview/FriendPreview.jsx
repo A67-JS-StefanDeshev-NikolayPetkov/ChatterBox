@@ -7,7 +7,12 @@ import { faMessage } from "@fortawesome/free-solid-svg-icons";
 
 import Avatar from "../avatar/Avatar";
 
-function FriendPreview({ friend, senderUid, handleRemoveFromFriends }) {
+function FriendPreview({
+  friend,
+  senderUid,
+  handleRemoveFromFriends,
+  handleOpenChat,
+}) {
   const avatarProps = {
     imageUrl: friend.imageUrl,
     status: friend.status,
@@ -24,6 +29,7 @@ function FriendPreview({ friend, senderUid, handleRemoveFromFriends }) {
         <FontAwesomeIcon
           icon={faMessage}
           className="icon-btn icon-big"
+          onClick={() => handleOpenChat(friend.uid)}
         ></FontAwesomeIcon>
         <FontAwesomeIcon
           icon={faMinusSquare}
