@@ -37,7 +37,8 @@ function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
         id: key,
         name: teamsData[key].name,
         imageUrl: teamsData[key].imageUrl,
-      }));
+        members: teamsData[key].members,
+      })).filter((team) => team.members && team.members.includes(user.uid));
       setTeams(teamsArray);
     } catch (error) {
       setError("Failed to load teams");

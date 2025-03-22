@@ -44,8 +44,7 @@ export const getTeams = async () => {
       return snapshot.val();
     }
   } catch (error) {
-    console.error("Error fetching teams:", error);
-    throw error;
+    throw new Error("Failed to load teams");
   }
 };
 
@@ -77,7 +76,7 @@ export const createChannel = async (teamId, title, participants, isPublic, image
   const channelId = newChannelRef.key;
   const channelData = { id: channelId, title, participants, isPublic, imageUrl };
 
-  console.log("Saving Channel Data:", channelData);
+  ("Saving Channel Data:", channelData);
 
   await set(newChannelRef, channelData);
   return channelData;

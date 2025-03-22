@@ -83,6 +83,20 @@ function RegisterForm({ handleInput, handleSubmit, handleFileChange,  formData, 
           />
           {errors.password && <FieldError label={errors.password}></FieldError>}
         </div>
+        <div className="field-container">
+          <label htmlFor="phoneNumber">Phone Number</label>
+          <input
+            className="register-input"
+            type="tel"
+            id="phoneNumber"
+            name="phoneNumber"
+            required
+            placeholder="Enter your phone number"
+            value={formData.phoneNumber}
+            onChange={(e) => handleInput(e.target)}
+          />
+          {errors.phoneNumber && <FieldError label={errors.phoneNumber}></FieldError>}
+        </div>
         <div className="picture-container">
           <label htmlFor="profilePicture">Profile Picture</label>
           <label htmlFor="profilePicture" className="custom-file-label">

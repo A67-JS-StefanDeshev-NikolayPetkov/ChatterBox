@@ -8,7 +8,6 @@ import { useEffect } from "react";
 
 function ChatPreview({ chat, isActive , setActiveChat }) {
   useEffect(() => {
-    console.log("Chat in ChatPreview:", chat.imageUrl); // Debugging
   }, [chat]);
   return (
     <div

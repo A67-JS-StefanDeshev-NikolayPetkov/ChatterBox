@@ -21,10 +21,12 @@ function AllFriends({ setOpenWindow }) {
   const [friendsData, setFriendsData] = useState(null);
 
   useEffect(() => {
-    fetchUsersData(Object.keys(userData.friends)).then((data) =>
-      setFriendsData(data)
-    );
-  }, []);
+    if (userData?.friends) {
+      fetchUsersData(Object.keys(userData.friends)).then((data) =>
+        setFriendsData(data)
+      );
+    }
+  }, [userData]);
 
   useEffect(() => {
     console.log(friendsData);

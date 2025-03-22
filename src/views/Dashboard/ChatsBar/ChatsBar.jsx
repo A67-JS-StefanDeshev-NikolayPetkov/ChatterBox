@@ -48,7 +48,7 @@ function ChatsBar({
       }
       validateMedia(newChannelTitle);
 
-      console.log("Channel Image Base64:", channelImage);
+      ("Channel Image Base64:", channelImage);
       // Create channel in Firebase
       await createChannel(
         selectedTeam,
