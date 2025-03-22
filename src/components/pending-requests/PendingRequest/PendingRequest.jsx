@@ -3,7 +3,18 @@ import "./PendingRequest.css";
 import { useContext } from "react";
 import { AppContext } from "../../../context/AppContext";
 
-function PendingRequest({ request, handleRequest }) {
+//Font awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { faMinusSquare } from "@fortawesome/free-solid-svg-icons";
+
+function PendingRequest({
+  request,
+  handleCancelFriendRequest,
+  handleAcceptFriendRequest,
+  fetchRequestsData,
+  type,
+}) {
   const { user } = useContext(AppContext);
 
   return (
@@ -13,24 +24,28 @@ function PendingRequest({ request, handleRequest }) {
         <p>Email: {request.email}</p>
       </div>
       <div className="pending-request-btns">
-        {handleRequest.name === "handleAcceptFriendRequest" && (
-          <button
+        {type === "received" && (
+          <FontAwesomeIcon
+            icon={faPlusSquare}
+            className={"icon-btn icon-big"}
             onClick={() => {
-              handleRequest(request.uid, user.uid);
+              handleAcceptFriendRequest(request.uid, user.uid);
+              fetchRequestsData();
             }}
           >
             Accept
-          </button>
+          </FontAwesomeIcon>
         )}
-        {handleRequest.name === "handleCancelFriendRequest" && (
-          <button
-            onClick={() => {
-              handleRequest(user.uid, request.uid);
-            }}
-          >
-            Remove
-          </button>
-        )}
+        <FontAwesomeIcon
+          icon={faMinusSquare}
+          className={"icon-btn icon-big"}
+          onClick={() => {
+            type === "sent"
+              ? handleCancelFriendRequest(user.uid, request.uid)
+              : handleCancelFriendRequest(request.uid, user.uid);
+            fetchRequestsData();
+          }}
+        ></FontAwesomeIcon>
       </div>
     </div>
   );

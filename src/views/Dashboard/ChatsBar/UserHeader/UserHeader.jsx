@@ -31,7 +31,6 @@ function UserHeader() {
       .then(() => {
         //Update the status locally
         userData.details.status = status;
-        console.log("status", userData, status);
       })
       .catch((e) => {
         console.error(e);
@@ -68,7 +67,6 @@ function UserHeader() {
           icon={faUsers}
           className="icon-btn"
           onClick={() => {
-            console.log(!filter);
             if (!filter) navigate(`${userData.details.username}/friends/all`);
           }}
         ></FontAwesomeIcon>

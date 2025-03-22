@@ -5,9 +5,13 @@ import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 //Dependency
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 //Services
-import { fetchUsersData } from "../../services/users.service";
+import {
+  fetchUsersData,
+  removeFromFriends,
+} from "../../services/users.service";
 
 //Components
 import FriendPreview from "../friend-preview/FriendPreview";
@@ -16,9 +20,23 @@ import FriendPreview from "../friend-preview/FriendPreview";
 import "./AllFriends.css";
 
 //Component
-function AllFriends({ setOpenWindow }) {
-  const { userData } = useContext(AppContext);
+function AllFriends({ filtered }) {
+  const navigate = useNavigate();
+  const { user, userData, setContext } = useContext(AppContext);
   const [friendsData, setFriendsData] = useState(null);
+
+  console.log(filtered);
+
+  function handleRemoveFromFriends(senderUid, receiverUid) {
+    //rework friendsData to be an object at some point
+    removeFromFriends(senderUid, receiverUid);
+    const newFriendsData = friendsData.filter((el) => el.uid !== receiverUid);
+    setContext((prev) => {
+      delete prev.userData.friends[receiverUid];
+      return { ...prev };
+    });
+    setFriendsData(newFriendsData);
+  }
 
   useEffect(() => {
     if (userData?.friends) {
@@ -27,10 +45,6 @@ function AllFriends({ setOpenWindow }) {
       );
     }
   }, [userData]);
-
-  useEffect(() => {
-    console.log(friendsData);
-  }, [friendsData]);
 
   if (!friendsData || friendsData.length < 1)
     return (
@@ -42,17 +56,45 @@ function AllFriends({ setOpenWindow }) {
             icon={faPlusSquare}
             className="icon-btn icon-big"
             onClick={() => {
-              setOpenWindow("add");
+              navigate(`/${userData.details.username}/friends/add`);
             }}
           />
         </div>
       </div>
     );
 
+  if (filtered) {
+    const onlineFriends = friendsData.filter((friend) => {
+      friend.status === "online";
+    });
+
+    console.log("filtered");
+
+    return onlineFriends.length > 0 ? (
+      <div className="all-friends-container">
+        {onlineFriends.map((friend) => (
+          <FriendPreview
+            key={friend.uid}
+            friend={friend}
+            senderUid={user.uid}
+            handleRemoveFromFriends={handleRemoveFromFriends}
+          ></FriendPreview>
+        ))}
+      </div>
+    ) : (
+      <p>ZzZzZ... nobody is online</p>
+    );
+  }
+
   return (
     <div className="all-friends-container">
       {friendsData.map((friend) => (
-        <FriendPreview friend={friend}></FriendPreview>
+        <FriendPreview
+          key={friend.uid}
+          friend={friend}
+          senderUid={user.uid}
+          handleRemoveFromFriends={handleRemoveFromFriends}
+        ></FriendPreview>
       ))}
     </div>
   );

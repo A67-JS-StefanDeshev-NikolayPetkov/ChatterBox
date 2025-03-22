@@ -27,8 +27,6 @@ function Avatar({ imageUrl, type, status, name, onClick, uid }) {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => console.log(userStatus), [userStatus]);
-
   const handleMouseEnter = () => {
     setIsTooltipVisible(true);
   };

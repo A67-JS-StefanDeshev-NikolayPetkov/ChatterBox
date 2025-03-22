@@ -144,7 +144,6 @@ export async function cancelFriendRequest(senderUid, receiverUid) {
 }
 
 export async function acceptFriendRequest(senderUid, receiverUid) {
-  console.log("accept func running");
   const receivedRequestsRef = ref(
     db,
     `users/${receiverUid}/friendRequests/received`
@@ -191,6 +190,29 @@ export async function acceptFriendRequest(senderUid, receiverUid) {
   });
 }
 
+export async function removeFromFriends(senderUid, receiverUid) {
+  const receiverFriendsList = ref(db, `users/${receiverUid}/friends`);
+  const senderFriendsList = ref(db, `users/${senderUid}/friends`);
+
+  //Remove from friends list
+  runTransaction(receiverFriendsList, (currentData) => {
+    if (!currentData) {
+      return { [senderUid]: null };
+    }
+    currentData[senderUid] = null;
+    return currentData;
+  });
+
+  //Remove from friends list
+  runTransaction(senderFriendsList, (currentData) => {
+    if (!currentData) {
+      return { [receiverUid]: null };
+    }
+    currentData[receiverUid] = null;
+    return currentData;
+  });
+}
+
 export async function fetchUsersData(userUids) {
   const requestsData = await Promise.all(
     userUids.map(async (uid) => {
@@ -201,5 +223,5 @@ export async function fetchUsersData(userUids) {
     })
   );
 
-  return requestsData;
+  return requestsData.length > 0 ? requestsData : null;
 }

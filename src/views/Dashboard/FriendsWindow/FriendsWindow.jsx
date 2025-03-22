@@ -12,34 +12,21 @@ import {
 import { AppContext } from "../../../context/AppContext";
 
 function FriendsWindow() {
-  const { setContext } = useContext(AppContext);
-
+  const { updateUserData } = useContext(AppContext);
   async function handleCancelFriendRequest(
     userUid,
     foundUserUid,
     setAddButton
   ) {
+    console.log("handle cancel friend request running");
     cancelFriendRequest(userUid, foundUserUid);
-    setContext((prevState) => {
-      const updatedState = { ...prevState };
-
-      delete updatedState.userData.friendRequests.sent[foundUserUid];
-      return { ...updatedState };
-    });
+    updateUserData();
     if (setAddButton) setAddButton(true);
   }
 
   async function handleAcceptFriendRequest(foundUserUid, userUid) {
     acceptFriendRequest(foundUserUid, userUid);
-    setContext((prevState) => {
-      const updatedState = { ...prevState };
-      if (!updatedState.userData.friends) updatedState.userData.friends = {};
-      delete updatedState.userData.friendRequests.received[foundUserUid];
-      updatedState.userData.friends[foundUserUid] = true;
-
-      console.log(updatedState);
-      return { ...updatedState };
-    });
+    updateUserData();
   }
 
   return (

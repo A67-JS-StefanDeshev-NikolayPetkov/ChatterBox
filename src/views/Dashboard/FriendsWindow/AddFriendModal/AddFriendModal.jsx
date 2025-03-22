@@ -36,8 +36,6 @@ function AddFriendModal({ handleCancelFriendRequest }) {
         )
           updatedState.userData.friendRequests = { sent: {} };
 
-        console.log(updatedState);
-
         updatedState.userData.friendRequests.sent[foundUserUid] = true;
         return { ...updatedState };
       });
@@ -99,8 +97,6 @@ function AddFriendModal({ handleCancelFriendRequest }) {
               const sentRequests = userData?.friendRequests?.sent;
               const friendsList = userData?.friends;
               let renderButton = true;
-
-              console.log(sentRequests, friendsList);
 
               if (sentRequests) {
                 if (Object.keys(sentRequests).includes(foundUser[0]))

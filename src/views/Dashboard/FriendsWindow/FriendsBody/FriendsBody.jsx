@@ -16,6 +16,7 @@ function FriendsBody({ handleCancelFriendRequest, handleAcceptFriendRequest }) {
           handleCancelFriendRequest={handleCancelFriendRequest}
         ></AddFriendModal>
       )}
+      {filter === "online" && <AllFriends filtered={true}></AllFriends>}
       {filter === "pending" && (
         <PendingRequests
           handleCancelFriendRequest={handleCancelFriendRequest}

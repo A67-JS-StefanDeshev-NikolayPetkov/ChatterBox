@@ -18,7 +18,7 @@ function PendingRequests({
   const [sentRequestsData, setSentRequestsData] = useState(null);
   const [receivedRequestsData, setReceivedRequestsData] = useState(null);
 
-  useEffect(() => {
+  function fetchRequestsData() {
     const sentRequests = userData?.friendRequests?.sent
       ? Object.keys(userData.friendRequests.sent)
       : null;
@@ -34,7 +34,17 @@ function PendingRequests({
       fetchUsersData(receivedRequests).then((data) =>
         setReceivedRequestsData(data)
       );
-  }, []);
+  }
+
+  useEffect(() => {
+    fetchRequestsData();
+    console.log("userdata was changed");
+    console.log(userData);
+  }, [userData]);
+
+  useEffect(() => {
+    console.log(receivedRequestsData);
+  }, [receivedRequestsData]);
 
   return (
     <div className="pending-requests">
@@ -46,7 +56,10 @@ function PendingRequests({
             <PendingRequest
               key={request.uid}
               request={request}
-              handleRequest={handleAcceptFriendRequest}
+              handleAcceptFriendRequest={handleAcceptFriendRequest}
+              handleCancelFriendRequest={handleCancelFriendRequest}
+              fetchRequestsData={fetchRequestsData}
+              type={"received"}
             />
           ))
         ) : (
@@ -63,7 +76,9 @@ function PendingRequests({
               <PendingRequest
                 key={request.uid}
                 request={request}
-                handleRequest={handleCancelFriendRequest}
+                handleCancelFriendRequest={handleCancelFriendRequest}
+                fetchRequestsData={fetchRequestsData}
+                type={"sent"}
               />
             );
           })

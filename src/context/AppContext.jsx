@@ -30,10 +30,8 @@ export function AppContextProvider({ children }) {
     });
   }
 
-  useEffect(() => {
-    if (user === null) return;
-    isUserOnline(user.uid);
-
+  function updateUserData() {
+    console.log("updating UserData");
     getAllUserDataByUid(user.uid)
       .then((snapshot) => {
         if (!snapshot.exists()) {
@@ -46,6 +44,13 @@ export function AppContextProvider({ children }) {
         });
       })
       .catch((e) => alert(e.message));
+  }
+
+  useEffect(() => {
+    if (user === null) return;
+    isUserOnline(user.uid);
+
+    updateUserData();
   }, [user]);
 
   return (
@@ -56,6 +61,7 @@ export function AppContextProvider({ children }) {
         loading,
         setContext: setAppState,
         onLogout,
+        updateUserData,
       }}
     >
       {children}
