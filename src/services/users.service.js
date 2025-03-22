@@ -11,7 +11,7 @@ import {
 } from "firebase/database";
 import { db } from "../config/firebase-config";
 
-export const createUserHandle = ({username, uid, email, profilePicture}) => {
+export const createUserHandle = ({ username, uid, email, profilePicture }) => {
   return set(ref(db, `users/${uid}/details`), {
     username,
     email,
@@ -44,6 +44,16 @@ export const isUserOnline = (uid) => {
     }
   });
 };
+
+export async function checkUserStatus(uid, callback) {
+  const statusRef = ref(db, `users/${uid}/details/status`);
+
+  const unsubscribe = onValue(statusRef, (snapshot) => {
+    if (snapshot.exists()) callback(snapshot.val());
+  });
+
+  return () => unsubscribe();
+}
 
 export const updateUserStatus = (uid, status) => {
   return set(ref(db, `users/${uid}/details/status`), status);
@@ -181,14 +191,15 @@ export async function acceptFriendRequest(senderUid, receiverUid) {
   });
 }
 
-export async function fetchSentRequestsData(userUid) {
-  const requestsRef = ref(db, `users/${userUid}/friendRequests/received`);
-  const snapshot = await get(requestsRef);
+export async function fetchUsersData(userUids) {
+  const requestsData = await Promise.all(
+    userUids.map(async (uid) => {
+      const snapshot = await get(ref(db, `users/${uid}/details`));
+      const requestData = snapshot.val();
+      requestData.uid = uid;
+      return snapshot.exists() ? requestData : null;
+    })
+  );
 
-  if (!snapshot.exists()) return [];
-
-  const requestUids = Object.keys(snapshot.val());
-
-  // Fetch user details for each request
-  return Promise.all(requestUids.map(getUserDetailsByUid));
+  return requestsData;
 }

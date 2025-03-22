@@ -19,8 +19,8 @@ function Dashboard() {
   const { user, userData } = useContext(AppContext);
   const [selectedTeamChannels, setSelectedTeamChannels] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
-  const { teamName, channelId } = useParams();
-  const { filter, chat} = useParams();
+  const { team, channelId } = useParams();
+  const { filter, chat } = useParams();
 
   const isFriendsView = !chat;
 
@@ -47,18 +47,18 @@ function Dashboard() {
 
   return (
     <div className="app-container">
-      <TeamsBar 
+      <TeamsBar
         setSelectedTeamChannels={setSelectedTeamChannels}
         setSelectedTeam={setSelectedTeam}
-        />
-      <ChatsBar 
+      />
+      <ChatsBar
         channels={selectedTeamChannels}
         activeChannelId={channelId}
-        teamName={teamName}
+        team={team}
         selectedTeam={selectedTeam}
         user={user}
         refreshChannels={() => fetchAndSetChannels(selectedTeam)}
-        />
+      />
       {isFriendsView ? (
         <FriendsWindow filter={filter} />
       ) : (

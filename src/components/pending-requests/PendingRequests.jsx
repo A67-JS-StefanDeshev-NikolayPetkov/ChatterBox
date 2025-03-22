@@ -4,26 +4,48 @@ import "./PendingRequests.css";
 import PendingRequest from "./PendingRequest/PendingRequest";
 
 //Dependency
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
+
+//Services
+import { fetchUsersData } from "../../services/users.service";
 
 function PendingRequests({
   handleCancelFriendRequest,
   handleAcceptFriendRequest,
 }) {
   const { userData } = useContext(AppContext);
-  useEffect(() => console.log("pending user data", userData), [userData]);
+  const [sentRequestsData, setSentRequestsData] = useState(null);
+  const [receivedRequestsData, setReceivedRequestsData] = useState(null);
+
+  useEffect(() => {
+    const sentRequests = userData?.friendRequests?.sent
+      ? Object.keys(userData.friendRequests.sent)
+      : null;
+
+    const receivedRequests = userData?.friendRequests?.received
+      ? Object.keys(userData.friendRequests.received)
+      : null;
+
+    if (sentRequests)
+      fetchUsersData(sentRequests).then((data) => setSentRequestsData(data));
+
+    if (receivedRequests)
+      fetchUsersData(receivedRequests).then((data) =>
+        setReceivedRequestsData(data)
+      );
+  }, []);
 
   return (
     <div className="pending-requests">
-      <div className="received-requests">
+      <div className="requests-container">
         <h2>Received requests</h2>
 
-        {userData?.friendRequests?.received ? (
-          Object.entries(userData.friendRequests.received).map((request) => (
+        {receivedRequestsData ? (
+          receivedRequestsData.map((request) => (
             <PendingRequest
-              key={request[0]}
-              request={{ ...request[1], uid: request[0] }}
+              key={request.uid}
+              request={request}
               handleRequest={handleAcceptFriendRequest}
             />
           ))
@@ -32,16 +54,15 @@ function PendingRequests({
         )}
       </div>
 
-      <div className="sent-requests">
+      <div className="requests-container">
         <h2>Sent requests</h2>
 
-        {userData?.friendRequests?.sent &&
-        Object.keys(userData.friendRequests.sent).length > 0 ? (
-          Object.entries(userData.friendRequests.sent).map((request) => {
+        {sentRequestsData ? (
+          sentRequestsData.map((request) => {
             return (
               <PendingRequest
-                key={request[0]}
-                request={{ ...request[1], uid: request[0] }}
+                key={request.uid}
+                request={request}
                 handleRequest={handleCancelFriendRequest}
               />
             );

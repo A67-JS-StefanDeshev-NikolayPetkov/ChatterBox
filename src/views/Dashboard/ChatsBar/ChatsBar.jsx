@@ -18,7 +18,14 @@ import CreateMedia from "../../../components/createMedia/CreateMedia";
 import Avatar from "../../../components/avatar/Avatar";
 import { ref } from "firebase/database";
 
-function ChatsBar({ channels, activeChannelId, teamName, selectedTeam, user, refreshChannels }) {
+function ChatsBar({
+  channels,
+  activeChannelId,
+  team,
+  selectedTeam,
+  user,
+  refreshChannels,
+}) {
   const { userData } = useContext(AppContext);
   const navigate = useNavigate();
 
@@ -43,7 +50,13 @@ function ChatsBar({ channels, activeChannelId, teamName, selectedTeam, user, ref
 
       console.log("Channel Image Base64:", channelImage);
       // Create channel in Firebase
-      await createChannel(selectedTeam, newChannelTitle, [user.uid], isPublic, channelImage);
+      await createChannel(
+        selectedTeam,
+        newChannelTitle,
+        [user.uid],
+        isPublic,
+        channelImage
+      );
       refreshChannels();
       setError(null);
       setNewChannelTitle("");
@@ -60,20 +73,15 @@ function ChatsBar({ channels, activeChannelId, teamName, selectedTeam, user, ref
   };
 
   const handleChannelClick = (channelId) => {
-    navigate(`/${teamName}/${channelId}`);
+    navigate(`/${team}/${channelId}`);
   };
 
   return (
     <div className="chats-bar">
       <UserHeader></UserHeader>
       <div className="search-bar"></div>
-      <div className={`chats-container ${!userData.chats && "center-flexbox"}`}>
-        {/* {!userData.chats && (
-          <div className="flex-column center-flexbox">
-            <p>No chats yet.</p>
-            <p> Send a friend a message!</p>
-          </div>
-        )} */}
+      <div className={`chats-container`}>
+        {/* If no chats in current team, show indication */}
         {channels.map((chat) => (
           <ChatPreview
             key={chat.id}
@@ -119,10 +127,10 @@ function ChatsBar({ channels, activeChannelId, teamName, selectedTeam, user, ref
           </div>
           {channels && channels.length > 0 && (
             <Avatar
-            onClick={() => setIsModalOpen(true)}
-            type="team"
-            imageUrl={plusSign}
-            name="Create Channel"
+              onClick={() => setIsModalOpen(true)}
+              type="team"
+              imageUrl={plusSign}
+              name="Create Channel"
             />
           )}
         </div>

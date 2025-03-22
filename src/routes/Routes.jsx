@@ -37,7 +37,7 @@ function NavigationRoutes() {
         element={<Dashboard />}
       ></Route>
       <Route
-        path="/:teamName/:channelId"
+        path="/:team/:channelId"
         element={<Dashboard />}
       ></Route>
       {/* <Route

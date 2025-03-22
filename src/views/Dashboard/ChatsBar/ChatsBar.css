@@ -8,6 +8,8 @@
 .chats-container {
   display: flex;
   flex-direction: column;
+  justify-content: start;
+  align-items: center;
   gap: 5px;
   background-color: brown;
   padding: 10px;

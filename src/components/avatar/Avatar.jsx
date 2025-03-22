@@ -2,7 +2,11 @@
 import Tooltip from "../tooltip/Tooltip";
 import "./Avatar.css";
 
+//Dependency
 import { useState, useEffect } from "react";
+
+//Services
+import { checkUserStatus } from "../../services/users.service";
 
 /**
  *
@@ -13,8 +17,17 @@ import { useState, useEffect } from "react";
  * @param {string} props.status optional: status of user (online, away, buy, offline)
  * @returns
  */
-function Avatar({ imageUrl, type, status, name, onClick }) {
+function Avatar({ imageUrl, type, status, name, onClick, uid }) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [userStatus, setUserStatus] = useState(status);
+
+  useEffect(() => {
+    if (!uid) return;
+    const unsubscribe = checkUserStatus(uid, setUserStatus);
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => console.log(userStatus), [userStatus]);
 
   const handleMouseEnter = () => {
     setIsTooltipVisible(true);
@@ -23,10 +36,6 @@ function Avatar({ imageUrl, type, status, name, onClick }) {
   const handleMouseLeave = () => {
     setIsTooltipVisible(false);
   };
-
-  useEffect(() => {
-    console.log("Avatar Image URL:", imageUrl); // Debugging
-  }, [imageUrl]);
 
   return (
     <div
@@ -41,7 +50,7 @@ function Avatar({ imageUrl, type, status, name, onClick }) {
         className={`avatar ${`${type}-image`}`}
       />
       <div className="avatar-status">
-        {status && <span className={`status-icon ${status}`}></span>}
+        {status && <span className={`status-icon ${userStatus}`}></span>}
       </div>
       {type === "team" && (
         <>

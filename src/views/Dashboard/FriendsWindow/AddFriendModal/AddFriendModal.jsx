@@ -64,7 +64,7 @@ function AddFriendModal({ handleCancelFriendRequest }) {
 
   return (
     <div
-      className="all-friends-container"
+      className="add-friends-container"
       onClick={(e) => e.stopPropagation()}
     >
       <h2>Add a Friend</h2>

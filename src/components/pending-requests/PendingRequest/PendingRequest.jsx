@@ -8,26 +8,30 @@ function PendingRequest({ request, handleRequest }) {
 
   return (
     <div className="pending-request">
-      <p>User: {request.username}</p>
-      <p>Email: {request.email}</p>
-      {handleRequest.name === "handleAcceptFriendRequest" && (
-        <button
-          onClick={() => {
-            handleRequest(request.uid, user.uid);
-          }}
-        >
-          Accept
-        </button>
-      )}
-      {handleRequest.name === "handleCancelFriendRequest" && (
-        <button
-          onClick={() => {
-            handleRequest(user.uid, request.uid);
-          }}
-        >
-          Remove
-        </button>
-      )}
+      <div className="pending-request-details">
+        <p>User: {request.username}</p>
+        <p>Email: {request.email}</p>
+      </div>
+      <div className="pending-request-btns">
+        {handleRequest.name === "handleAcceptFriendRequest" && (
+          <button
+            onClick={() => {
+              handleRequest(request.uid, user.uid);
+            }}
+          >
+            Accept
+          </button>
+        )}
+        {handleRequest.name === "handleCancelFriendRequest" && (
+          <button
+            onClick={() => {
+              handleRequest(user.uid, request.uid);
+            }}
+          >
+            Remove
+          </button>
+        )}
+      </div>
     </div>
   );
 }

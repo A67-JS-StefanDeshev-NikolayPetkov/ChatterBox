@@ -1,0 +1,21 @@
+.friend-preview {
+  background-color: aqua;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.friend-preview-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.friend-preview-btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

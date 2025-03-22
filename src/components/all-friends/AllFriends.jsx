@@ -2,14 +2,35 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
-import { useContext } from "react";
+//Dependency
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 
-import "./AllFriends";
+//Services
+import { fetchUsersData } from "../../services/users.service";
+
+//Components
+import FriendPreview from "../friend-preview/FriendPreview";
+
+//CSS
+import "./AllFriends.css";
+
+//Component
 function AllFriends({ setOpenWindow }) {
   const { userData } = useContext(AppContext);
+  const [friendsData, setFriendsData] = useState(null);
 
-  if (!userData.friends || Object.keys(userData.friends).length < 1)
+  useEffect(() => {
+    fetchUsersData(Object.keys(userData.friends)).then((data) =>
+      setFriendsData(data)
+    );
+  }, []);
+
+  useEffect(() => {
+    console.log(friendsData);
+  }, [friendsData]);
+
+  if (!friendsData || friendsData.length < 1)
     return (
       <div className="all-friends-container center-flexbox">
         <div className="flex-column center-flexbox">
@@ -27,12 +48,10 @@ function AllFriends({ setOpenWindow }) {
     );
 
   return (
-    <div className="all-friends-container center-flexbox">
-      <div className="flex-column center-flexbox">
-        {Object.keys(userData.friends).map((friendId) => (
-          <p key={friendId}>{friendId}</p>
-        ))}
-      </div>
+    <div className="all-friends-container">
+      {friendsData.map((friend) => (
+        <FriendPreview friend={friend}></FriendPreview>
+      ))}
     </div>
   );
 }

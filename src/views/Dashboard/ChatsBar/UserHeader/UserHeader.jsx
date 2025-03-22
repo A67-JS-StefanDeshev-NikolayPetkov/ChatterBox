@@ -31,6 +31,7 @@ function UserHeader() {
       .then(() => {
         //Update the status locally
         userData.details.status = status;
+        console.log("status", userData, status);
       })
       .catch((e) => {
         console.error(e);
