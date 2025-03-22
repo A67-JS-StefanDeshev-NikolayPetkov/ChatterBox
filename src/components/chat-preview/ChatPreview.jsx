@@ -4,14 +4,19 @@ import "./ChatPreview.css";
 //Components
 import Avatar from "../avatar/Avatar";
 
+import { useEffect } from "react";
+
 function ChatPreview({ chat, isActive , setActiveChat }) {
+  useEffect(() => {
+    console.log("Chat in ChatPreview:", chat.imageUrl); // Debugging
+  }, [chat]);
   return (
     <div
       className={`chat-container ${isActive ? "active" : ""}`}
       onClick={setActiveChat}
     >
       <Avatar
-        imgUrl={chat.imgUrl}
+        imageUrl={chat.imageUrl}
         type="chat-image"
         status={chat.status}
       ></Avatar>

@@ -8,7 +8,8 @@ export const createTeam = async (
   name,
   ownerId,
   members = [],
-  channels = []
+  channels = [],
+  imageUrl = "default-team.png"
 ) => {
   if (name.length < 3 || name.length > 40) {
     throw new Error("Team name must be between 3 and 40 characters.");
@@ -25,7 +26,7 @@ export const createTeam = async (
   // Create a new team with a unique ID
   const newTeamRef = push(teamsRef);
   const teamId = newTeamRef.key;
-  const teamData = { id: teamId, name, owner: ownerId, members, channels };
+  const teamData = { id: teamId, name, owner: ownerId, members, channels, imageUrl };
 
   await set(newTeamRef, teamData);
 
@@ -63,7 +64,7 @@ export const getChannels = async (teamId) => {
 };
 
 // Function to create a new channel
-export const createChannel = async (teamId, title, participants, isPublic) => {
+export const createChannel = async (teamId, title, participants, isPublic, imageUrl = "default-chat.png") => {
   if (title.length < 3 || title.length > 40) {
     throw new Error("Channel title must be between 3 and 40 characters.");
   }
@@ -74,7 +75,9 @@ export const createChannel = async (teamId, title, participants, isPublic) => {
   const channelsRef = ref(db, `teams/${teamId}/channels`);
   const newChannelRef = push(channelsRef);
   const channelId = newChannelRef.key;
-  const channelData = { id: channelId, title, participants, isPublic };
+  const channelData = { id: channelId, title, participants, isPublic, imageUrl };
+
+  console.log("Saving Channel Data:", channelData);
 
   await set(newChannelRef, channelData);
   return channelData;
@@ -99,6 +102,5 @@ export const fetchChatData = async (chatId) => {
     }
   } catch (error) {
     throw new Error("Error fetching chat data");
-    throw error;
   }
 };

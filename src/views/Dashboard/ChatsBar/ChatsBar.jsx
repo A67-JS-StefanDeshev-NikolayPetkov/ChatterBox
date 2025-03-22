@@ -1,6 +1,7 @@
 //Misc imports
 import "./ChatsBar.css";
 import plusSign from "../../../assets/plus.svg";
+import chatLogo from "../../../assets/default-chat.png";
 
 //Dependency imports
 import { useContext, useState } from "react";
@@ -15,13 +16,16 @@ import ChatPreview from "../../../components/chat-preview/ChatPreview";
 import Modal from "../../../components/modal/Modal";
 import CreateMedia from "../../../components/createMedia/CreateMedia";
 import Avatar from "../../../components/avatar/Avatar";
+import { ref } from "firebase/database";
 
-function ChatsBar({ channels, activeChannelId, teamName }) {
+function ChatsBar({ channels, activeChannelId, teamName, selectedTeam, user, refreshChannels }) {
   const { userData } = useContext(AppContext);
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [chats, setChats] = useState([]);
+  const [channelImage, setChannelImage] = useState(null);
+  const [isPublic, setIsPublic] = useState(true);
   const [newChannelTitle, setNewChannelTitle] = useState("");
   const [error, setError] = useState(null);
 
@@ -32,15 +36,23 @@ function ChatsBar({ channels, activeChannelId, teamName }) {
 
   const handleCreateChannel = async () => {
     try {
+      if (!selectedTeam) {
+        throw new Error("No team selected.");
+      }
       validateMedia(newChannelTitle);
+
+      console.log("Channel Image Base64:", channelImage);
       // Create channel in Firebase
-      await createChannel(selectedTeam, newChannelTitle, [user.uid], isPublic);
+      await createChannel(selectedTeam, newChannelTitle, [user.uid], isPublic, channelImage);
+      refreshChannels();
       setError(null);
       setNewChannelTitle("");
+      setChannelImage(null);
       const channelsData = await getChannels(selectedTeam);
       setChats(channelsData ? Object.values(channelsData) : []);
+      // setChats((prevChats) => [...prevChats, newChannel]);
       setIsModalOpen(false);
-      handleNavigation(newChannelTitle);
+      // handleNavigation(newChannelTitle);
     } catch (err) {
       setError(err.message);
       setNewChannelTitle("");
@@ -68,6 +80,7 @@ function ChatsBar({ channels, activeChannelId, teamName }) {
             chat={{
               name: chat.title,
               status: chat.isPublic ? "Public" : "Private",
+              imageUrl: chat.imageUrl || chatLogo,
             }}
             isActive={chat.id === activeChannelId}
             setActiveChat={() => handleChannelClick(chat.id)}
@@ -89,15 +102,29 @@ function ChatsBar({ channels, activeChannelId, teamName }) {
                 setValue={setNewChannelTitle}
                 onSubmit={handleCreateChannel}
                 error={error}
-              />
+                setImage={setChannelImage}
+              >
+                <div className="channel-visibility-toggle">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={isPublic}
+                      onChange={(e) => setIsPublic(e.target.checked)}
+                    />
+                    Public Channel
+                  </label>
+                </div>
+              </CreateMedia>
             </Modal>
           </div>
-          <Avatar
+          {channels && channels.length > 0 && (
+            <Avatar
             onClick={() => setIsModalOpen(true)}
             type="team"
             imageUrl={plusSign}
             name="Create Channel"
-          />
+            />
+          )}
         </div>
       </div>
     </div>

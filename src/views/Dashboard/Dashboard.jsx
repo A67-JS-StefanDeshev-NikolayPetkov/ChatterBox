@@ -1,5 +1,6 @@
 //Misc imports
 import "./Dashboard.css";
+import { getChannels } from "../../services/teams.service";
 
 //Component imports
 import TeamsBar from "./TeamsBar/TeamsBar";
@@ -17,6 +18,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function Dashboard() {
   const { user, userData } = useContext(AppContext);
   const [selectedTeamChannels, setSelectedTeamChannels] = useState([]);
+  const [selectedTeam, setSelectedTeam] = useState(null);
   const { teamName, channelId } = useParams();
   const { filter, chat} = useParams();
 
@@ -31,6 +33,11 @@ function Dashboard() {
     }
   }, []);
 
+  const fetchAndSetChannels = async (teamId) => {
+    const channelsData = await getChannels(teamId);
+    setSelectedTeamChannels(channelsData ? Object.values(channelsData) : []);
+  };
+
   if (!userData)
     return (
       <Center>
@@ -40,11 +47,17 @@ function Dashboard() {
 
   return (
     <div className="app-container">
-      <TeamsBar setSelectedTeamChannels={setSelectedTeamChannels} />
+      <TeamsBar 
+        setSelectedTeamChannels={setSelectedTeamChannels}
+        setSelectedTeam={setSelectedTeam}
+        />
       <ChatsBar 
         channels={selectedTeamChannels}
         activeChannelId={channelId}
         teamName={teamName}
+        selectedTeam={selectedTeam}
+        user={user}
+        refreshChannels={() => fetchAndSetChannels(selectedTeam)}
         />
       {isFriendsView ? (
         <FriendsWindow filter={filter} />

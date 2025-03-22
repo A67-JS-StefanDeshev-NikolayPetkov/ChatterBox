@@ -1,6 +1,6 @@
 import "./TeamsBar.css";
+import teamLogo from "../../../assets/default-team.png";
 import logo from "../../../assets/chatterbox-logo-nobackground-white.svg";
-import teamLogo from "../../../assets/chatterbox-logo-background-black.svg";
 import plusSign from "../../../assets/plus.svg";
 
 // Component imports
@@ -20,8 +20,9 @@ import { getTeams } from "../../../services/teams.service";
 import CreateMedia from "../../../components/createMedia/CreateMedia";
 import { validateMedia } from "../../../utils/helpers";
 
-function TeamsBar({ setSelectedTeamChannels }) {
+function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
   const [teamName, setTeamName] = useState("");
+  const [teamImage, setTeamImage] = useState(null);
   const [error, setError] = useState(null);
   const [teams, setTeams] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,6 +36,7 @@ function TeamsBar({ setSelectedTeamChannels }) {
       const teamsArray = Object.keys(teamsData).map((key) => ({
         id: key,
         name: teamsData[key].name,
+        imageUrl: teamsData[key].imageUrl,
       }));
       setTeams(teamsArray);
     } catch (error) {
@@ -60,9 +62,10 @@ function TeamsBar({ setSelectedTeamChannels }) {
     try {
       validateMedia(teamName);
       // Create team in Firebase
-      await createTeam(teamName, user.uid, [user.uid], []);
+      await createTeam(teamName, user.uid, [user.uid], [], teamImage);
       setError(null);
       setTeamName("");
+      setTeamImage(null);
       fetchTeams();
       setIsModalOpen(false);
     } catch (err) {
@@ -76,6 +79,7 @@ function TeamsBar({ setSelectedTeamChannels }) {
       const channelsData = await getChannels(teamId);
       const channelsArray = channelsData ? Object.values(channelsData) : [];
       setSelectedTeamChannels(channelsArray);
+      setSelectedTeam(teamId);
       const team = teams.find((team) => team.id === teamId);
       if (channelsArray.length > 0 && team) {
         navigate(`/${team.name}/${channelsArray[0].id}`);
@@ -103,7 +107,7 @@ function TeamsBar({ setSelectedTeamChannels }) {
               <Avatar
                 key={team.id}
                 type="team"
-                imageUrl={teamLogo}
+                imageUrl={team.imageUrl || teamLogo}
                 onClick={() => handleTeamClick(team.id)}
                 name={team.name}
               />
@@ -126,6 +130,7 @@ function TeamsBar({ setSelectedTeamChannels }) {
                 setValue={setTeamName}
                 onSubmit={handleCreateTeam}
                 error={error}
+                setImage={setTeamImage}
               />
           </Modal>
         </div>

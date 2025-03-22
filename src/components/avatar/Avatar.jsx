@@ -2,7 +2,7 @@
 import Tooltip from "../tooltip/Tooltip";
 import "./Avatar.css";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 /**
  *
@@ -23,6 +23,10 @@ function Avatar({ imageUrl, type, status, name, onClick }) {
   const handleMouseLeave = () => {
     setIsTooltipVisible(false);
   };
+
+  useEffect(() => {
+    console.log("Avatar Image URL:", imageUrl); // Debugging
+  }, [imageUrl]);
 
   return (
     <div
