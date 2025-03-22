@@ -34,7 +34,7 @@ function AllFriends({ filtered }) {
       chatId = await checkIfDmsExist(userData.chats, receiverUid);
 
     if (!chatId) chatId = await startDms(user.uid, receiverUid);
-    navigate(`/${userData.details.username}/chats/${chatId}`);
+    navigate(`/${userData.details.username}/${chatId}`);
   }
 
   function handleRemoveFromFriends(senderUid, receiverUid) {

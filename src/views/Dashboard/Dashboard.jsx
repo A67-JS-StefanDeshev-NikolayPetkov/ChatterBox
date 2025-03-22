@@ -19,10 +19,9 @@ function Dashboard() {
   const { user, userData } = useContext(AppContext);
   const [selectedTeamChannels, setSelectedTeamChannels] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
-  const { team, channelId } = useParams();
-  const { filter, chat } = useParams();
+  const { team, channelId, filter } = useParams();
 
-  const isFriendsView = !chat;
+  const isFriendsView = !channelId;
 
   const navigate = useNavigate();
 
@@ -64,7 +63,7 @@ function Dashboard() {
       {isFriendsView ? (
         <FriendsWindow filter={filter} />
       ) : (
-        <ChatWindow chatId={chat} />
+        <ChatWindow chatId={channelId} />
       )}
     </div>
   );

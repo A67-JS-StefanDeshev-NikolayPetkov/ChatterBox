@@ -67,7 +67,7 @@ function UserHeader() {
           icon={faUsers}
           className="icon-btn"
           onClick={() => {
-            if (!filter) navigate(`${userData.details.username}/friends/all`);
+            if (!filter) navigate(`/${userData.details.username}/friends/all`);
           }}
         ></FontAwesomeIcon>
         <PendingRequestsBubble></PendingRequestsBubble>
