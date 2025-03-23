@@ -7,9 +7,11 @@ import { useRef, useEffect } from "react";
 
 //Component imports
 import Button from "../../button/Button";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import FieldError from "../error/FieldError";
 
-function RegisterForm({ handleInput, handleSubmit, handleFileChange,  formData, errors }) {
+function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileChange,  formData, errors }) {
   const paragraphRef = useRef(null);
 
   useEffect(() => {
@@ -85,15 +87,12 @@ function RegisterForm({ handleInput, handleSubmit, handleFileChange,  formData, 
         </div>
         <div className="field-container">
           <label htmlFor="phoneNumber">Phone Number</label>
-          <input
-            className="register-input"
-            type="tel"
-            id="phoneNumber"
-            name="phoneNumber"
-            required
-            placeholder="Enter your phone number"
+          <PhoneInput
+            country={"bg"}
             value={formData.phoneNumber}
-            onChange={(e) => handleInput(e.target)}
+            onChange={(phone) => handlePhoneInput(phone)}
+            inputClass="phone-input"
+            containerClass="phone-input-container"
           />
           {errors.phoneNumber && <FieldError label={errors.phoneNumber}></FieldError>}
         </div>

@@ -35,6 +35,7 @@ function Register() {
     username: "",
     email: "",
     password: "",
+    phoneNumber: "",
     profilePicture: null,
   });
   const navigate = useNavigate();
@@ -51,6 +52,9 @@ function Register() {
     if (!validatePassword(formData.password)) {
       newErrors.password = "Invalid password.";
     }
+    if (!formData.phoneNumber || formData.phoneNumber.length < 10) {
+      newErrors.phoneNumber = "Invalid phone number.";
+    }
     if (!formData.profilePicture) {
       newErrors.profilePicture = "Profile picture is required.";
     }
@@ -62,6 +66,10 @@ function Register() {
     const newFormData = ({ ...formData, [eventTarget.name]: eventTarget.value });
     newFormData[eventTarget.name] = eventTarget.value;
     setFormData(newFormData);
+  };
+
+  const handlePhoneInput = function (phone) {
+    setFormData({ ...formData, phoneNumber: phone });
   };
 
   const handleFileChange = (e) => {
@@ -102,6 +110,7 @@ function Register() {
           username: formData.username,
           uid: userCredentials.user.uid,
           email: userCredentials.user.email,
+          phoneNumber: formData.phoneNumber,
           profilePicture: formData.profilePicture,
         });
 
@@ -147,6 +156,7 @@ function Register() {
       <RegisterForm
         handleSubmit={handleSubmit}
         handleInput={handleInput}
+        handlePhoneInput={handlePhoneInput}
         handleFileChange={handleFileChange}
         formData={formData}
         errors={errors}
