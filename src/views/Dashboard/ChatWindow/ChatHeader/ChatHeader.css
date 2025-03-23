@@ -1,7 +1,7 @@
 .active-chat-header {
   background-color: blueviolet;
   border-bottom: 1px solid gainsboro;
-  height: 61px;
+  min-height: 61px;
   display: flex;
   align-items: center;
   gap: 10px;

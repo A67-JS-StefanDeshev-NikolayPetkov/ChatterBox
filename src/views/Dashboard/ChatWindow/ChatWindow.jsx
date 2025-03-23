@@ -18,8 +18,8 @@ function ChatWindow({ chatId }) {
   const [receiversData, setReceiversData] = useState(null);
   const { user } = useContext(AppContext);
 
+  //Fetch chat and members data
   useEffect(() => {
-    console.log("Chat ID:", chatId);
     if (chatId) {
       fetchChatData(chatId)
         .then((data) => {
@@ -27,7 +27,7 @@ function ChatWindow({ chatId }) {
           data.members = Object.keys(data.members).filter(
             (member) => member !== user.uid
           );
-
+          data.uid = chatId;
           setChatData(data);
           return fetchUsersData(data.members);
         })
@@ -35,12 +35,10 @@ function ChatWindow({ chatId }) {
           setReceiversData(data);
         })
         .catch((error) => {
-          throw new Error("Error fetching chat data");
+          throw new Error(error.message);
         });
     }
-  }, [chatId]);
-
-  useEffect(() => console.log(receiversData), [receiversData]);
+  }, []);
 
   if (!chatData || !receiversData)
     return (
@@ -53,8 +51,9 @@ function ChatWindow({ chatId }) {
     <div className="active-chat-window">
       <ChatHeader receiversData={receiversData}></ChatHeader>
       <ChatBody
+        setChatData={setChatData}
         receiversData={receiversData}
-        messages={chatData.messages ? chatData.messages : []}
+        chatData={chatData}
       ></ChatBody>
     </div>
   );

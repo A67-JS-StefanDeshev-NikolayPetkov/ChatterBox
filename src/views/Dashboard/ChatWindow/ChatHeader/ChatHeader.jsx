@@ -13,7 +13,6 @@ import { faVideo } from "@fortawesome/free-solid-svg-icons";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 
 function ChatHeader({ receiversData }) {
-  console.log("test", receiversData);
   return (
     <div className="active-chat-header">
       <Avatar

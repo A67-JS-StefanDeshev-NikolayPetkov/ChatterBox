@@ -29,6 +29,8 @@ function AllFriends({ filtered }) {
 
   async function handleOpenChat(receiverUid) {
     console.log("opening chat", userData.details.username);
+    console.log("opening chat", receiverUid);
+
     let chatId;
     if (userData.chats)
       chatId = await checkIfDmsExist(userData.chats, receiverUid);
