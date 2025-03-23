@@ -34,7 +34,7 @@ function AllFriends({ filtered }) {
     let chatId;
     if (userData.chats)
       chatId = await checkIfDmsExist(userData.chats, receiverUid);
-
+    console.log("chatID after check", chatId);
     if (!chatId) chatId = await startDms(user.uid, receiverUid);
     navigate(`/${userData.details.username}/${chatId}`);
   }

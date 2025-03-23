@@ -1,7 +1,7 @@
 //Styles
 import "./ChatBody.css";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 
 import {
   sendMessage,
@@ -13,6 +13,7 @@ function ChatBody({ chatData, setChatData }) {
   const { user, userData } = useContext(AppContext);
   const [currentMessage, setCurrentMessage] = useState("");
   const [messages, setMessages] = useState(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     updateChatMessages(chatData.uid, setChatData);
@@ -28,6 +29,10 @@ function ChatBody({ chatData, setChatData }) {
     );
   }, [chatData]);
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div className="chat-body">
       <div className="messages-container">
@@ -39,30 +44,32 @@ function ChatBody({ chatData, setChatData }) {
               </div>
             ))
           : ""}
+        <div ref={messagesEndRef}></div>
       </div>
-      <div className="chat-input-container">
+      <form
+        className="chat-input-container"
+        onSubmit={(е) => {
+          е.preventDefault();
+          setCurrentMessage("");
+          sendMessage(
+            {
+              text: currentMessage,
+              sender: user.uid,
+              createdOn: Date.now(),
+              username: userData.details.username,
+            },
+            chatData.uid
+          );
+        }}
+      >
         <input
           type="text"
           placeholder="Type a message..."
           value={currentMessage}
           onChange={(e) => setCurrentMessage(e.target.value)}
         />
-        <button
-          onClick={() =>
-            sendMessage(
-              {
-                text: currentMessage,
-                sender: user.uid,
-                createdOn: Date.now(),
-                username: userData.details.username,
-              },
-              chatData.uid
-            )
-          }
-        >
-          Send
-        </button>
-      </div>
+        <button>Send</button>
+      </form>
     </div>
   );
 }
