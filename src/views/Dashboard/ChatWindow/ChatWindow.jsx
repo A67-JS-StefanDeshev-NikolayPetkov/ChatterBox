@@ -33,13 +33,8 @@ function ChatWindow({ chatId }) {
         .then((data) => {
           setReceiversData(data);
         })
-<<<<<<< Updated upstream
         .catch((error) => {
           throw new Error(error.message);
-=======
-           .catch((error) => {
-          throw new Error("Error fetching chat data");
->>>>>>> Stashed changes
         });
     }
   }, []);

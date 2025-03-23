@@ -17,31 +17,7 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-<<<<<<< Updated upstream
-    // if (user && userData) {
-    //   if (userData?.chats && Object.keys(userData.chats).length > 1) {
-    //     navigate(
-    //       `/${userData.details.username}/chats/${userData.details.chats}`
-    //     );
-    //   } else {
-    //     navigate(`/${userData.details.username}/friends/all`);
-    //   }
-    // }
-    if (user && userData) {
-      navigate(`/${userData.details.username}/friends/all`);
-    }
-=======
-    if (user && userData) 
-      // {
-      // if (userData?.chats && Object.keys(userData.chats).length > 1) {
-      //   navigate(
-      //     `/${userData.details.username}/chats/${userData.details.chats}`
-      //   );
-      // } else {
-        navigate(`/${userData.details.username}/friends/all`);
-    //   }
-    // }
->>>>>>> Stashed changes
+    if (user && userData) navigate(`/${userData.details.username}/friends/all`);
   }, [userData]);
 
   if (user && !userData)

@@ -42,7 +42,6 @@ function Login() {
   };
 
   useEffect(() => {
-<<<<<<< Updated upstream
     // if (user && userData) {
     //   if (userData?.chats && Object.keys(userData.chats).length > 1) {
     //     navigate(
@@ -55,18 +54,6 @@ function Login() {
     if (user && userData) {
       navigate(`/${userData.details.username}/friends/all`);
     }
-=======
-    if (user && userData)
-      //  {
-      // if (userData?.chats && Object.keys(userData.chats).length > 1) {
-      //   navigate(
-      //     `/${userData.details.username}/chats/${userData.details.chats}`
-      //   );
-      // } else {
-        navigate(`/${userData.details.username}/friends/all`);
-    //   }
-    // }
->>>>>>> Stashed changes
   }, [userData]);
 
   if (loading || (user && !userData))
