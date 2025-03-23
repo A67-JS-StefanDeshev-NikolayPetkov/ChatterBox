@@ -12,9 +12,8 @@
 .messages-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
   border-radius: 25px;
-  padding: 10px;
+  padding: 0 10px 10px 10px;
   background-color: aqua;
   flex-grow: 1;
   overflow-y: auto;
@@ -53,4 +52,61 @@
 
 .chat-input-container button:hover {
   background: #0056b3;
+}
+
+.first-message-container {
+  display: flex;
+  gap: 10px;
+  /* background-color: red; */
+  margin-top: 15px;
+}
+
+.first-message {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.first-message-timestamp {
+  font-size: 14px;
+  color: rgb(63, 63, 63);
+  font-weight: normal;
+}
+
+.first-message-container:hover {
+  background-color: rgb(254, 87, 87);
+}
+
+.sender-avatar-container {
+  width: 62px;
+  /* background-color: #0056b3; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.subsequent-message {
+  /* background-color: red; */
+  display: flex;
+  gap: 10px;
+}
+
+.subsequent-message-timestamp {
+  min-width: 62px;
+  max-width: 62px;
+  /* background-color: green; */
+  font-size: 14px;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+.subsequent-message:hover {
+  background-color: rgb(254, 87, 87);
+}
+.subsequent-message:hover .subsequent-message-timestamp {
+  opacity: 1;
 }
