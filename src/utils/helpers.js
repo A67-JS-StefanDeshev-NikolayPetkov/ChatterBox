@@ -1,3 +1,5 @@
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
 export const validateUsername = function (username) {
   return /^[a-zA-Z0-9_]{3,20}$/.test(username);
 };
@@ -20,3 +22,13 @@ export const validateMedia = function (media) {
     throw new Error(`${media} name should be between 3 and 40 symbols.`);
   }
 }
+
+export const validatePhoneNumber = function (phoneNumber, countryCode = "BG") {
+  try {
+    const phoneNumberObj = parsePhoneNumberFromString(phoneNumber, countryCode);
+    return phoneNumberObj?.isValid() || false;
+  } catch (error) {
+    console.error("Phone number validation error:", error);
+    return false;
+  }
+};

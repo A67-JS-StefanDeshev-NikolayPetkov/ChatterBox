@@ -2,6 +2,7 @@ import {
   validateEmail,
   validatePassword,
   validateUsername,
+  validatePhoneNumber,
 } from "../../utils/helpers";
 
 //Misc imports
@@ -52,8 +53,8 @@ function Register() {
     if (!validatePassword(formData.password)) {
       newErrors.password = "Invalid password.";
     }
-    if (!formData.phoneNumber || formData.phoneNumber.length < 10) {
-      newErrors.phoneNumber = "Invalid phone number.";
+    if (!validatePhoneNumber(formData.phoneNumber, "BG")) {
+      newErrors.phoneNumber = "Invalid phone number for the selected country.";
     }
     if (!formData.profilePicture) {
       newErrors.profilePicture = "Profile picture is required.";
@@ -86,6 +87,11 @@ function Register() {
   const handleSubmit = async function (e) {
     e.preventDefault();
     setLoading(true);
+
+    if (!validateRegistrationForm()) {
+      setLoading(false);
+      return;
+    }
 
     //If the form data is valid
     if (validateRegistrationForm()) {

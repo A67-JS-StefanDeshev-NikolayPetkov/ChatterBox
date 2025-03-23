@@ -103,7 +103,7 @@ function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileC
           <PhoneInput
             country={"bg"}
             value={formData.phoneNumber}
-            onChange={(phone) => handlePhoneInput(phone)}
+            onChange={(phone, country) => handlePhoneInput(phone, country)}
             required
             inputClass="phone-input"
             containerClass="phone-input-container"
