@@ -160,6 +160,7 @@ function Register() {
         handleFileChange={handleFileChange}
         formData={formData}
         errors={errors}
+        setErrors={setErrors}
       ></RegisterForm>
     </div>
   );

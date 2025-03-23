@@ -226,3 +226,32 @@ export async function fetchUsersData(userUids) {
 
   return requestsData.length > 0 ? requestsData : null;
 }
+
+export const updateUserDetails = async (uid, details) => {
+  const userRef = ref(db, `users/${uid}/details`);
+  return set(userRef, details);
+};
+
+export const deleteUserProfile = async (uid) => {
+  try {
+    const userRef = ref(db, `users/${uid}`);
+    await set(userRef, null);
+
+    const detailsRef = ref(db, `users/${uid}/details/status`);
+    await set(detailsRef, null);
+
+    const friendsRef = ref(db, `friends/${uid}`);
+    await set(friendsRef, null);
+
+    const messagesRef = ref(db, `messages/${uid}`);
+    await set(messagesRef, null);
+
+    const teamsRef = ref(db, `teams/${uid}`);
+    await set(teamsRef, null);
+
+    console.log(`User data for UID ${uid} has been deleted.`);
+  } catch (error) {
+    console.error(`Error deleting user data for UID ${uid}:`, error);
+    throw error;
+  }
+};

@@ -19,6 +19,7 @@ function ChatWindow({ chatId }) {
   const { user } = useContext(AppContext);
 
   useEffect(() => {
+    console.log("Chat ID:", chatId);
     if (chatId) {
       fetchChatData(chatId)
         .then((data) => {

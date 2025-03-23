@@ -11,17 +11,30 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import FieldError from "../error/FieldError";
 
-function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileChange,  formData, errors }) {
+function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileChange,  formData, errors, setErrors }) {
   const paragraphRef = useRef(null);
 
   useEffect(() => {
     if (errors.message) paragraphRef.current.focus();
   }, [errors.message]);
 
+  const validateForm = (e) => {
+    e.preventDefault();
+    setErrors({});
+    if (!formData.phoneNumber || formData.phoneNumber.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        phoneNumber: "Phone number is required.",
+      }));
+      return;
+    }
+    handleSubmit(e);
+  };
+
   return (
     <form
       className="register-form"
-      onSubmit={handleSubmit}
+      onSubmit={validateForm}
     >
       <h2>Register</h2>
 
@@ -91,6 +104,7 @@ function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileC
             country={"bg"}
             value={formData.phoneNumber}
             onChange={(phone) => handlePhoneInput(phone)}
+            required
             inputClass="phone-input"
             containerClass="phone-input-container"
           />

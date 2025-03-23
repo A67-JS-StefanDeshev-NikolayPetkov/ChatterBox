@@ -1,6 +1,6 @@
 //Font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faRightToBracket, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 //CSS
 import "./UserHeader.css";
@@ -71,11 +71,16 @@ function UserHeader() {
           }}
         ></FontAwesomeIcon>
         <PendingRequestsBubble></PendingRequestsBubble>
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon={faRightToBracket}
           className="icon-btn"
           onClick={handleLogout}
-        ></FontAwesomeIcon>
+        ></FontAwesomeIcon> */}
+        <FontAwesomeIcon
+        icon={faEdit}
+        className="icon-btn edit-profile-btn"
+        onClick={() => navigate(`/${userData.details.username}/friends/settings`)}
+      ></FontAwesomeIcon>
       </div>
     </div>
   );
