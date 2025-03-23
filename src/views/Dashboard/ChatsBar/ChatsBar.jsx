@@ -16,7 +16,6 @@ import ChatPreview from "../../../components/chat-preview/ChatPreview";
 import Modal from "../../../components/modal/Modal";
 import CreateMedia from "../../../components/createMedia/CreateMedia";
 import Avatar from "../../../components/avatar/Avatar";
-import { ref } from "firebase/database";
 
 function ChatsBar({
   channels,
@@ -35,11 +34,6 @@ function ChatsBar({
   const [isPublic, setIsPublic] = useState(true);
   const [newChannelTitle, setNewChannelTitle] = useState("");
   const [error, setError] = useState(null);
-
-  const handleNavigation = (channelName) => {
-    if (typeof channelName !== "string") return;
-    navigate(`/dashboard/${channelName}/general`);
-  };
 
   const handleCreateTeamChat = async () => {
     try {

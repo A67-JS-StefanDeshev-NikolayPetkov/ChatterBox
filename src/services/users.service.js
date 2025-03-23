@@ -8,6 +8,7 @@ import {
   onValue,
   onDisconnect,
   runTransaction,
+  update,
 } from "firebase/database";
 import { db } from "../config/firebase-config";
 
@@ -234,6 +235,18 @@ export const updateUserDetails = async (uid, details) => {
 
 export const deleteUserProfile = async (uid) => {
   try {
+    const UserTeamsRef = ref(db, `users/${uid}/teams`);
+    const teamsSnapshot = await get(UserTeamsRef);
+    const userTeams = teamsSnapshot.val();
+
+    if (userTeams) {
+      const updates = {};
+      Object.keys(userTeams).forEach((teamId) => {
+        updates[`teams/${teamId}/members/${uid}`] = null;
+      });
+      await update(ref(db), updates);
+    }
+
     const userRef = ref(db, `users/${uid}`);
     await set(userRef, null);
 
@@ -248,10 +261,7 @@ export const deleteUserProfile = async (uid) => {
 
     const teamsRef = ref(db, `teams/${uid}`);
     await set(teamsRef, null);
-
-    console.log(`User data for UID ${uid} has been deleted.`);
   } catch (error) {
-    console.error(`Error deleting user data for UID ${uid}:`, error);
-    throw error;
+    throw new Error(`Error deleting user data for UID ${uid}:`);
   }
 };

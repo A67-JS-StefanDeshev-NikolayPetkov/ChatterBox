@@ -6,6 +6,7 @@ import "./CreateMedia.css";
 
 function CreateMedia({ title, placeholder, value, setValue, onSubmit, error, setImage }) {
   const [fileName, setFileName] = useState("");
+  const [previewImage, setPreviewImage] = useState(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -13,6 +14,7 @@ function CreateMedia({ title, placeholder, value, setValue, onSubmit, error, set
       setFileName(file.name);
       const reader = new FileReader();
       reader.onloadend = () => {
+        setPreviewImage(reader.result);
         setImage(reader.result);
       };
       reader.readAsDataURL(file);
@@ -29,7 +31,15 @@ function CreateMedia({ title, placeholder, value, setValue, onSubmit, error, set
         className="team-input"
       />
       <label htmlFor="file-upload" className="custom-file-label">
-        Choose File
+        {previewImage ? (
+          <img
+            src={previewImage}
+            alt="Preview"
+            className="image-preview"
+          />
+        ) : (
+          <div className="image-placeholder">Click to upload an image</div>
+        )}
       </label>
       <input
         id="file-upload"
@@ -37,6 +47,7 @@ function CreateMedia({ title, placeholder, value, setValue, onSubmit, error, set
         accept="image/*"
         onChange={handleFileChange}
         className="image-input"
+        style={{ display: "none" }}
       />
       {fileName && <p className="file-name">Selected: {fileName}</p>}
       <SubmitButton

@@ -1,4 +1,4 @@
-import { get, set, ref, push } from "firebase/database";
+import { get, set, ref, push, update } from "firebase/database";
 import { db } from "../config/firebase-config";
 
 const teamsRef = ref(db, "teams/");
@@ -36,6 +36,12 @@ export const createTeam = async (
   };
 
   await set(newTeamRef, teamData);
+
+  const updates = {};
+  members.forEach((memberUid) => {
+    updates[`users/${memberUid}/teams/${teamId}`] = true;
+  });
+  await update(ref(db), updates);
 
   //Create a default "General" channel for the team
   await createDefaultChannel(teamId, "General", [ownerId], true);
@@ -191,5 +197,15 @@ export const fetchChatData = async (chatId) => {
     }
   } catch (error) {
     throw new Error("Error fetching chat data");
+  }
+};
+
+export const getUserTeams = async (userId) => {
+  try {
+    const userTeamsRef = ref(db, `users/${userId}/teams`);
+    const userTeamsSnapshot = await get(userTeamsRef);
+    return userTeamsSnapshot.val();
+  } catch (error) {
+    throw new Error("Failed to fetch user teams");
   }
 };

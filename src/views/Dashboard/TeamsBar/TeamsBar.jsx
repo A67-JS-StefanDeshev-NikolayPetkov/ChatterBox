@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import { createTeam, getChannels } from "../../../services/teams.service";
 import { AppContext } from "../../../context/AppContext";
-import { getTeams } from "../../../services/teams.service";
+import { getTeams, getUserTeams } from "../../../services/teams.service";
 import CreateMedia from "../../../components/createMedia/CreateMedia";
 import { validateMedia } from "../../../utils/helpers";
 
@@ -28,19 +28,23 @@ function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
   // Fetch teams from Firebase
   const fetchTeams = async () => {
     try {
-      const teamsData = await getTeams();
-      const teamsArray = Object.keys(teamsData)
-        .map((key) => ({
-          id: key,
-          name: teamsData[key].name,
-          imageUrl: teamsData[key].imageUrl,
-          members: teamsData[key].members,
-        }))
-        .filter((team) => team.members && team.members.includes(user.uid));
-      setTeams(teamsArray);
+      const userTeams = await getUserTeams(user.uid);
+  
+      if (userTeams) {
+        const teamsData = await getTeams();
+        const teamsArray = Object.keys(teamsData)
+          .filter((teamId) => userTeams[teamId])
+          .map((teamId) => ({
+            id: teamId,
+            name: teamsData[teamId].name,
+            imageUrl: teamsData[teamId].imageUrl,
+            members: teamsData[teamId].members,
+          }));
+        setTeams(teamsArray);
+      }
     } catch (error) {
       setError("Failed to load teams");
-    } finally {
+    }finally {
       setError(null);
     }
   };
@@ -49,13 +53,6 @@ function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
   useEffect(() => {
     fetchTeams();
   }, []);
-
-  const handleNavigation = (teamId, channelName) => {
-    if (typeof channelName !== "string" || typeof teamId !== "string") return;
-    const team = teams.find((team) => team.id === teamId);
-    team ? team.name : "";
-    navigate(`/dashboard/${channelName}/general`);
-  };
 
   const handleCreateTeam = async () => {
     try {

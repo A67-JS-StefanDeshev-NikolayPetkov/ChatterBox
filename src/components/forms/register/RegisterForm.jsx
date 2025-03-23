@@ -111,19 +111,27 @@ function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileC
           {errors.phoneNumber && <FieldError label={errors.phoneNumber}></FieldError>}
         </div>
         <div className="picture-container">
-          <label htmlFor="profilePicture">Profile Picture</label>
           <label htmlFor="profilePicture" className="custom-file-label">
-            Choose file
-          </label>
-          <input
-            type="file"
-            id="profilePicture"
-            name="profilePicture"
-            accept="image/*"
-            required
-            onChange={handleFileChange}
+          {formData.profilePicture ? (
+          <img
+            src={formData.profilePicture}
+            alt="Profile Preview"
+            className="profile-preview"
           />
-          {errors.profilePicture && <FieldError label={errors.profilePicture}></FieldError>}
+          ) : (
+        <div className="image-placeholder">Click to upload an image</div>
+          )}
+          </label>
+        <input
+          type="file"
+          id="profilePicture"
+          name="profilePicture"
+          accept="image/*"
+          required
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+        />
+        {errors.profilePicture && <FieldError label={errors.profilePicture}></FieldError>}
         </div>
       </div>
 

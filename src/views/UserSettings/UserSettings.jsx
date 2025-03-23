@@ -5,6 +5,9 @@ import { updateUserDetails, deleteUserProfile } from "../../services/users.servi
 import { logoutUser } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { reauthenticateWithCredential, EmailAuthProvider, deleteUser } from "firebase/auth";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 function UserSettings() {
   const { user, userData, setContext } = useContext(AppContext);
@@ -23,6 +26,19 @@ function UserSettings() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handlePhoneInputChange = (phone) => {
+    setFormData({ ...formData, phoneNumber: phone });
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    try {
+      const parsedNumber = parsePhoneNumberFromString(phoneNumber);
+      return parsedNumber?.isValid() || false;
+    } catch (error) {
+      setError("Phone number validation error");
+    }
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -35,6 +51,10 @@ function UserSettings() {
   };
 
   const handleSaveChanges = async () => {
+    if (!validatePhoneNumber(formData.phoneNumber)) {
+      setError("Invalid phone number. Please enter a valid phone number.");
+      return;
+    }
     try {
       await updateUserDetails(user.uid, formData);
       setContext((prev) => ({
@@ -109,24 +129,31 @@ function UserSettings() {
       </div>
       <div className="form-group">
         <label htmlFor="phoneNumber">Phone Number</label>
-        <input
-          type="tel"
-          id="phoneNumber"
-          name="phoneNumber"
+        <PhoneInput
+          country={"bg"}
           value={formData.phoneNumber}
-          onChange={handleInputChange}
+          onChange={handlePhoneInputChange}
+          inputClass="phone-input"
+          containerClass="phone-input-container"
         />
       </div>
       <div className="form-group">
-        <label htmlFor="profilePicture">Profile Picture</label>
-        <input type="file" id="profilePicture" onChange={handleFileChange} />
-        {formData.profilePicture && (
+        <label>Profile Picture</label>
+        <label htmlFor="profilePicture" className="profile-picture-label">
           <img
-            src={formData.profilePicture}
+            src={formData.profilePicture || "default-avatar.png"}
             alt="Profile Preview"
             className="profile-preview"
           />
-        )}
+        </label>
+        <input
+          type="file"
+          id="profilePicture"
+          name="profilePicture"
+          accept="image/*"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+        />
       </div>
       <div className="form-group">
         <label htmlFor="password">Password (required to delete account)</label>

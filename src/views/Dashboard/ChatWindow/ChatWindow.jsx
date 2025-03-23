@@ -23,7 +23,6 @@ function ChatWindow({ chatId }) {
     if (chatId) {
       fetchChatData(chatId)
         .then((data) => {
-          //transform object of members into array of members and remove logged in user
           data.members = Object.keys(data.members).filter(
             (member) => member !== user.uid
           );
@@ -34,8 +33,13 @@ function ChatWindow({ chatId }) {
         .then((data) => {
           setReceiversData(data);
         })
+<<<<<<< Updated upstream
         .catch((error) => {
           throw new Error(error.message);
+=======
+           .catch((error) => {
+          throw new Error("Error fetching chat data");
+>>>>>>> Stashed changes
         });
     }
   }, []);
