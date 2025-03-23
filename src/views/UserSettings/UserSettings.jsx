@@ -8,6 +8,8 @@ import { reauthenticateWithCredential, EmailAuthProvider, deleteUser } from "fir
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 function UserSettings() {
   const { user, userData, setContext } = useContext(AppContext);
@@ -20,19 +22,23 @@ function UserSettings() {
   });
 
   const [password, setPassword] = useState("");
+  const [countryCode, setCountryCode] = useState("bg");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handlePhoneInputChange = (phone) => {
-    setFormData({ ...formData, phoneNumber: phone });
+  const handlePhoneInputChange = (phone, country) => {
+    setFormData({ ...formData, phoneNumber: `+${phone}` });
+    setCountryCode(country.dialCode);
   };
 
   const validatePhoneNumber = (phoneNumber) => {
     try {
-      const parsedNumber = parsePhoneNumberFromString(phoneNumber);
+      const formattedNumber = phoneNumber.startsWith("+") ? phoneNumber : `+${phoneNumber}`;
+      const parsedNumber = parsePhoneNumberFromString(formattedNumber);
       return parsedNumber?.isValid() || false;
     } catch (error) {
       setError("Phone number validation error");
@@ -72,6 +78,10 @@ function UserSettings() {
 
   const handleCancelChanges = () => {
     navigate("/home");
+  };
+
+  const handlePasswordVisibilityToggle = () => {
+    setShowPassword((prev) => !prev);
   };
 
   const handleDeleteProfile = async () => {
@@ -130,11 +140,12 @@ function UserSettings() {
       <div className="form-group">
         <label htmlFor="phoneNumber">Phone Number</label>
         <PhoneInput
-          country={"bg"}
+          country={countryCode}
           value={formData.phoneNumber}
           onChange={handlePhoneInputChange}
           inputClass="phone-input"
           containerClass="phone-input-container"
+          enableSearch
         />
       </div>
       <div className="form-group">
@@ -155,16 +166,25 @@ function UserSettings() {
           style={{ display: "none" }}
         />
       </div>
-      <div className="form-group">
+      <div className="form-group password-group">
         <label htmlFor="password">Password (required to delete account)</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
-        />
+        <div className="password-input-container">
+          <input
+            type={showPassword ? "text" : "password"} // Toggle input type
+            id="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+          />
+          <button
+            type="button"
+            className="toggle-password-btn"
+            onClick={handlePasswordVisibilityToggle}
+          >
+            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+          </button>
+        </div>
       </div>
       <button onClick={handleSaveChanges} className="save-btn">
         Save Changes
