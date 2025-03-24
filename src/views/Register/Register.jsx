@@ -45,7 +45,7 @@ function Register() {
     const newErrors = {};
 
     if (!validateUsername(formData.username)) {
-      newErrors.username = "Invalid username.";
+      newErrors.username = "Username must be 5-35 characters.";
     }
     if (!validateEmail(formData.email)) {
       newErrors.email = "Invalid email.";

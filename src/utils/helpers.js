@@ -1,7 +1,13 @@
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 export const validateUsername = function (username) {
-  return /^[a-zA-Z0-9_]{3,20}$/.test(username);
+  if (!username.trim()) {
+    return false;
+  }
+  if (username.length < 5 || username.length > 35) {
+    return false;
+  }
+  return true;
 };
 
 export const validateEmail = function (email) {

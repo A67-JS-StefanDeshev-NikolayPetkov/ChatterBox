@@ -28,6 +28,13 @@ function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileC
       }));
       return;
     }
+    if (!formData.profilePicture) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        profilePicture: "Profile picture is required!",
+      }));
+      return;
+    }
     handleSubmit(e);
   };
 
@@ -127,7 +134,6 @@ function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileC
           id="profilePicture"
           name="profilePicture"
           accept="image/*"
-          required
           onChange={handleFileChange}
           style={{ display: "none" }}
         />
