@@ -1,4 +1,4 @@
-import { get, set, ref, push, update } from "firebase/database";
+import { get, set, ref, push, update, runTransaction } from "firebase/database";
 import { db } from "../config/firebase-config";
 
 const teamsRef = ref(db, "teams/");
@@ -33,19 +33,45 @@ export const createTeam = async (
     members,
     channels,
     imageUrl,
-  };
+  };  
 
-  await set(newTeamRef, teamData);
+  try {
+    await set(newTeamRef, teamData);
 
-  const updates = {};
-  members.forEach((memberUid) => {
+    const updates = {};
+    members.forEach((memberUid) => {
     updates[`users/${memberUid}/teams/${teamId}`] = true;
   });
-  await update(ref(db), updates);
+    await update(ref(db), updates);
 
-  //Create a default "General" channel for the team
-  await createDefaultChannel(teamId, "General", [ownerId], true);
-  return teamData;
+    // Increment the teamsCount
+    const teamsCountRef = ref(db, "teamsCount");
+    await runTransaction(teamsCountRef, (currentCount) => {
+      return (currentCount || 0) + 1;
+    });
+      //Create a default "General" channel for the team
+    await createDefaultChannel(teamId, "General", [ownerId], true);
+
+    return teamData;
+  } catch (error) {
+    throw new Error("Error creating team: " + error.message);
+  }
+};
+
+// function to delete the team
+export const deleteTeam = async (teamId) => {
+  try {
+    const teamRef = ref(db, `teams/${teamId}`);
+    await set(teamRef, null);
+
+    // Decrement the teamsCount
+    const teamsCountRef = ref(db, "teamsCount");
+    await runTransaction(teamsCountRef, (currentCount) => {
+      return (currentCount || 1) - 1;
+    });
+  } catch (error) {
+    throw new Error("Error deleting team: " + error.message);
+  }
 };
 
 //function to get all teams
@@ -126,16 +152,17 @@ export const getUserTeams = async (userId) => {
 };
 
 //Function must be reworked and fetch only *teams* count
-export const getChatsCount = async () => {
+export const getTeamsCount = async () => {
   try {
-    const chatsRef = ref(db, "chats");
-    const snapshot = await get(chatsRef);
+    const teamsCountRef = ref(db, "teamsCount");
+    const snapshot = await get(teamsCountRef);
+
     if (snapshot.exists()) {
-      const chats = snapshot.val();
-      return Object.keys(chats).length;
+      return snapshot.val();
     }
+
     return 0;
   } catch (error) {
-    throw new Error("Error fetching chats count");
+    throw new Error("Error fetching teams count: " + error.message);
   }
 };

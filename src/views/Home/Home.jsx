@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { getUserCount } from "../../services/users.service";
-import { getChatsCount } from "../../services/teams.service";
+import { getTeamsCount } from "../../services/teams.service";
 
 //Components
 import Header from "../../components/header/Header";
@@ -19,16 +19,16 @@ function Home() {
   const navigate = useNavigate();
 
   const [usersCount, setUsersCount] = useState(0);
-  const [chatsCount, setChatsCount] = useState(0);
+  const [teamsCount, setTeamsCount] = useState(0);
 
   useEffect(() => {
     const fetchCounts = async () => {
-      const [userCount, chatCount] = await Promise.all([
+      const [userCount, teamCount] = await Promise.all([
         getUserCount(),
-        getChatsCount(),
+        getTeamsCount(),
       ]);
       setUsersCount(userCount);
-      setChatsCount(chatCount);
+      setTeamsCount(teamCount);
     };
     fetchCounts();
   }, []);
@@ -76,7 +76,7 @@ function Home() {
               <p>users</p>
             </div>
             <div className="stat-container">
-              <p>{chatsCount}</p>
+              <p>{teamsCount}</p>
               <p>channels</p>
             </div>
           </div>
