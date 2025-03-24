@@ -52,6 +52,10 @@ function NavigationRoutes() {
         element={<Dashboard />}
       ></Route>
       <Route
+        path="/:filter"
+        element={<Dashboard />}
+      ></Route>
+      <Route
         path="*"
         element={<NotFound />}
       ></Route>

@@ -5,47 +5,34 @@ import plusSign from "../../../assets/plus.svg";
 
 // Component imports
 import Avatar from "../../../components/avatar/Avatar";
-import Modal from "../../../components/modal/Modal";
 
 // Dependency imports
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-import { createTeam, getChannels } from "../../../services/teams.service";
+import { getChannels } from "../../../services/teams.service";
 import { AppContext } from "../../../context/AppContext";
 import { getTeams, getUserTeams } from "../../../services/teams.service";
-import CreateMedia from "../../../components/createMedia/CreateMedia";
-import { validateMedia } from "../../../utils/helpers";
 
 function TeamsBar({ setTeamChannels }) {
-  const [teamName, setTeamName] = useState("");
-  const [teamImage, setTeamImage] = useState(null);
-  const [error, setError] = useState(null);
   const [teams, setTeams] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate();
   const { user } = useContext(AppContext);
+  const navigate = useNavigate();
 
   // Fetch teams from Firebase
   const fetchTeams = async () => {
-    try {
-      const userTeams = await getUserTeams(user.uid);
+    const userTeams = await getUserTeams(user.uid);
 
-      if (userTeams) {
-        const teamsData = await getTeams();
-        const teamsArray = Object.keys(teamsData)
-          .filter((teamId) => userTeams[teamId])
-          .map((teamId) => ({
-            id: teamId,
-            name: teamsData[teamId].name,
-            imageUrl: teamsData[teamId].imageUrl,
-            members: teamsData[teamId].members,
-          }));
-        setTeams(teamsArray);
-      }
-    } catch (error) {
-      setError("Failed to load teams");
-    } finally {
-      setError(null);
+    if (userTeams) {
+      const teamsData = await getTeams();
+      const teamsArray = Object.keys(teamsData)
+        .filter((teamId) => userTeams[teamId])
+        .map((teamId) => ({
+          id: teamId,
+          name: teamsData[teamId].name,
+          imageUrl: teamsData[teamId].imageUrl,
+          members: teamsData[teamId].members,
+        }));
+      setTeams(teamsArray);
     }
   };
 
@@ -53,22 +40,6 @@ function TeamsBar({ setTeamChannels }) {
   useEffect(() => {
     fetchTeams();
   }, []);
-
-  const handleCreateTeam = async () => {
-    try {
-      validateMedia(teamName);
-      // Create team in Firebase
-      await createTeam(teamName, user.uid, [user.uid], [], teamImage);
-      setError(null);
-      setTeamName("");
-      setTeamImage(null);
-      fetchTeams();
-      setIsModalOpen(false);
-    } catch (err) {
-      setError(err.message);
-      setTeamName("");
-    }
-  };
 
   const handleTeamClick = async (teamId) => {
     console.log();
@@ -102,34 +73,12 @@ function TeamsBar({ setTeamChannels }) {
           />
         ))}
       </div>
-
-      <div className="add-team">
-        <div>
-          <Modal
-            isOpen={isModalOpen}
-            onClose={() => {
-              setIsModalOpen(false);
-              setError(null);
-            }}
-          >
-            <CreateMedia
-              title="Create Team"
-              placeholder="Enter team name"
-              value={teamName}
-              setValue={setTeamName}
-              onSubmit={handleCreateTeam}
-              error={error}
-              setImage={setTeamImage}
-            />
-          </Modal>
-        </div>
-        <Avatar
-          onClick={() => setIsModalOpen(true)}
-          type="team"
-          imageUrl={plusSign}
-          name="Create Team"
-        />
-      </div>
+      <Avatar
+        onClick={() => navigate(`/create-team`)}
+        type="team"
+        imageUrl={plusSign}
+        name="Create Team"
+      />
     </div>
   );
 }

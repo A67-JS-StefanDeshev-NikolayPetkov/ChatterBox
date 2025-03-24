@@ -9,6 +9,7 @@ import ChatWindow from "./ChatWindow/ChatWindow";
 import FriendsWindow from "./FriendsWindow/FriendsWindow";
 import Loader from "../../components/loader/Loader";
 import Center from "../../components/center/Center";
+import CreateTeamOrChat from "./CreateTeamOrChat/CreateTeamOrChat";
 
 //Dependency
 import { AppContext } from "../../context/AppContext";
@@ -18,10 +19,12 @@ import { useNavigate, useParams } from "react-router-dom";
 function Dashboard() {
   const { user, userData } = useContext(AppContext);
   const [teamChannels, setTeamChannels] = useState([]);
-  const [selectedTeam, setSelectedTeam] = useState(null);
   const { team, channelId, filter } = useParams();
 
-  const isFriendsView = !channelId;
+  const isFriendsView = !channelId && team;
+  const isCreateTeam = filter === "create-team";
+  const isCreateChat = channelId === "create-chat";
+  const isChatWindow = channelId && !isCreateChat;
 
   const navigate = useNavigate();
 
@@ -55,11 +58,14 @@ function Dashboard() {
         user={user}
         handleFetchAndSetTeamChats={() => handleFetchAndSetTeamChats(team)}
       />
-      {isFriendsView ? (
-        <FriendsWindow filter={filter} />
-      ) : (
-        <ChatWindow chatId={channelId} />
+      {isFriendsView && <FriendsWindow filter={filter} />}
+      {isCreateTeam && (
+        <CreateTeamOrChat whatToCreate={"team"}></CreateTeamOrChat>
       )}
+      {isCreateChat && (
+        <CreateTeamOrChat whatToCreate={"chat"}></CreateTeamOrChat>
+      )}
+      {isChatWindow && <ChatWindow></ChatWindow>}
     </div>
   );
 }
