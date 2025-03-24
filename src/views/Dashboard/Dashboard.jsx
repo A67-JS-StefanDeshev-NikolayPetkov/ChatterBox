@@ -32,8 +32,6 @@ function Dashboard() {
     }
   }, []);
 
-  function openChat(uid) {}
-
   const fetchAndSetChannels = async (teamId) => {
     const channelsData = await getChannels(teamId);
     setSelectedTeamChannels(channelsData ? Object.values(channelsData) : []);

@@ -9,7 +9,7 @@ import { AppContext } from "../../../context/AppContext";
 
 import { fetchUsersData } from "../../../services/users.service";
 
-import { fetchChatData } from "../../../services/teams.service";
+import { fetchChatData } from "../../../services/chat.service";
 import Center from "../../../components/center/Center";
 import Loader from "../../../components/loader/Loader";
 

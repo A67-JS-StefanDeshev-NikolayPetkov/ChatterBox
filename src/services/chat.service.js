@@ -14,7 +14,6 @@ import { db } from "../config/firebase-config";
 
 export const sendMessage = async function (messageObject, chatId) {
   const newMessageRef = await push(ref(db, `/chats/${chatId}/messages`));
-
   return await set(newMessageRef, messageObject);
 };
 
@@ -57,11 +56,6 @@ export const startDms = async function (senderUid, receiverUid) {
   const newChatRef = push(chatsRef);
   const chatId = newChatRef.key;
 
-  // Create and get first message id
-  // const messagesRef = ref(db, `chats/${chatId}/messages`);
-  // const newMessageRef = push(messagesRef);
-  // const messageId = newMessageRef.key;
-
   //get sender and receiver chat lists
   const senderSnapshot = await get(senderRef);
   const receiverSnapshot = await get(receiverRef);
@@ -77,7 +71,6 @@ export const startDms = async function (senderUid, receiverUid) {
   const chatData = {
     type: "dm",
     members: { [senderUid]: true, [receiverUid]: true },
-    // messages: { [messageId]: messageContent },
   };
 
   try {
@@ -90,8 +83,6 @@ export const startDms = async function (senderUid, receiverUid) {
     console.error(e);
   } finally {
   }
-
-  console.log(chatId);
 
   return chatId;
 };

@@ -53,6 +53,21 @@
 .chat-input-container button:hover {
   background: #0056b3;
 }
+.image-preview {
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+}
+
+.message-image {
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  margin-left: 72px;
+  border-radius: 5px;
+}
 
 .first-message-container {
   display: flex;

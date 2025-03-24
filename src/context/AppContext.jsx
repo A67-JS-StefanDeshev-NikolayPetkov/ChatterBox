@@ -31,7 +31,6 @@ export function AppContextProvider({ children }) {
   }
 
   function updateUserData() {
-    console.log("updating UserData");
     getAllUserDataByUid(user.uid)
       .then((snapshot) => {
         if (!snapshot.exists()) {

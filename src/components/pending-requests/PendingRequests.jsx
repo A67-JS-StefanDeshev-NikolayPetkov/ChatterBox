@@ -38,13 +38,7 @@ function PendingRequests({
 
   useEffect(() => {
     fetchRequestsData();
-    console.log("userdata was changed");
-    console.log(userData);
   }, [userData]);
-
-  useEffect(() => {
-    console.log(receivedRequestsData);
-  }, [receivedRequestsData]);
 
   return (
     <div className="pending-requests">

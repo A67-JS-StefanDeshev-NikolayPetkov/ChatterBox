@@ -18,7 +18,6 @@ function FriendsWindow() {
     foundUserUid,
     setAddButton
   ) {
-    console.log("handle cancel friend request running");
     cancelFriendRequest(userUid, foundUserUid);
     updateUserData();
     if (setAddButton) setAddButton(true);

@@ -13,7 +13,7 @@ import {
   removeFromFriends,
 } from "../../services/users.service";
 
-import { checkIfDmsExist, startDms } from "../../services/teams.service";
+import { checkIfDmsExist, startDms } from "../../services/chat.service";
 
 //Components
 import FriendPreview from "../friend-preview/FriendPreview";
@@ -28,13 +28,9 @@ function AllFriends({ filtered }) {
   const [friendsData, setFriendsData] = useState(null);
 
   async function handleOpenChat(receiverUid) {
-    console.log("opening chat", userData.details.username);
-    console.log("opening chat", receiverUid);
-
     let chatId;
     if (userData.chats)
       chatId = await checkIfDmsExist(userData.chats, receiverUid);
-    console.log("chatID after check", chatId);
     if (!chatId) chatId = await startDms(user.uid, receiverUid);
     navigate(`/${userData.details.username}/${chatId}`);
   }
@@ -79,8 +75,6 @@ function AllFriends({ filtered }) {
     const onlineFriends = friendsData.filter((friend) => {
       friend.status === "online";
     });
-
-    console.log("filtered");
 
     return onlineFriends.length > 0 ? (
       <div className="all-friends-container">
