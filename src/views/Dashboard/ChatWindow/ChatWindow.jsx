@@ -17,7 +17,7 @@ import Loader from "../../../components/loader/Loader";
 function ChatWindow() {
   const [chatData, setChatData] = useState(null);
   const [receiversData, setReceiversData] = useState(null);
-  const { user } = useContext(AppContext);
+  const { user, userData } = useContext(AppContext);
   const { channelId } = useParams();
 
   //Fetch chat and members data
@@ -39,9 +39,9 @@ function ChatWindow() {
           throw new Error(error.message);
         });
     }
-  }, []);
+  }, [channelId]);
 
-  if (!chatData || !receiversData)
+  if (!chatData)
     return (
       <Center>
         <Loader></Loader>
@@ -50,7 +50,13 @@ function ChatWindow() {
 
   return (
     <div className="active-chat-window">
-      <ChatHeader receiversData={receiversData}></ChatHeader>
+      <ChatHeader
+        receiversData={
+          receiversData
+            ? receiversData
+            : [user.uid, { status: userData.status }]
+        }
+      ></ChatHeader>
       <ChatBody
         setChatData={setChatData}
         receiversData={receiversData}

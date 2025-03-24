@@ -33,7 +33,7 @@ export const createTeam = async (
 
   try {
     await set(newTeamRef, teamData);
-    await set(userTeamsRef, { [teamId]: true });
+    await update(userTeamsRef, { [teamId]: true });
     await createTeamChat(teamId, "General", [ownerId], null);
 
     // const updates = {};
@@ -74,7 +74,7 @@ export const deleteTeam = async (teamId) => {
 export const getTeamsDetails = async (teams) => {
   let teamsDetails = await Promise.all(
     teams.map(async (teamId) => {
-      const teamDetails = await get(ref(db, `teams/${teamId}/details`));
+      const teamDetails = (await get(ref(db, `teams/${teamId}/details`))).val();
       teamDetails.id = teamId;
       return teamDetails;
     })
@@ -84,10 +84,20 @@ export const getTeamsDetails = async (teams) => {
 };
 
 // Function to get channels for a team
-export const getChatsDetails = async (chats) => {
+export const getChatsDetails = async (teamId, isUser) => {
+  const sourceRef = isUser
+    ? ref(db, `users/${teamId}/chats`)
+    : ref(db, `teams/${teamId}/chats`);
+  let chats = (await get(sourceRef)).val();
+  console.log("chats", chats);
   let chatsDetails = await Promise.all(
-    chats.map(async (chatId) => {
-      const chatDetails = await get(ref(db, `chats/${chatId}/details`));
+    Object.keys(chats).map(async (chatId) => {
+      const chatRef = isUser
+        ? ref(db, `chats/${chatId}`)
+        : ref(db, `chats/${chatId}/details`);
+      const chatDetails = (await get(chatRef)).val();
+
+      console.log(chatDetails);
       chatDetails.id = chatId;
       return chatDetails;
     })
@@ -117,7 +127,7 @@ export const createTeamChat = async (
   };
 
   await set(newChatRef, channelData);
-  await set(teamChatsRef, { [chatId]: true });
+  await update(teamChatsRef, { [chatId]: true });
 
   return channelData;
 };

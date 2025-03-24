@@ -33,7 +33,6 @@ function TeamsBar({ setTeamChannels }) {
 
   const handleTeamClick = async (teamId) => {
     const chatsData = await getChatsDetails(teamId);
-
     setTeamChannels(chatsData);
     navigate(`/${teamId}/${chatsData[0].id}`);
   };

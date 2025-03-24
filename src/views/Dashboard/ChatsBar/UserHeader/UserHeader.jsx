@@ -1,6 +1,10 @@
 //Font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faRightToBracket, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUsers,
+  faRightToBracket,
+  faEdit,
+} from "@fortawesome/free-solid-svg-icons";
 
 //CSS
 import "./UserHeader.css";
@@ -37,11 +41,6 @@ function UserHeader() {
       });
   }, [status]);
 
-  const handleLogout = () => {
-    onLogout();
-    navigate("/home");
-  };
-
   const handleStatus = (option) => setStatus(option);
 
   return (
@@ -67,7 +66,7 @@ function UserHeader() {
           icon={faUsers}
           className="icon-btn"
           onClick={() => {
-            if (!filter) navigate(`/${userData.details.username}/friends/all`);
+            if (!filter) navigate(`/${user.uid}/friends/all`);
           }}
         ></FontAwesomeIcon>
         <PendingRequestsBubble></PendingRequestsBubble>
@@ -77,10 +76,10 @@ function UserHeader() {
           onClick={handleLogout}
         ></FontAwesomeIcon> */}
         <FontAwesomeIcon
-        icon={faEdit}
-        className="icon-btn edit-profile-btn"
-        onClick={() => navigate(`/${userData.details.username}/friends/settings`)}
-      ></FontAwesomeIcon>
+          icon={faEdit}
+          className="icon-btn edit-profile-btn"
+          onClick={() => navigate(`/${user.uid}/friends/settings`)}
+        ></FontAwesomeIcon>
       </div>
     </div>
   );

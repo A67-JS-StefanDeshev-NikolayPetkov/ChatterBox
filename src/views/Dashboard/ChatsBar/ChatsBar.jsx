@@ -24,12 +24,11 @@ function ChatsBar({ channels, activeChannelId }) {
           <ChatPreview
             key={chat.id}
             chat={{
-              name: chat.title,
-              status: chat.isPublic ? "Public" : "Private",
+              name: chat.name,
               imageUrl: chat.imageUrl || chatLogo,
             }}
             isActive={chat.id === activeChannelId}
-            setActiveChat={() => handleChannelClick(chat.id)}
+            setActiveChat={() => navigate(`/${team}/${chat.id}`)}
           />
         ))}
         <div className="add-team">

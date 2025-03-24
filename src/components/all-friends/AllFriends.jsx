@@ -32,7 +32,7 @@ function AllFriends({ filtered }) {
     if (userData.chats)
       chatId = await checkIfDmsExist(userData.chats, receiverUid);
     if (!chatId) chatId = await startDms(user.uid, receiverUid);
-    navigate(`/${userData.details.username}/${chatId}`);
+    navigate(`/${user.uid}/${chatId}`);
   }
 
   function handleRemoveFromFriends(senderUid, receiverUid) {
@@ -64,7 +64,7 @@ function AllFriends({ filtered }) {
             icon={faPlusSquare}
             className="icon-btn icon-big"
             onClick={() => {
-              navigate(`/${userData.details.username}/friends/add`);
+              navigate(`/${user.uid}/friends/add`);
             }}
           />
         </div>

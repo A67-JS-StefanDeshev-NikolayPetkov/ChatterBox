@@ -10,11 +10,11 @@ import { AppContext } from "../../../../context/AppContext";
 function FriendsHeader() {
   const { filter } = useParams();
   const navigate = useNavigate();
-  const { userData } = useContext(AppContext);
+  const { user, userData } = useContext(AppContext);
 
   function handleClick(changeTo) {
     if (changeTo === filter) return;
-    navigate(`/${userData.details.username}/friends/${changeTo}`);
+    navigate(`/${user.uid}/friends/${changeTo}`);
   }
 
   return (

@@ -52,7 +52,7 @@ function Login() {
     //   }
     // }
     if (user && userData) {
-      navigate(`/${userData.details.username}/friends/all`);
+      navigate(`/${user.uid}/friends/all`);
     }
   }, [userData]);
 

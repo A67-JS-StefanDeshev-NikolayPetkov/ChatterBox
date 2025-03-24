@@ -7,6 +7,7 @@ import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 //Dependency
 import { useEffect, useState, useContext, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { AppContext } from "../../../../context/AppContext";
 
 //Component
@@ -22,7 +23,7 @@ function ChatBody({ chatData, setChatData, receiversData }) {
   const { user, userData } = useContext(AppContext);
   const [currentMessageText, setCurrentMessageText] = useState("");
   const [currentMessageImage, setCurrentMessageImage] = useState(null);
-
+  const { channelId } = useParams();
   const [messages, setMessages] = useState(null);
   const messagesEndRef = useRef(null);
   let lastSender = null;
@@ -40,8 +41,9 @@ function ChatBody({ chatData, setChatData, receiversData }) {
 
   //Add on value listener
   useEffect(() => {
-    updateChatMessages(chatData.uid, setChatData);
-  }, []);
+    const unsubscribe = updateChatMessages(chatData.uid, setChatData);
+    return () => unsubscribe();
+  }, [channelId]);
 
   //On chatData change get messages and sort them
   useEffect(() => {
@@ -81,12 +83,18 @@ function ChatBody({ chatData, setChatData, receiversData }) {
                       </div>
                     )}
                     {message[1].image && (
-                      <div
-                        className="message-image"
-                        style={{
-                          backgroundImage: `url(${message[1].image})`,
-                        }}
-                      ></div>
+                      <div className="message-image-container">
+                        <span className="subsequent-message-timestamp">
+                          {console.log(message[1].createdOn)}
+                          {new Date(message[1].createdOn).toLocaleTimeString()}
+                        </span>
+                        <div
+                          className="message-image"
+                          style={{
+                            backgroundImage: `url(${message[1].image})`,
+                          }}
+                        ></div>
+                      </div>
                     )}
                   </div>
                 );

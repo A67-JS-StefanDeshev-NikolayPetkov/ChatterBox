@@ -18,8 +18,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function Dashboard() {
   const { user, userData } = useContext(AppContext);
-  const [teamChannels, setTeamChannels] = useState([]);
   const { team, channelId, filter } = useParams();
+  const [teamChannels, setTeamChannels] = useState([]);
 
   const isFriendsView = !channelId && team;
   const isCreateTeam = filter === "create-team";
@@ -28,6 +28,16 @@ function Dashboard() {
 
   const navigate = useNavigate();
 
+  const handleFetchAndSetTeamChats = async (teamId) => {
+    const isUser = teamId === user.uid;
+    if (isUser) if (!userData?.chats) return;
+
+    const channelsData = await getChatsDetails(teamId, teamId === user.uid);
+
+    console.log(channelsData);
+    setTeamChannels(channelsData);
+  };
+
   //If no user, go to home page
   useEffect(() => {
     if (!user) {
@@ -35,10 +45,10 @@ function Dashboard() {
     }
   }, []);
 
-  const handleFetchAndSetTeamChats = async (teamId) => {
-    const channelsData = await getChatsDetails(teamId);
-    setTeamChannels(channelsData);
-  };
+  useEffect(() => {
+    console.log(team);
+    handleFetchAndSetTeamChats(team);
+  }, [team]);
 
   if (!userData)
     return (
@@ -56,7 +66,6 @@ function Dashboard() {
         team={team}
         selectedTeam={team}
         user={user}
-        handleFetchAndSetTeamChats={() => handleFetchAndSetTeamChats(team)}
       />
       {isFriendsView && <FriendsWindow filter={filter} />}
       {isCreateTeam && (

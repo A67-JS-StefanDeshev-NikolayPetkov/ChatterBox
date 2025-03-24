@@ -34,7 +34,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    if (user && userData) navigate(`/${userData.details.username}/friends/all`);
+    if (user && userData) navigate(`/${user.uid}/friends/all`);
   }, [userData]);
 
   if (user && !userData)
