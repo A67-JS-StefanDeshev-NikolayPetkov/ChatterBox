@@ -9,30 +9,20 @@ import Avatar from "../../../components/avatar/Avatar";
 // Dependency imports
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-import { getChannels } from "../../../services/teams.service";
+import { getChatsDetails } from "../../../services/teams.service";
 import { AppContext } from "../../../context/AppContext";
-import { getTeams, getUserTeams } from "../../../services/teams.service";
+import { getTeamsDetails } from "../../../services/teams.service";
 
 function TeamsBar({ setTeamChannels }) {
-  const [teams, setTeams] = useState([]);
-  const { user } = useContext(AppContext);
+  const [teams, setTeams] = useState(null);
+  const { user, userData } = useContext(AppContext);
   const navigate = useNavigate();
 
   // Fetch teams from Firebase
   const fetchTeams = async () => {
-    const userTeams = await getUserTeams(user.uid);
-
-    if (userTeams) {
-      const teamsData = await getTeams();
-      const teamsArray = Object.keys(teamsData)
-        .filter((teamId) => userTeams[teamId])
-        .map((teamId) => ({
-          id: teamId,
-          name: teamsData[teamId].name,
-          imageUrl: teamsData[teamId].imageUrl,
-          members: teamsData[teamId].members,
-        }));
-      setTeams(teamsArray);
+    if (userData.teams) {
+      const teamsData = await getTeamsDetails(Object.keys(userData.teams));
+      setTeams(teamsData);
     }
   };
 
@@ -42,13 +32,10 @@ function TeamsBar({ setTeamChannels }) {
   }, []);
 
   const handleTeamClick = async (teamId) => {
-    console.log();
-    const channelsData = await getChannels(teamId);
-    const channelsArray = channelsData ? Object.values(channelsData) : [];
-    console.log(channelsArray);
+    const chatsData = await getChatsDetails(teamId);
 
-    setTeamChannels(channelsArray);
-    navigate(`/${teamId}/${channelsArray[0].id}`);
+    setTeamChannels(chatsData);
+    navigate(`/${teamId}/${chatsData[0].id}`);
   };
 
   return (
@@ -63,15 +50,18 @@ function TeamsBar({ setTeamChannels }) {
         />
       </div>
       <div className="teams-list">
-        {teams.map((team) => (
-          <Avatar
-            key={team.id}
-            type="team"
-            imageUrl={team.imageUrl || teamLogo}
-            onClick={() => handleTeamClick(team.id)}
-            name={team.name}
-          />
-        ))}
+        {teams &&
+          teams.map((team) => {
+            return (
+              <Avatar
+                key={team.id}
+                type="team"
+                imageUrl={team?.imageUrl || teamLogo}
+                onClick={() => handleTeamClick(team.id)}
+                name={team.name}
+              />
+            );
+          })}
       </div>
       <Avatar
         onClick={() => navigate(`/create-team`)}

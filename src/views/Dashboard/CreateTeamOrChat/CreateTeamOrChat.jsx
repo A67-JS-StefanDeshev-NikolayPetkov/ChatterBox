@@ -16,14 +16,14 @@ function CreateTeamOrChat({ whatToCreate }) {
 
   const handleCreateTeamChat = async () => {
     validateMedia(name);
-    await createTeamChat(team, name, [user.uid], false, image);
+    await createTeamChat(team, name, [user.uid], image);
     setName("");
     setImage(null);
   };
 
   const handleCreateTeam = async () => {
     validateMedia(name);
-    await createTeam(name, user.uid, [user.uid], [], image);
+    await createTeam(name, user.uid, image);
     setName("");
     setImage(null);
   };

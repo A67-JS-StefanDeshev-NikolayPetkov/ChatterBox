@@ -1,6 +1,6 @@
 //Misc imports
 import "./Dashboard.css";
-import { getChannels } from "../../services/teams.service";
+import { getChatsDetails } from "../../services/teams.service";
 
 //Component imports
 import TeamsBar from "./TeamsBar/TeamsBar";
@@ -36,8 +36,8 @@ function Dashboard() {
   }, []);
 
   const handleFetchAndSetTeamChats = async (teamId) => {
-    const channelsData = await getChannels(teamId);
-    setTeamChannels(channelsData ? Object.values(channelsData) : []);
+    const channelsData = await getChatsDetails(teamId);
+    setTeamChannels(channelsData);
   };
 
   if (!userData)

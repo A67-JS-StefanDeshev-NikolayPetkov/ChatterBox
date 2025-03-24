@@ -7,8 +7,6 @@ const teamsRef = ref(db, "teams/");
 export const createTeam = async (
   name,
   ownerId,
-  members = [],
-  channels = [],
   imageUrl = "default-team.png"
 ) => {
   if (name.length < 3 || name.length > 40) {
@@ -24,33 +22,31 @@ export const createTeam = async (
   }
 
   // Create a new team with a unique ID
+  const userTeamsRef = ref(db, `users/${ownerId}/teams`);
+
   const newTeamRef = push(teamsRef);
   const teamId = newTeamRef.key;
   const teamData = {
-    id: teamId,
-    name,
-    owner: ownerId,
-    members,
-    channels,
-    imageUrl,
-  };  
+    details: { name, owner: ownerId, imageUrl },
+    members: { [ownerId]: true },
+  };
 
   try {
     await set(newTeamRef, teamData);
+    await set(userTeamsRef, { [teamId]: true });
+    await createTeamChat(teamId, "General", [ownerId], null);
 
-    const updates = {};
-    members.forEach((memberUid) => {
-    updates[`users/${memberUid}/teams/${teamId}`] = true;
-  });
-    await update(ref(db), updates);
+    // const updates = {};
+    // members.forEach((memberUid) => {
+    //   updates[`users/${memberUid}/teams/${teamId}`] = true;
+    // });
+    // await update(ref(db), updates);
 
     // Increment the teamsCount
-    const teamsCountRef = ref(db, "teamsCount");
+    const teamsCountRef = ref(db, "teams/teamsCount");
     await runTransaction(teamsCountRef, (currentCount) => {
       return (currentCount || 0) + 1;
     });
-      //Create a default "General" channel for the team
-    await createDefaultChannel(teamId, "General", [ownerId], true);
 
     return teamData;
   } catch (error) {
@@ -75,80 +71,55 @@ export const deleteTeam = async (teamId) => {
 };
 
 //function to get all teams
-export const getTeams = async () => {
-  try {
-    const teamsRef = ref(db, "teams");
-    const snapshot = await get(teamsRef);
-    if (snapshot.exists()) {
-      return snapshot.val();
-    }
-  } catch (error) {
-    throw new Error("Failed to load teams");
-  }
+export const getTeamsDetails = async (teams) => {
+  let teamsDetails = await Promise.all(
+    teams.map(async (teamId) => {
+      const teamDetails = await get(ref(db, `teams/${teamId}/details`));
+      teamDetails.id = teamId;
+      return teamDetails;
+    })
+  );
+
+  return teamsDetails;
 };
 
 // Function to get channels for a team
-export const getChannels = async (teamId) => {
-  try {
-    const channelsRef = ref(db, `teams/${teamId}/channels`);
-    const snapshot = await get(channelsRef);
-    if (snapshot.exists()) {
-      return snapshot.val();
-    }
-  } catch (error) {
-    console.error("Error fetching channels:", error);
-    throw error;
-  }
+export const getChatsDetails = async (chats) => {
+  let chatsDetails = await Promise.all(
+    chats.map(async (chatId) => {
+      const chatDetails = await get(ref(db, `chats/${chatId}/details`));
+      chatDetails.id = chatId;
+      return chatDetails;
+    })
+  );
+
+  return chatsDetails;
 };
 
 // Function to create a new channel
 export const createTeamChat = async (
   teamId,
-  title,
-  participants,
-  isPublic,
+  name,
+  creatorId,
   imageUrl = "default-chat.png"
 ) => {
-  if (title.length < 3 || title.length > 40) {
-    throw new Error("Channel title must be between 3 and 40 characters.");
+  if (name.length < 3 || name.length > 40) {
+    throw new Error("Channel name must be between 3 and 40 characters.");
   }
-  if (participants.length < 1) {
-    throw new Error("A channel must have at least one participant.");
-  }
+  const chatsRef = ref(db, `chats`);
+  const teamChatsRef = ref(db, `teams/${teamId}/chats`);
 
-  const channelsRef = ref(db, `teams/${teamId}/channels`);
-  const newChannelRef = push(channelsRef);
-  const channelId = newChannelRef.key;
+  const newChatRef = push(chatsRef);
+  const chatId = newChatRef.key;
   const channelData = {
-    id: channelId,
-    title,
-    participants,
-    isPublic,
-    imageUrl,
+    details: { name, imageUrl },
+    members: { [creatorId]: true },
   };
 
-  "Saving Channel Data:", channelData;
+  await set(newChatRef, channelData);
+  await set(teamChatsRef, { [chatId]: true });
 
-  await set(newChannelRef, channelData);
   return channelData;
-};
-
-// Function to create a default "General" channel if no channels exist
-export const createDefaultChannel = async (teamId, ownerId) => {
-  const channels = await getChannels(teamId);
-  if (!channels) {
-    await createTeamChat(teamId, "General", [ownerId], true);
-  }
-};
-
-export const getUserTeams = async (userId) => {
-  try {
-    const userTeamsRef = ref(db, `users/${userId}/teams`);
-    const userTeamsSnapshot = await get(userTeamsRef);
-    return userTeamsSnapshot.val();
-  } catch (error) {
-    throw new Error("Failed to fetch user teams");
-  }
 };
 
 //Function must be reworked and fetch only *teams* count
