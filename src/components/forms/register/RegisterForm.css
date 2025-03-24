@@ -69,7 +69,8 @@
   margin-top: 0px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  width: 100%;
 }
 
 .picture-container label {
@@ -91,12 +92,13 @@
 }
 
 .picture-container .custom-file-label {
-  display: inline-block;
-  padding: 10px 20px;
-  border: 2px solid #15bf20;
-  border-radius: 4px;
+  border: 1px dashed black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 110px;
+  text-align: center;
   background-color: transparent;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
 }
