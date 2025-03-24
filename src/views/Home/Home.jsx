@@ -1,7 +1,9 @@
 //Dependency
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { getUserCount } from "../../services/users.service";
+import { getChatsCount } from "../../services/chat.service";
 
 //Components
 import Header from "../../components/header/Header";
@@ -15,6 +17,18 @@ import Center from "../../components/center/Center";
 function Home() {
   const { user, userData } = useContext(AppContext);
   const navigate = useNavigate();
+
+  const [usersCount, setUsersCount] = useState(0);
+  const [chatsCount, setChatsCount] = useState(0);
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      const [userCount, chatCount] = await Promise.all([getUserCount(), getChatsCount()]);
+      setUsersCount(userCount);
+      setChatsCount(chatCount);
+    };
+    fetchCounts();
+  }, []);
 
   useEffect(() => {
     if (user && userData) navigate(`/${userData.details.username}/friends/all`);
@@ -55,11 +69,11 @@ function Home() {
           </div>
           <div className="stats-container">
             <div className="stat-container">
-              <p>12 321</p>
+              <p>{usersCount}</p>
               <p>users</p>
             </div>
             <div className="stat-container">
-              <p>521</p>
+              <p>{chatsCount}</p>
               <p>channels</p>
             </div>
           </div>

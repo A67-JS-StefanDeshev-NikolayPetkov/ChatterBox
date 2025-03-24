@@ -265,3 +265,16 @@ export const deleteUserProfile = async (uid) => {
     throw new Error(`Error deleting user data for UID ${uid}:`);
   }
 };
+
+export const getUserCount = async () => {
+  try {
+    const snapshot = await get(ref(db, "users"));
+    if (snapshot.exists()) {
+      const users = snapshot.val();
+      return Object.keys(users).length;
+    }
+    return 0;
+  } catch (error) {
+    throw new Error("Error fetching user count: " + error.message);
+  }
+};

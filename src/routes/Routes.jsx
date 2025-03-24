@@ -8,6 +8,8 @@ import Login from "../views/Login/Login";
 import Register from "../views/Register/Register";
 import Dashboard from "../views/Dashboard/Dashboard";
 import UserSettings from "../views/UserSettings/UserSettings";
+import NotFound from "../views/NotFound/NotFound";
+import About from "../views/About/About";
 
 function NavigationRoutes() {
   return (
@@ -34,6 +36,10 @@ function NavigationRoutes() {
         element={<Register />}
       ></Route>
       <Route
+        path="/about"
+        element={<About />}
+      ></Route>
+      <Route
         path="/:team/friends/:filter"
         element={<Dashboard />}
       ></Route>
@@ -44,6 +50,10 @@ function NavigationRoutes() {
       <Route
         path="/:team/settings/:filter"
         element={<Dashboard />}
+      ></Route>
+      <Route
+        path="*"
+        element={<NotFound />}
       ></Route>
       {/* <Route
         path="/:team/chats/:chat"

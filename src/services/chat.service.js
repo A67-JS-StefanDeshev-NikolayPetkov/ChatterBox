@@ -115,3 +115,17 @@ export const checkIfDmsExist = async function (userChats, receiverUid) {
   }
   if (existingChatId) return existingChatId;
 };
+
+export const getChatsCount = async () => {
+  try {
+    const chatsRef = ref(db, "chats");
+    const snapshot = await get(chatsRef);
+    if (snapshot.exists()) {
+      const chats = snapshot.val();
+      return Object.keys(chats).length;
+    }
+    return 0;
+  } catch (error) {
+    throw new Error("Error fetching chats count");
+  }
+};
