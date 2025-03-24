@@ -17,6 +17,12 @@ export const sendMessage = async function (messageObject, chatId) {
   return await set(newMessageRef, messageObject);
 };
 
+/**
+ *Subscribes to real-time updates of messages of given chat.
+ * @param {string} chatId Id of chat to track.
+ * @param {function} callback State update function that will update component state to most up-to-date messages.
+ * @returns {function} Unsubscribe function used to stop listening for changes on unmount.
+ */
 export const updateChatMessages = function (chatId, callback) {
   const chatMessagesRef = ref(db, `/chats/${chatId}/messages`);
 
@@ -28,7 +34,7 @@ export const updateChatMessages = function (chatId, callback) {
       });
   });
 
-  return () => unsubscribe();
+  return unsubscribe;
 };
 
 //DMs
@@ -42,7 +48,7 @@ export const fetchChatData = async (chatId) => {
       throw new Error("Chat not found");
     }
   } catch (error) {
-    throw new Error("Error fetching chat data");
+    console.error(error.message);
   }
 };
 
@@ -105,18 +111,4 @@ export const checkIfDmsExist = async function (userChats, receiverUid) {
     }
   }
   if (existingChatId) return existingChatId;
-};
-
-export const getChatsCount = async () => {
-  try {
-    const chatsRef = ref(db, "chats");
-    const snapshot = await get(chatsRef);
-    if (snapshot.exists()) {
-      const chats = snapshot.val();
-      return Object.keys(chats).length;
-    }
-    return 0;
-  } catch (error) {
-    throw new Error("Error fetching chats count");
-  }
 };

@@ -16,7 +16,7 @@ import { getTeams, getUserTeams } from "../../../services/teams.service";
 import CreateMedia from "../../../components/createMedia/CreateMedia";
 import { validateMedia } from "../../../utils/helpers";
 
-function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
+function TeamsBar({ setTeamChannels }) {
   const [teamName, setTeamName] = useState("");
   const [teamImage, setTeamImage] = useState(null);
   const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
   const fetchTeams = async () => {
     try {
       const userTeams = await getUserTeams(user.uid);
-  
+
       if (userTeams) {
         const teamsData = await getTeams();
         const teamsArray = Object.keys(teamsData)
@@ -44,7 +44,7 @@ function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
       }
     } catch (error) {
       setError("Failed to load teams");
-    }finally {
+    } finally {
       setError(null);
     }
   };
@@ -71,20 +71,13 @@ function TeamsBar({ setSelectedTeamChannels, setSelectedTeam }) {
   };
 
   const handleTeamClick = async (teamId) => {
-    try {
-      const channelsData = await getChannels(teamId);
-      const channelsArray = channelsData ? Object.values(channelsData) : [];
-      setSelectedTeamChannels(channelsArray);
-      setSelectedTeam(teamId);
-      const team = teams.find((team) => team.id === teamId);
-      if (channelsArray.length > 0 && team) {
-        navigate(`/${team.name}/${channelsArray[0].id}`);
-      }
-    } catch (error) {
-      setError("Failed to load channels");
-    } finally {
-      setError(null);
-    }
+    console.log();
+    const channelsData = await getChannels(teamId);
+    const channelsArray = channelsData ? Object.values(channelsData) : [];
+    console.log(channelsArray);
+
+    setTeamChannels(channelsArray);
+    navigate(`/${teamId}/${channelsArray[0].id}`);
   };
 
   return (

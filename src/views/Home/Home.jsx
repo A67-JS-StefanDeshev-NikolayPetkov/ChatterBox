@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { getUserCount } from "../../services/users.service";
-import { getChatsCount } from "../../services/chat.service";
+import { getChatsCount } from "../../services/teams.service";
 
 //Components
 import Header from "../../components/header/Header";
@@ -23,7 +23,10 @@ function Home() {
 
   useEffect(() => {
     const fetchCounts = async () => {
-      const [userCount, chatCount] = await Promise.all([getUserCount(), getChatsCount()]);
+      const [userCount, chatCount] = await Promise.all([
+        getUserCount(),
+        getChatsCount(),
+      ]);
       setUsersCount(userCount);
       setChatsCount(chatCount);
     };

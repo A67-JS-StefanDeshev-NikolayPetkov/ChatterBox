@@ -21,9 +21,8 @@ function ChatsBar({
   channels,
   activeChannelId,
   team,
-  selectedTeam,
   user,
-  refreshChannels,
+  handleFetchAndSetTeamChats,
 }) {
   const { userData } = useContext(AppContext);
   const navigate = useNavigate();
@@ -37,7 +36,7 @@ function ChatsBar({
 
   const handleCreateTeamChat = async () => {
     try {
-      if (!selectedTeam) {
+      if (!team) {
         throw new Error("No team selected.");
       }
       validateMedia(newChannelTitle);
@@ -45,17 +44,17 @@ function ChatsBar({
       "Channel Image Base64:", channelImage;
       // Create channel in Firebase
       await createTeamChat(
-        selectedTeam,
+        team,
         newChannelTitle,
         [user.uid],
         isPublic,
         channelImage
       );
-      refreshChannels();
+      handleFetchAndSetTeamChats();
       setError(null);
       setNewChannelTitle("");
       setChannelImage(null);
-      const channelsData = await getChannels(selectedTeam);
+      const channelsData = await getChannels(team);
       setChats(channelsData ? Object.values(channelsData) : []);
       // setChats((prevChats) => [...prevChats, newChannel]);
       setIsModalOpen(false);

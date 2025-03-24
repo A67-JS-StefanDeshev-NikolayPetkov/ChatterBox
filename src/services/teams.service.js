@@ -124,3 +124,18 @@ export const getUserTeams = async (userId) => {
     throw new Error("Failed to fetch user teams");
   }
 };
+
+//Function must be reworked and fetch only *teams* count
+export const getChatsCount = async () => {
+  try {
+    const chatsRef = ref(db, "chats");
+    const snapshot = await get(chatsRef);
+    if (snapshot.exists()) {
+      const chats = snapshot.val();
+      return Object.keys(chats).length;
+    }
+    return 0;
+  } catch (error) {
+    throw new Error("Error fetching chats count");
+  }
+};
