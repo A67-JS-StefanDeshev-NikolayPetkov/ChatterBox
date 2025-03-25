@@ -40,20 +40,24 @@ function NavigationRoutes() {
         element={<About />}
       ></Route>
       <Route
-        path="/:team/friends/:filter"
+        path="/:teamId/friends/:filter"
+        element={<Dashboard isFriendsWindow={true} />}
+      ></Route>
+      <Route
+        path="/:teamId/:chatId"
+        element={<Dashboard isChatWindow={true} />}
+      ></Route>
+      <Route
+        path="/:teamId/create-chat"
+        element={<Dashboard isCreateChat={true} />}
+      ></Route>
+      <Route
+        path="/:teamId/settings/:filter"
         element={<Dashboard />}
       ></Route>
       <Route
-        path="/:team/:channelId"
-        element={<Dashboard />}
-      ></Route>
-      <Route
-        path="/:team/settings/:filter"
-        element={<Dashboard />}
-      ></Route>
-      <Route
-        path="/:filter"
-        element={<Dashboard />}
+        path="/:teamId/create-team"
+        element={<Dashboard isCreateTeam={true} />}
       ></Route>
       <Route
         path="*"

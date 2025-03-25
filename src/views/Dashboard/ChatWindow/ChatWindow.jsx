@@ -18,17 +18,17 @@ function ChatWindow() {
   const [chatData, setChatData] = useState(null);
   const [receiversData, setReceiversData] = useState(null);
   const { user, userData } = useContext(AppContext);
-  const { channelId } = useParams();
+  const { chatId } = useParams();
 
   //Fetch chat and members data
   useEffect(() => {
-    if (channelId) {
-      fetchChatData(channelId)
+    if (chatId) {
+      fetchChatData(chatId)
         .then((data) => {
           data.members = Object.keys(data.members).filter(
             (member) => member !== user.uid
           );
-          data.uid = channelId;
+          data.uid = chatId;
           setChatData(data);
           return fetchUsersData(data.members);
         })
@@ -39,7 +39,7 @@ function ChatWindow() {
           throw new Error(error.message);
         });
     }
-  }, [channelId]);
+  }, [chatId]);
 
   if (!chatData)
     return (

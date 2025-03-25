@@ -1,4 +1,12 @@
-import { get, set, ref, push, update, runTransaction } from "firebase/database";
+import {
+  get,
+  set,
+  ref,
+  push,
+  update,
+  runTransaction,
+  onValue,
+} from "firebase/database";
 import { db } from "../config/firebase-config";
 
 const teamsRef = ref(db, "teams/");
@@ -20,7 +28,6 @@ export const createTeam = async (
     const nameExists = Object.values(teams).some((team) => team.name === name);
     if (nameExists) throw new Error("Team name already exists.");
   }
-
   // Create a new team with a unique ID
   const userTeamsRef = ref(db, `users/${ownerId}/teams`);
 
@@ -33,8 +40,14 @@ export const createTeam = async (
 
   try {
     await set(newTeamRef, teamData);
+    const generalChat = await createTeamChat(
+      teamId,
+      "General",
+      [ownerId],
+      null
+    );
+
     await update(userTeamsRef, { [teamId]: true });
-    await createTeamChat(teamId, "General", [ownerId], null);
 
     // const updates = {};
     // members.forEach((memberUid) => {
@@ -48,7 +61,7 @@ export const createTeam = async (
       return (currentCount || 0) + 1;
     });
 
-    return teamData;
+    return { ...teamData, chats: generalChat, id: teamId };
   } catch (error) {
     throw new Error("Error creating team: " + error.message);
   }
@@ -83,29 +96,6 @@ export const getTeamsDetails = async (teams) => {
   return teamsDetails;
 };
 
-// Function to get channels for a team
-export const getChatsDetails = async (teamId, isUser) => {
-  const sourceRef = isUser
-    ? ref(db, `users/${teamId}/chats`)
-    : ref(db, `teams/${teamId}/chats`);
-  let chats = (await get(sourceRef)).val();
-  console.log("chats", chats);
-  let chatsDetails = await Promise.all(
-    Object.keys(chats).map(async (chatId) => {
-      const chatRef = isUser
-        ? ref(db, `chats/${chatId}`)
-        : ref(db, `chats/${chatId}/details`);
-      const chatDetails = (await get(chatRef)).val();
-
-      console.log(chatDetails);
-      chatDetails.id = chatId;
-      return chatDetails;
-    })
-  );
-
-  return chatsDetails;
-};
-
 // Function to create a new channel
 export const createTeamChat = async (
   teamId,
@@ -117,7 +107,7 @@ export const createTeamChat = async (
     throw new Error("Channel name must be between 3 and 40 characters.");
   }
   const chatsRef = ref(db, `chats`);
-  const teamChatsRef = ref(db, `teams/${teamId}/chats`);
+  const teamChatsRef = ref(db, `teams/${teamId}/details/chats`);
 
   const newChatRef = push(chatsRef);
   const chatId = newChatRef.key;
@@ -129,21 +119,30 @@ export const createTeamChat = async (
   await set(newChatRef, channelData);
   await update(teamChatsRef, { [chatId]: true });
 
-  return channelData;
+  return { [chatId]: channelData };
 };
 
-//Function must be reworked and fetch only *teams* count
 export const getTeamsCount = async () => {
   try {
-    const teamsCountRef = ref(db, "teamsCount");
+    const teamsCountRef = ref(db, "teams/teamsCount");
     const snapshot = await get(teamsCountRef);
 
     if (snapshot.exists()) {
       return snapshot.val();
     }
-
     return 0;
   } catch (error) {
     throw new Error("Error fetching teams count: " + error.message);
   }
+};
+
+export const subscribeToTeams = function (userUid, callback) {
+  const teamsRef = ref(db, `/users/${userUid}/teams`);
+
+  //When messages change, update local messages via callback passed in
+  const unsubscribe = onValue(teamsRef, (snapshot) => {
+    if (snapshot.exists()) callback(Object.keys(snapshot.val()));
+  });
+
+  return unsubscribe;
 };

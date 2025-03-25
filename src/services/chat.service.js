@@ -112,3 +112,82 @@ export const checkIfDmsExist = async function (userChats, receiverUid) {
   }
   if (existingChatId) return existingChatId;
 };
+
+export const getChatMembersDetails = async function (chatId) {
+  const chatMembersRef = ref(db, `chats/${chatId}/members`);
+  const chatMembers = Object.keys((await get(chatMembersRef)).val());
+
+  const result = await Promise.all(
+    chatMembers.map(async (userId) => {
+      const userRef = ref(db, `users/${userId}/details`);
+      let result = await get(userRef);
+      result = result.val();
+      result.id = userId;
+      return result;
+    })
+  );
+
+  return result;
+};
+
+// Function to get channels for a team
+export const getChatsDetails = async (teamId, isUser) => {
+  const sourceRef = isUser
+    ? ref(db, `users/${teamId}/chats`)
+    : ref(db, `teams/${teamId}/details/chats`);
+  let chats = (await get(sourceRef)).val();
+  let chatsDetails = await Promise.all(
+    Object.keys(chats).map(async (chatId) => {
+      const chatRef = isUser
+        ? ref(db, `chats/${chatId}`)
+        : ref(db, `chats/${chatId}/details`);
+      const chatDetails = (await get(chatRef)).val();
+
+      chatDetails.id = chatId;
+      return chatDetails;
+    })
+  );
+
+  return chatsDetails;
+};
+export const subscribeToChats = function (teamId, isUser, callback) {
+  const reference = isUser
+    ? ref(db, `/users/${teamId}/chats`)
+    : ref(db, `/teams/${teamId}/details/chats`);
+
+  //When messages change, update local messages via callback passed in
+  const unsubscribe = onValue(reference, (snapshot) => {
+    if (snapshot.exists()) callback(Object.keys(snapshot.val()));
+  });
+
+  return unsubscribe;
+};
+
+export const createGroupChat = async (
+  memberIds,
+  name,
+  imageUrl = "default-chat.png"
+) => {
+  if (name.length < 3 || name.length > 40) {
+    throw new Error("Channel name must be between 3 and 40 characters.");
+  }
+  const chatsRef = ref(db, `chats`);
+  const newChatRef = push(chatsRef);
+
+  await Promise.all(
+    memberIds.forEach(async (member) => {
+      const memberRef = ref(db, `users/${member}/details/chats`);
+      await update(memberRef, { [newChatRef]: true });
+    })
+  );
+
+  const chatData = {
+    details: { name, imageUrl },
+    members: memberIds.reduce((acc, id) => {
+      acc[id] = true;
+      return true;
+    }, {}),
+  };
+
+  await set(newChatRef, chatData);
+};

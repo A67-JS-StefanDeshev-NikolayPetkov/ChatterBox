@@ -23,7 +23,7 @@ function ChatBody({ chatData, setChatData, receiversData }) {
   const { user, userData } = useContext(AppContext);
   const [currentMessageText, setCurrentMessageText] = useState("");
   const [currentMessageImage, setCurrentMessageImage] = useState(null);
-  const { channelId } = useParams();
+  const { chatId } = useParams();
   const [messages, setMessages] = useState(null);
   const messagesEndRef = useRef(null);
   let lastSender = null;
@@ -43,7 +43,7 @@ function ChatBody({ chatData, setChatData, receiversData }) {
   useEffect(() => {
     const unsubscribe = updateChatMessages(chatData.uid, setChatData);
     return () => unsubscribe();
-  }, [channelId]);
+  }, [chatId]);
 
   //On chatData change get messages and sort them
   useEffect(() => {
@@ -85,7 +85,6 @@ function ChatBody({ chatData, setChatData, receiversData }) {
                     {message[1].image && (
                       <div className="message-image-container">
                         <span className="subsequent-message-timestamp">
-                          {console.log(message[1].createdOn)}
                           {new Date(message[1].createdOn).toLocaleTimeString()}
                         </span>
                         <div

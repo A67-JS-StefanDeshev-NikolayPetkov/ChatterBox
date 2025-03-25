@@ -1,3 +1,16 @@
+.add-team-container {
+  flex: 1;
+  background-color: antiquewhite;
+}
+
+.add-team-header {
+  height: 61px;
+  border-bottom: 1px solid white;
+  display: flex;
+  padding: 10px;
+  align-items: center;
+}
+
 .create-team-chat-container {
   background-color: #45a049;
   display: flex;

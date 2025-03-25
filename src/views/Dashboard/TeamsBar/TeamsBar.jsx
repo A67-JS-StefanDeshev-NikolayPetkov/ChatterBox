@@ -9,33 +9,42 @@ import Avatar from "../../../components/avatar/Avatar";
 // Dependency imports
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-import { getChatsDetails } from "../../../services/teams.service";
 import { AppContext } from "../../../context/AppContext";
-import { getTeamsDetails } from "../../../services/teams.service";
+import {
+  getTeamsDetails,
+  subscribeToTeams,
+} from "../../../services/teams.service";
 
-function TeamsBar({ setTeamChannels }) {
-  const [teams, setTeams] = useState(null);
+function TeamsBar() {
+  const [teamsDetails, setTeamsDetails] = useState(null);
   const { user, userData } = useContext(AppContext);
   const navigate = useNavigate();
 
-  // Fetch teams from Firebase
-  const fetchTeams = async () => {
-    if (userData.teams) {
-      const teamsData = await getTeamsDetails(Object.keys(userData.teams));
-      setTeams(teamsData);
-    }
+  const handleTeamClick = async (teamDetails) => {
+    const firstChatId = teamDetails?.chats
+      ? Object.keys(teamDetails.chats)[0]
+      : null;
+    navigate(`/${teamDetails.id}/${firstChatId}`);
   };
+
+  function handleFetchTeamsDetails(teamsIds) {
+    getTeamsDetails(teamsIds).then((teamsDetails) =>
+      setTeamsDetails(teamsDetails)
+    );
+  }
 
   // Fetch teams when the component mounts
   useEffect(() => {
-    fetchTeams();
-  }, []);
+    const unsubscribe = subscribeToTeams(user.uid, handleFetchTeamsDetails);
 
-  const handleTeamClick = async (teamId) => {
-    const chatsData = await getChatsDetails(teamId);
-    setTeamChannels(chatsData);
-    navigate(`/${teamId}/${chatsData[0].id}`);
-  };
+    if (userData?.teams) {
+      handleFetchTeamsDetails(Object.keys(userData.teams));
+    }
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div className="teams-bar">
@@ -43,27 +52,27 @@ function TeamsBar({ setTeamChannels }) {
         <Avatar
           imageUrl={logo}
           type="team"
-          onClick={() => navigate("/home")}
+          onClick={() => navigate(`/${user.uid}/friends/all`)}
           title={"Home"}
           name="Home"
         />
       </div>
       <div className="teams-list">
-        {teams &&
-          teams.map((team) => {
+        {teamsDetails &&
+          teamsDetails.map((team) => {
             return (
               <Avatar
                 key={team.id}
                 type="team"
                 imageUrl={team?.imageUrl || teamLogo}
-                onClick={() => handleTeamClick(team.id)}
+                onClick={() => handleTeamClick(team)}
                 name={team.name}
               />
             );
           })}
       </div>
       <Avatar
-        onClick={() => navigate(`/create-team`)}
+        onClick={() => navigate(`/${user.uid}/create-team`)}
         type="team"
         imageUrl={plusSign}
         name="Create Team"
