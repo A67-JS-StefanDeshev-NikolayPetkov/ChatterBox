@@ -22,7 +22,7 @@ import FriendPreview from "../friend-preview/FriendPreview";
 import "./AllFriends.css";
 
 //Component
-function AllFriends({ filtered }) {
+function AllFriends({ filtered, onStartAudioCall, onStartVideoCall }) {
   const navigate = useNavigate();
   const { user, userData, setContext } = useContext(AppContext);
   const [friendsData, setFriendsData] = useState(null);
@@ -100,6 +100,8 @@ function AllFriends({ filtered }) {
           key={friend.uid}
           friend={friend}
           senderUid={user.uid}
+          onStartAudioCall={() => onStartAudioCall(friend.uid)}
+          onStartVideoCall={() => onStartVideoCall(friend.uid)}
           handleRemoveFromFriends={handleRemoveFromFriends}
           handleOpenChat={handleOpenChat}
         ></FriendPreview>

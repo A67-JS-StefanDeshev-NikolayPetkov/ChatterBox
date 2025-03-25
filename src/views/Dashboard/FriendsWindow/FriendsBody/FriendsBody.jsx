@@ -25,6 +25,15 @@ function FriendsBody({
 
   return (
     <div className="friends-body">
+      {currentCall && (
+        <div className="video-call-container">
+          <video id="local-video" autoPlay muted className="local-video" />
+          <video id="remote-video" autoPlay className="remote-video" />
+          <button className="end-call-btn" onClick={onEndCall}>
+            End Call
+          </button>
+        </div>
+      )}
       {filter === "settings" && 
       <UserSettings></UserSettings>}
       {filter === "add" && (
@@ -39,21 +48,12 @@ function FriendsBody({
           handleAcceptFriendRequest={handleAcceptFriendRequest}
         />
       )}
-      {filter === "all" &&
-        userData.friends &&
-        Object.keys(userData.friends).map((friendId) => (
-          <FriendPreview
-            key={friendId}
-            friend={{ uid: friendId, ...userData.friends[friendId] }}
-            onStartVideoCall={() => onStartCall(friendId, true)}
-            onStartAudioCall={() => onStartCall(friendId, false)}
-          />
-        ))}
-      <div className="video-call-container">
-        <video id="local-video" autoPlay muted className="local-video" />
-        <video id="remote-video" autoPlay className="remote-video" />
-      </div>
-      {currentCall && <button onClick={onEndCall}>End Call</button>}
+      {filter === "all" && (
+        <AllFriends
+          onStartAudioCall={(friendId) => onStartCall(friendId, false)}
+          onStartVideoCall={(friendId) => onStartCall(friendId, true)}
+        />
+      )}
     </div>
   );
 }
