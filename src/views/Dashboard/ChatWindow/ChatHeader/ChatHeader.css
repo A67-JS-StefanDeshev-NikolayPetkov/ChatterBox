@@ -5,7 +5,7 @@
   align-items: center;
   gap: 10px;
   padding: 0 20px;
-  background-color: green;
+  background-color: rgba(0, 128, 0, 0.682);
 }
 
 .active-chat-status {

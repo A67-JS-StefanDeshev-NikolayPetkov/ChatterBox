@@ -8,7 +8,7 @@
   display: flex;
   padding: 10px;
   align-items: center;
-  background-color: green;
+  background-color: rgba(0, 128, 0, 0.682);
 }
 
 .create-team-chat-container {
