@@ -47,13 +47,18 @@ function NavigationRoutes() {
         path="/:teamId/:chatId"
         element={<Dashboard isChatWindow={true} />}
       ></Route>
+
+      <Route
+        path="/:teamId/settings/:filter"
+        element={<Dashboard />}
+      ></Route>
       <Route
         path="/:teamId/create-chat"
         element={<Dashboard isCreateChat={true} />}
       ></Route>
       <Route
-        path="/:teamId/settings/:filter"
-        element={<Dashboard />}
+        path="/:teamId/add-members"
+        element={<Dashboard isAddMembers={true} />}
       ></Route>
       <Route
         path="/:teamId/create-team"

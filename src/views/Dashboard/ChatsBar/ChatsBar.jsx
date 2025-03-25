@@ -1,6 +1,10 @@
 //Misc imports
 import "./ChatsBar.css";
 import plusSign from "../../../assets/plus.svg";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+
 import chatLogo from "../../../assets/default-chat.png";
 
 //Dependency imports
@@ -13,6 +17,8 @@ import {
   getChatsDetails,
   subscribeToChats,
 } from "../../../services/chat.service";
+
+import { getUserDetailsByUid } from "../../../services/users.service";
 
 //Component imports
 import UserHeader from "./UserHeader/UserHeader";
@@ -36,6 +42,32 @@ function ChatsBar() {
     //Get all chats details
     let chatsDetails = await getChatsDetails(teamId, isUser);
 
+    if (isUser) {
+      //Update chat details
+      const updatedChatsDetails = await Promise.all(
+        chatsDetails.map(async (chat) => {
+          //Get receiver uid
+          const receiver = Object.keys(chat.members).filter(
+            (member) => member !== user.uid
+          );
+          //Get receivers data
+          const receiverData = (await getUserDetailsByUid(receiver[0])).val();
+          //return chat data with name equaling receivers name
+          return {
+            ...chat,
+            name: receiverData.username,
+            imageUrl: receiverData.profilePicture,
+            status: receiverData.status,
+            userUid: receiver[0],
+          };
+        })
+      );
+
+      setChats(updatedChatsDetails);
+
+      return;
+    }
+
     setChats(chatsDetails);
   };
 
@@ -58,28 +90,37 @@ function ChatsBar() {
       <div className="search-bar"></div>
       <div className={`chats-container`}>
         {chats &&
-          chats.map((chat) => (
-            <ChatPreview
-              key={chat.id}
-              chat={{
-                name: chat.name,
-                imageUrl: chat.imageUrl || chatLogo,
-              }}
-              isActive={chat.id === chatId}
-              setActiveChat={() => navigate(`/${teamId}/${chat.id}`)}
-            />
-          ))}
-        {!isUser && (
-          <div className="add-team">
-            <Avatar
-              onClick={() => navigate(`/${teamId}/create-chat`)}
-              type="team"
-              imageUrl={plusSign}
-              name="Create Channel"
-            />
-          </div>
-        )}
+          chats.map((chat) => {
+            return (
+              <ChatPreview
+                key={chat.id}
+                chat={{
+                  name: chat.name,
+                  imageUrl: chat.imageUrl || chatLogo,
+                  status: chat?.status,
+                  userUid: chat?.userUid,
+                }}
+                isActive={chat.id === chatId}
+                setActiveChat={() => navigate(`/${teamId}/${chat.id}`)}
+              />
+            );
+          })}
       </div>
+      {!isUser && (
+        <div className="chatbar-btns">
+          <FontAwesomeIcon
+            onClick={() => navigate(`/${teamId}/add-members`)}
+            icon={faUserPlus}
+            className="add-members-btn"
+          />
+          <Avatar
+            onClick={() => navigate(`/${teamId}/create-chat`)}
+            type="team"
+            imageUrl={plusSign}
+            name="Create Channel"
+          />
+        </div>
+      )}
     </div>
   );
 }

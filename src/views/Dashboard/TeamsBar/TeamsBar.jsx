@@ -51,10 +51,10 @@ function TeamsBar() {
       <div className="team-logo">
         <Avatar
           imageUrl={logo}
-          type="team"
           onClick={() => navigate(`/${user.uid}/friends/all`)}
           title={"Home"}
           name="Home"
+          className="to-dms"
         />
       </div>
       <div className="teams-list">

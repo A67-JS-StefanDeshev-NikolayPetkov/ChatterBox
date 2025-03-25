@@ -6,7 +6,7 @@ import "./Avatar.css";
 import { useState, useEffect } from "react";
 
 //Services
-import { checkUserStatus } from "../../services/users.service";
+import { subscribeToStatus } from "../../services/users.service";
 
 /**
  *
@@ -17,15 +17,17 @@ import { checkUserStatus } from "../../services/users.service";
  * @param {string} props.status optional: status of user (online, away, buy, offline)
  * @returns
  */
-function Avatar({ imageUrl, type, status, name, onClick, uid }) {
+function Avatar({ imageUrl, type, status, name, onClick, userUid }) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [userStatus, setUserStatus] = useState(status);
 
   useEffect(() => {
-    if (!uid) return;
-    const unsubscribe = checkUserStatus(uid, setUserStatus);
-    return () => unsubscribe();
-  }, []);
+    const unsubscribe = subscribeToStatus(userUid, setUserStatus);
+
+    return () => {
+      unsubscribe();
+    };
+  }, [userStatus]);
 
   const handleMouseEnter = () => {
     setIsTooltipVisible(true);
@@ -37,7 +39,9 @@ function Avatar({ imageUrl, type, status, name, onClick, uid }) {
 
   return (
     <div
-      className={`avatar-container ${`${type}-container`}`}
+      className={`avatar-container ${`${type}-container`} ${
+        name === "Home" ? "team-container" : ""
+      }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
@@ -45,7 +49,9 @@ function Avatar({ imageUrl, type, status, name, onClick, uid }) {
       <img
         src={imageUrl}
         alt="avatar"
-        className={`avatar ${`${type}-image`}`}
+        className={`avatar ${`${type}-image`} ${
+          name === "Home" ? "team-container" : ""
+        }`}
       />
       <div className="avatar-status">
         {status && <span className={`status-icon ${userStatus}`}></span>}

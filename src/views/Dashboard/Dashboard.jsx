@@ -11,6 +11,7 @@ import Center from "../../components/center/Center";
 import CreateTeam from "./CreateTeam/CreateTeam";
 import CreateTeamChat from "./CreateTeamChat/CreateTeamChat";
 import CreateGroupChat from "./CreateGroupChat/CreateGroupChat";
+import AddMembers from "./AddMembers/AddMembers";
 
 //Dependency
 import { AppContext } from "../../context/AppContext";
@@ -22,6 +23,7 @@ function Dashboard({
   isCreateTeam,
   isFriendsWindow,
   isChatWindow,
+  isAddMembers,
 }) {
   const { user, userData } = useContext(AppContext);
   const { teamId, chatId, filter } = useParams();
@@ -29,16 +31,10 @@ function Dashboard({
 
   //If no user, go to home page
   useEffect(() => {
-    console.log(isCreateChat && user.uid === teamId);
     if (!user) {
       navigate("/");
     }
   }, []);
-
-  useEffect(() => {
-    console.log(isCreateChat, isCreateTeam, isFriendsWindow, isChatWindow);
-    console.log(teamId, chatId, filter);
-  });
 
   if (!userData)
     return (
@@ -56,6 +52,7 @@ function Dashboard({
       {isCreateChat && user.uid === teamId && <CreateGroupChat />}
       {isCreateChat && !(user.uid === teamId) && <CreateTeamChat />}
       {isChatWindow && <ChatWindow></ChatWindow>}
+      {isAddMembers && <AddMembers></AddMembers>}
     </div>
   );
 }

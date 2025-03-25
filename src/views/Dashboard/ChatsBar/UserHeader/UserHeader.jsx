@@ -15,7 +15,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../../../../context/AppContext";
 
 //Services
-import { updateUserStatus } from "../../../../services/users.service";
+import {
+  subscribeToStatus,
+  updateUserStatus,
+} from "../../../../services/users.service";
 
 //Components imports
 import StatusDropdown from "../../../../components/status-dropdown/StatusDropdown";
@@ -29,16 +32,24 @@ function UserHeader() {
 
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   updateUserStatus(user.uid, status);
+
+  //   const unsubscribe = subscribeToStatus(user.uid, setStatus);
+
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, [status]);
+
   useEffect(() => {
-    //Update the status on firebase
-    updateUserStatus(user.uid, status)
-      .then(() => {
-        //Update the status locally
-        userData.details.status = status;
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    updateUserStatus(user.uid, status);
+
+    const unsubscribe = subscribeToStatus(user.uid, setStatus);
+
+    return () => {
+      unsubscribe();
+    };
   }, [status]);
 
   const handleStatus = (option) => setStatus(option);

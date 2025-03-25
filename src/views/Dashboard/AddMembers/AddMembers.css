@@ -1,0 +1,58 @@
+.add-friends-container {
+  flex: 1;
+  background-color: antiquewhite;
+}
+
+.add-members-container {
+  flex: 1;
+  background-color: antiquewhite;
+}
+
+.add-members-header {
+  height: 61px;
+  border-bottom: 1px solid white;
+  background-color: aqua;
+  width: 100%;
+  display: flex;
+  padding: 10px;
+  align-items: center;
+}
+
+.members-container {
+  background-color: #45a049;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+  height: 100%;
+  width: 100%;
+}
+
+.name-input {
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.team-image-preview {
+  border: 1px dashed black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  background-color: grey;
+}
+
+.team-image-preview:hover {
+  cursor: pointer;
+}
+
+.file-name {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}

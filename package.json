@@ -13,6 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@types/firebase": "^3.2.3",
+    "@types/peerjs": "^1.1.0",
     "@types/react-router-dom": "^5.3.3",
     "firebase": "^11.4.0",
     "libphonenumber-js": "^1.12.6",

@@ -12,7 +12,13 @@ import {
 } from "firebase/database";
 import { db } from "../config/firebase-config";
 
-export const createUserHandle = ({ username, uid, email, phoneNumber, profilePicture }) => {
+export const createUserHandle = ({
+  username,
+  uid,
+  email,
+  phoneNumber,
+  profilePicture,
+}) => {
   return set(ref(db, `users/${uid}/details`), {
     username,
     email,
@@ -46,16 +52,6 @@ export const isUserOnline = (uid) => {
     }
   });
 };
-
-export async function checkUserStatus(uid, callback) {
-  const statusRef = ref(db, `users/${uid}/details/status`);
-
-  const unsubscribe = onValue(statusRef, (snapshot) => {
-    if (snapshot.exists()) callback(snapshot.val());
-  });
-
-  return () => unsubscribe();
-}
 
 export const updateUserStatus = (uid, status) => {
   return set(ref(db, `users/${uid}/details/status`), status);
@@ -277,4 +273,26 @@ export const getUserCount = async () => {
   } catch (error) {
     throw new Error("Error fetching user count: " + error.message);
   }
+};
+
+export const subscribeToStatus = function (userUid, callback) {
+  const reference = ref(db, `/users/${userUid}/details/status`);
+
+  //When messages change, update local messages via callback passed in
+  const unsubscribe = onValue(reference, (snapshot) => {
+    if (snapshot.exists()) callback(snapshot.val());
+  });
+
+  return unsubscribe;
+};
+
+export const subscribeToRequests = function (userUid, callback) {
+  const reference = ref(db, `/users/${userUid}/details/friendRequests`);
+
+  //When messages change, update local messages via callback passed in
+  const unsubscribe = onValue(reference, (snapshot) => {
+    if (snapshot.exists()) callback(snapshot.val());
+  });
+
+  return unsubscribe;
 };
