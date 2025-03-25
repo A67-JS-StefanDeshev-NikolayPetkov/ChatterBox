@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   min-width: 250px;
-  background-color: aqua;
+  background-color: rgba(0, 128, 0, 0.493);
 }
 
 .chats-container {
@@ -11,10 +11,11 @@
   justify-content: start;
   align-items: center;
   gap: 5px;
-  background-color: brown;
   padding: 10px;
   height: 100%;
   overflow-y: auto;
+  border-left: 1px solid gainsboro;
+  border-right: 1px solid gainsboro;
 }
 
 .chatbar-btns {
@@ -24,16 +25,17 @@
   padding: 5px;
   gap: 10px;
   width: 100%;
-  background-color: red;
+  border-left: 1px solid gainsboro;
+  border-right: 1px solid gainsboro;
 }
 
 .add-members-btn {
-  background-color: green;
   padding: 10px;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   cursor: pointer;
+  background-color: greenyellow;
 }
 
 .add-members-btn:hover {

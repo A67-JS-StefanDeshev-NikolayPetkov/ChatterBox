@@ -1,5 +1,4 @@
 .message-container {
-  background-color: aqua;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -21,12 +20,10 @@
 
 .message-header {
   display: flex;
-  background-color: red;
   gap: 10px;
 }
 
 .message-content {
-  background-color: red;
   width: 100%;
 }
 
@@ -39,7 +36,6 @@
 .subsequent-message {
   display: flex;
   gap: 10px;
-  background-color: salmon;
 }
 .subsequent-timestamp {
   width: 40px;

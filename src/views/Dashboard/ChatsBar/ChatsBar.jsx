@@ -72,6 +72,11 @@ function ChatsBar() {
   };
 
   useEffect(() => {
+    console.log(chats);
+  }, [chats]);
+
+  useEffect(() => {
+    handleFetchChats();
     const unsubscribe = subscribeToChats(teamId, isUser, handleFetchChats);
 
     if (isUser && !userData?.chats) {

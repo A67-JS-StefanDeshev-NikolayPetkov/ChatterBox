@@ -39,18 +39,23 @@ function ChatBody({ chatData, setChatData, receiversData }) {
     reader.readAsDataURL(file);
   };
 
+  useEffect(() => {
+    console.log("rec", userData);
+  });
+
   //Add on value listener
   useEffect(() => {
+    if (!chatData?.uid) return;
+
     const unsubscribe = updateChatMessages(chatData.uid, setChatData);
     return () => unsubscribe();
-  }, [chatId]);
+  }, [chatData?.uid]);
 
-  //On chatData change get messages and sort them
   useEffect(() => {
     setMessages(
       chatData?.messages
         ? Object.entries(chatData.messages).sort(
-            (a, b) => a.createdOn - b.createdOn
+            (a, b) => a[1].createdOn - b[1].createdOn
           )
         : null
     );
@@ -107,7 +112,13 @@ function ChatBody({ chatData, setChatData, receiversData }) {
                   key={message[0]}
                 >
                   <div className="sender-avatar-container">
-                    <Avatar></Avatar>
+                    <Avatar
+                      imageUrl={
+                        message[1].sender === user.uid
+                          ? userData.details.profilePicture
+                          : receiversData[0].profilePicture
+                      }
+                    ></Avatar>
                   </div>
                   <div>
                     <p className="first-message">

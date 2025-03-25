@@ -1,7 +1,6 @@
 .friends-window {
   width: 100%;
   min-width: 400px;
-  background-color: orange;
 }
 
 .video-call-container {
@@ -16,6 +15,5 @@
 .remote-video {
   width: 300px;
   height: 200px;
-  background-color: black;
   border-radius: 10px;
 }

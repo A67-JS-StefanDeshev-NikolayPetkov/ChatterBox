@@ -1,5 +1,4 @@
 .chat-container {
-  background-color: greenyellow;
   display: flex;
   align-items: center;
   width: 100%;
@@ -8,6 +7,7 @@
   padding: 2px 10px;
   border-radius: 20px;
   cursor: pointer;
+  background-color: greenyellow;
 }
 
 .chat-container.active {
@@ -16,11 +16,10 @@
 }
 
 .chat-container:hover {
-  background-color: rgba(172, 255, 47, 0.77);
+  background-color: grey;
 }
 
 .chat-details {
-  background-color: red;
 }
 
 .chat-name {

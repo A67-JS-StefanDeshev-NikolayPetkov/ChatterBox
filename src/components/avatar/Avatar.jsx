@@ -54,7 +54,7 @@ function Avatar({ imageUrl, type, status, name, onClick, userUid }) {
         }`}
       />
       <div className="avatar-status">
-        {status && <span className={`status-icon ${userStatus}`}></span>}
+        {status && <span className={`status-icon ${status}`}></span>}
       </div>
       {type === "team" && (
         <>

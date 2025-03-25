@@ -7,7 +7,7 @@ import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { faMinusSquare } from "@fortawesome/free-solid-svg-icons";
 
 //Dependency imports
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
 
 //Components
@@ -21,12 +21,18 @@ function UserPreview({
 }) {
   const [addButton, setAddButton] = useState(renderButton);
   const { user, userData } = useContext(AppContext);
+
+  useEffect(() => {
+    console.log(foundUser[1].details.profilePicture);
+  }, []);
   return (
     <div className="user-preview-container">
       <div className="friend-details">
         <Avatar
-          imgUrl={
-            foundUser[1].details.imageUrl ? foundUser[1].details.imageUrl : null
+          imageUrl={
+            foundUser[1].details.profilePicture
+              ? foundUser[1].details.profilePicture
+              : null
           }
           type="user-image"
         ></Avatar>

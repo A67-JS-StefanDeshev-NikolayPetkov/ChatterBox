@@ -1,18 +1,15 @@
 .friend-modal-overlay {
   width: 100%;
   height: 100%;
-  background-color: pink;
   align-items: center;
   justify-content: center;
 }
 
 .add-friends-container {
-  background: aqua;
   padding: 20px;
   border-radius: 8px;
   height: 100%;
   text-align: start;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +18,6 @@
 }
 
 .friend-search-form {
-  background-color: red;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -32,11 +28,9 @@
   width: 240px;
 }
 .friend-search-dropdown {
-  background-color: aqua;
 }
 
 .friend-search-results {
-  background-color: red;
   padding: 10px;
   height: 100%;
   width: 100%;
@@ -49,7 +43,6 @@
 }
 
 .friends-modal-loader-container {
-  background-color: red;
   padding: 10px;
   height: 100%;
   width: 100%;

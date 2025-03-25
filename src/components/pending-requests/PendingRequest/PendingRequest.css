@@ -1,24 +1,24 @@
 .pending-request {
-  background-color: aqua;
   border: 1px solid black;
+  border-radius: 10px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
   padding: 10px;
+  background-color: greenyellow;
 }
 
 .pending-request-details {
-  background-color: green;
 }
 
 .pending-request-btns {
-  background-color: green;
+  min-width: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 10px;
+  padding: 5px;
 }

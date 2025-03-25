@@ -13,12 +13,15 @@ import Loader from "../../../components/loader/Loader";
 // //Dependency import
 import { useState, useContext } from "react";
 import { AppContext } from "../../../context/AppContext";
+import { useParams } from "react-router-dom";
 //Services
 import { searchUsers } from "../../../services/users.service";
+import { addToTeam } from "../../../services/teams.service";
 import UserPreview from "../../../components/user-preview/UserPreview";
 import StatusDropdown from "../../../components/status-dropdown/StatusDropdown";
 function AddMembers() {
   const { user, userData, setContext } = useContext(AppContext);
+  const { teamId } = useParams();
   const [searchResult, setSearchResult] = useState(null);
   const [searchBy, setSearchBy] = useState("username");
   const [searchInputValue, setsSearchInputValue] = useState(null);
@@ -96,7 +99,7 @@ function AddMembers() {
                     key={foundUser[0]}
                     userUid={user.uid}
                     foundUser={foundUser}
-                    handleFriendRequest={handleAddMember}
+                    handleFriendRequest={() => addToTeam(teamId, foundUser[0])}
                     renderButton={true}
                   ></UserPreview>
                 );

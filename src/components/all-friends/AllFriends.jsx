@@ -24,14 +24,17 @@ import "./AllFriends.css";
 //Component
 function AllFriends({ filtered, onStartAudioCall, onStartVideoCall }) {
   const navigate = useNavigate();
-  const { user, userData, setContext } = useContext(AppContext);
+  const { user, userData, setContext, updateUserData } = useContext(AppContext);
   const [friendsData, setFriendsData] = useState(null);
 
   async function handleOpenChat(receiverUid) {
     let chatId;
+    console.log(userData);
     if (userData.chats)
       chatId = await checkIfDmsExist(userData.chats, receiverUid);
     if (!chatId) chatId = await startDms(user.uid, receiverUid);
+
+    updateUserData();
     navigate(`/${user.uid}/${chatId}`);
   }
 
@@ -72,9 +75,12 @@ function AllFriends({ filtered, onStartAudioCall, onStartVideoCall }) {
     );
 
   if (filtered) {
+    console.log(friendsData);
     const onlineFriends = friendsData.filter((friend) => {
-      friend.status === "online";
+      return friend.status === "online";
     });
+
+    console.log(onlineFriends);
 
     return onlineFriends.length > 0 ? (
       <div className="all-friends-container">

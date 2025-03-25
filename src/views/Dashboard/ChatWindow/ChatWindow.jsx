@@ -17,11 +17,14 @@ import Loader from "../../../components/loader/Loader";
 function ChatWindow() {
   const [chatData, setChatData] = useState(null);
   const [receiversData, setReceiversData] = useState(null);
+  const [loader, setLoader] = useState(null);
+
   const { user, userData } = useContext(AppContext);
   const { chatId } = useParams();
 
   //Fetch chat and members data
   useEffect(() => {
+    setLoader(true);
     if (chatId) {
       fetchChatData(chatId)
         .then((data) => {
@@ -33,15 +36,20 @@ function ChatWindow() {
           return fetchUsersData(data.members);
         })
         .then((data) => {
-          setReceiversData(data);
+          setReceiversData(data ? data : "team-chat");
         })
         .catch((error) => {
           throw new Error(error.message);
-        });
+        })
+        .finally(setLoader(false));
     }
   }, [chatId]);
 
-  if (!chatData)
+  useEffect(() => {
+    console.log("receiversData", chatData);
+  }, [receiversData]);
+
+  if (!chatData || loader || !receiversData)
     return (
       <Center>
         <Loader></Loader>
@@ -51,6 +59,7 @@ function ChatWindow() {
   return (
     <div className="active-chat-window">
       <ChatHeader
+        chatData={chatData}
         receiversData={
           receiversData
             ? receiversData

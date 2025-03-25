@@ -95,17 +95,17 @@ export const startDms = async function (senderUid, receiverUid) {
 
 export const checkIfDmsExist = async function (userChats, receiverUid) {
   let existingChatId;
+  console.log(userChats);
 
   //loop through all chats and check if it already exists
   for (const chatId in userChats) {
+    console.log(chatId);
     const chatRef = ref(db, `chats/${chatId}`);
     const chatSnapshot = await get(chatRef);
     const chatData = chatSnapshot.val();
+    console.log(chatData);
 
-    if (
-      chatData.type === "dm" &&
-      Object.keys(chatData.members).includes(receiverUid)
-    ) {
+    if (Object.keys(chatData.members).includes(receiverUid)) {
       existingChatId = chatId;
       break;
     }

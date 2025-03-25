@@ -7,7 +7,6 @@
 /* Styles used in all child components */
 .icon-btn {
   cursor: pointer;
-  background-color: bisque;
   width: 22px;
   height: 22px;
   padding: 2px;
@@ -39,5 +38,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: pink;
+}
+
+.app-container {
+  background-color: white;
 }

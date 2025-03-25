@@ -1,5 +1,4 @@
 .user-preview-container {
-  background-color: greenyellow;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11,11 +10,9 @@
 }
 
 .user-preview-container:hover {
-  background-color: rgba(172, 255, 47, 0.77);
 }
 
 .user-details {
-  background-color: red;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,7 +29,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: red;
   height: 100%;
 }
 .user-name {

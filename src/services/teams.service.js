@@ -146,3 +146,11 @@ export const subscribeToTeams = function (userUid, callback) {
 
   return unsubscribe;
 };
+
+export const addToTeam = function (teamUid, userUid) {
+  const teamRef = ref(db, `teams/${teamUid}/members`);
+  const userRef = ref(db, `users/${userUid}/teams`);
+
+  update(teamRef, { [userUid]: true });
+  update(userRef, { [teamUid]: true });
+};

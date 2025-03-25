@@ -2,8 +2,14 @@ import "./FriendPreview.css";
 
 //Font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinusSquare, faPhone, faVideo } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMinusSquare,
+  faPhone,
+  faVideo,
+} from "@fortawesome/free-solid-svg-icons";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
+
+import { useEffect } from "react";
 
 import Avatar from "../avatar/Avatar";
 
@@ -15,8 +21,9 @@ function FriendPreview({
   onStartVideoCall,
   onStartAudioCall,
 }) {
+  useEffect(() => console.log(friend));
   const avatarProps = {
-    imageUrl: friend.imageUrl,
+    imageUrl: friend.profilePicture,
     status: friend.status,
     name: friend.username,
   };
