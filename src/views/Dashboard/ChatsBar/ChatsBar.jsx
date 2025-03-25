@@ -75,10 +75,6 @@ function ChatsBar() {
   };
 
   useEffect(() => {
-    console.log(chats);
-  }, [chats]);
-
-  useEffect(() => {
     handleFetchChats();
     const unsubscribe = subscribeToChats(teamId, isUser, handleFetchChats);
 
@@ -142,23 +138,3 @@ function ChatsBar() {
 }
 
 export default ChatsBar;
-
-// //If in dms, fetch all receivers data for dm chats and store in the chat object
-// if (isUser)
-//   chatsDetails.forEach(async (chat) => {
-//     if (chat.type === "dm")
-//       chat.receiverDetails = (await getChatMembersDetails(chat.id)).filter(
-//         (member) => member.id !== user.uid
-//       )[0];
-//     console.log(await getChatMembersDetails(chat.id));
-//     console.log(chatsDetails);
-//     return chat;
-//   });
-
-// const handleDmsClick = async () => {
-//   if (userData?.chats && Object.keys(userData.chats).length < 1)
-//     navigate("/home");
-//   const chatsData = await getChatsDetails(user.uid, true);
-//   setChats(chatsData);
-//   navigate(`/${user.uid}/${chatsData[0].id}`);
-// };

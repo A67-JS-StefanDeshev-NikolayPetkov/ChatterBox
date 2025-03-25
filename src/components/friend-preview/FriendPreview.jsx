@@ -21,7 +21,6 @@ function FriendPreview({
   onStartVideoCall,
   onStartAudioCall,
 }) {
-  useEffect(() => console.log(friend));
   const avatarProps = {
     imageUrl: friend.profilePicture,
     status: friend.status,

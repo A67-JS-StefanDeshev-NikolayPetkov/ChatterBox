@@ -29,7 +29,6 @@ function AllFriends({ filtered, onStartAudioCall, onStartVideoCall }) {
 
   async function handleOpenChat(receiverUid) {
     let chatId;
-    console.log(userData);
     if (userData.chats)
       chatId = await checkIfDmsExist(userData.chats, receiverUid);
     if (!chatId) chatId = await startDms(user.uid, receiverUid);
@@ -75,12 +74,9 @@ function AllFriends({ filtered, onStartAudioCall, onStartVideoCall }) {
     );
 
   if (filtered) {
-    console.log(friendsData);
     const onlineFriends = friendsData.filter((friend) => {
       return friend.status === "online";
     });
-
-    console.log(onlineFriends);
 
     return onlineFriends.length > 0 ? (
       <div className="all-friends-container">

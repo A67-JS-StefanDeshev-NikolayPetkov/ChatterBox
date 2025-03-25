@@ -45,10 +45,6 @@ function ChatWindow() {
     }
   }, [chatId]);
 
-  useEffect(() => {
-    console.log("receiversData", chatData);
-  }, [receiversData]);
-
   if (!chatData || loader || !receiversData)
     return (
       <Center>

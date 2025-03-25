@@ -11,11 +11,8 @@ import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faVideo } from "@fortawesome/free-solid-svg-icons";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
-import { useEffect } from "react";
 
 function ChatHeader({ receiversData, chatData }) {
-  useEffect(() => console.log("REC", chatData), []);
-
   //If its a group chat
   if (chatData?.type !== "dm")
     return (

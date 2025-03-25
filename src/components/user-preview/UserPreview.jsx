@@ -22,9 +22,6 @@ function UserPreview({
   const [addButton, setAddButton] = useState(renderButton);
   const { user, userData } = useContext(AppContext);
 
-  useEffect(() => {
-    console.log(foundUser[1].details.profilePicture);
-  }, []);
   return (
     <div className="user-preview-container">
       <div className="friend-details">

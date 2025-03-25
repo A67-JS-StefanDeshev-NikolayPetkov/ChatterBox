@@ -39,10 +39,6 @@ function ChatBody({ chatData, setChatData, receiversData }) {
     reader.readAsDataURL(file);
   };
 
-  useEffect(() => {
-    console.log("rec", userData);
-  });
-
   //Add on value listener
   useEffect(() => {
     if (!chatData?.uid) return;

@@ -167,12 +167,9 @@ export const leaveTeam = async function (teamUid, userUid) {
   ]);
 
   const teamMembersSnapshot = await get(teamMembersRef);
-  console.log(teamMembersSnapshot.exists());
-  console.log(teamMembersSnapshot.val());
 
   //If no members remove team
   if (!teamMembersSnapshot.exists()) {
-    console.log("DELETING TEAM");
     await set(teamRef, null);
     const teamsCountRef = ref(db, "teams/teamsCount");
     await runTransaction(teamsCountRef, (currentCount) => {
