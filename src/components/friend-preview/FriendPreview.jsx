@@ -44,7 +44,7 @@ function FriendPreview({
           className="icon-btn icon-big"
           onClick={() => handleRemoveFromFriends(senderUid, friend.uid)}
         ></FontAwesomeIcon>
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon={faPhone}
           className="icon-btn"
           onClick={onStartAudioCall}
@@ -53,7 +53,7 @@ function FriendPreview({
           icon={faVideo}
           className="icon-btn"
           onClick={onStartVideoCall}
-        />
+        /> */}
       </div>
     </div>
   );

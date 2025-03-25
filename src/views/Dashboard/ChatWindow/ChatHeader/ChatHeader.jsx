@@ -36,7 +36,7 @@ function ChatHeader({ receiversData, chatData }) {
         <h2 className="active-chat-name">{receiversData[0].username}</h2>
         <span className="active-chat-status">{receiversData[0].status}</span>
       </div>
-      <FontAwesomeIcon
+      {/* <FontAwesomeIcon
         icon={faUserPlus}
         className="icon-btn"
       ></FontAwesomeIcon>
@@ -51,7 +51,7 @@ function ChatHeader({ receiversData, chatData }) {
       <FontAwesomeIcon
         icon={faGear}
         className="icon-btn"
-      ></FontAwesomeIcon>{" "}
+      ></FontAwesomeIcon>{" "} */}
     </div>
   );
 }

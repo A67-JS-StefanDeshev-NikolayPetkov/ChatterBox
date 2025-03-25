@@ -41,6 +41,8 @@
   width: 150px;
   height: 150px;
   text-align: center;
+  background-position: center;
+  background-size: cover;
 }
 
 .team-image-preview:hover {

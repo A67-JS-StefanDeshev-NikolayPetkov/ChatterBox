@@ -8,18 +8,20 @@
   margin-top: -40px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
 .fields-container {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
+  justify-content: center;
   /* gap: 20px; */
 }
 
 .field-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: start;
   justify-content: space-between;
   width: 100%;
@@ -63,24 +65,27 @@
 .submit-register-btn {
   margin-bottom: 20px;
 }
+.offfff {
+  margin-right: 18px;
+}
 
-/* picture container */
+/* picture container
 .picture-container {
   margin-top: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-}
-
+} */
+/* 
 .picture-container label {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 8px;
   color: #333;
-}
+} */
 
-.picture-container input[type="file"] {
+/* .picture-container input[type="file"] {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -101,4 +106,13 @@
   height: 110px;
   text-align: center;
   background-color: transparent;
+} */
+
+.profile-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }

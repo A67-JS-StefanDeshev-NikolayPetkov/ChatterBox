@@ -11,7 +11,15 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import FieldError from "../error/FieldError";
 
-function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileChange,  formData, errors, setErrors }) {
+function RegisterForm({
+  handleInput,
+  handlePhoneInput,
+  handleSubmit,
+  handleFileChange,
+  formData,
+  errors,
+  setErrors,
+}) {
   const paragraphRef = useRef(null);
 
   useEffect(() => {
@@ -57,6 +65,27 @@ function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileC
       )}
 
       <div className="fields-container">
+        <div className="upload-image-container">
+          <div
+            className="team-image-preview"
+            style={{
+              backgroundImage: formData.profilePicture
+                ? `url(${formData.profilePicture})`
+                : null,
+            }}
+            onClick={() => document.getElementById("file-upload").click()}
+          >
+            {!formData.profilePicture && <p>Upload image</p>}
+          </div>
+          <input
+            id="file-upload"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+        </div>
+
         <div className="field-container">
           <label htmlFor="username">Username</label>
           <input
@@ -71,8 +100,9 @@ function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileC
               handleInput(e.target);
             }}
           />
-          {errors.username && <FieldError label={errors.username}></FieldError>}
         </div>
+        {errors.username && <FieldError label={errors.username}></FieldError>}
+
         <div className="field-container">
           <label htmlFor="email">Email</label>
           <input
@@ -87,8 +117,9 @@ function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileC
               handleInput(e.target);
             }}
           />
-          {errors.email && <FieldError label={errors.email}></FieldError>}
         </div>
+        {errors.email && <FieldError label={errors.email}></FieldError>}
+
         <div className="field-container">
           <label htmlFor="password">Password</label>
           <input
@@ -103,10 +134,16 @@ function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileC
               handleInput(e.target);
             }}
           />
-          {errors.password && <FieldError label={errors.password}></FieldError>}
         </div>
+        {errors.password && <FieldError label={errors.password}></FieldError>}
+
         <div className="field-container">
-          <label htmlFor="phoneNumber">Phone Number</label>
+          <label
+            htmlFor="phoneNumber"
+            className="offfff"
+          >
+            Number
+          </label>
           <PhoneInput
             country={"bg"}
             value={formData.phoneNumber}
@@ -115,30 +152,10 @@ function RegisterForm({ handleInput, handlePhoneInput, handleSubmit, handleFileC
             inputClass="phone-input"
             containerClass="phone-input-container"
           />
-          {errors.phoneNumber && <FieldError label={errors.phoneNumber}></FieldError>}
         </div>
-        <div className="picture-container">
-          <label htmlFor="profilePicture" className="custom-file-label">
-          {formData.profilePicture ? (
-          <img
-            src={formData.profilePicture}
-            alt="Profile Preview"
-            className="profile-preview"
-          />
-          ) : (
-        <div className="image-placeholder">Click to upload an image</div>
-          )}
-          </label>
-        <input
-          type="file"
-          id="profilePicture"
-          name="profilePicture"
-          accept="image/*"
-          onChange={handleFileChange}
-          style={{ display: "none" }}
-        />
-        {errors.profilePicture && <FieldError label={errors.profilePicture}></FieldError>}
-        </div>
+        {errors.phoneNumber && (
+          <FieldError label={errors.phoneNumber}></FieldError>
+        )}
       </div>
 
       <div className="redirection-links">
