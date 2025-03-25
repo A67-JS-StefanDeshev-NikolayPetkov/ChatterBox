@@ -4,6 +4,7 @@ import plusSign from "../../../assets/plus.svg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 
 import chatLogo from "../../../assets/default-chat.png";
 
@@ -11,6 +12,8 @@ import chatLogo from "../../../assets/default-chat.png";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
+
+import { leaveTeam } from "../../../services/teams.service";
 
 //Services
 import {
@@ -123,6 +126,14 @@ function ChatsBar() {
             type="team"
             imageUrl={plusSign}
             name="Create Channel"
+          />
+          <FontAwesomeIcon
+            onClick={() => {
+              leaveTeam(teamId, user.uid);
+              navigate(`/home`);
+            }}
+            icon={faDoorOpen}
+            className="add-members-btn"
           />
         </div>
       )}

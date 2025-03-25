@@ -14,10 +14,10 @@ import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 
 function ChatHeader({ receiversData, chatData }) {
-  useEffect(() => console.log("REC", receiversData), []);
+  useEffect(() => console.log("REC", chatData), []);
 
   //If its a group chat
-  if (typeof receiversData === "string")
+  if (chatData?.type !== "dm")
     return (
       <div className="active-chat-header">
         <Avatar
