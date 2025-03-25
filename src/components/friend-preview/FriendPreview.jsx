@@ -2,7 +2,7 @@ import "./FriendPreview.css";
 
 //Font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinusSquare } from "@fortawesome/free-solid-svg-icons";
+import { faMinusSquare, faPhone, faVideo } from "@fortawesome/free-solid-svg-icons";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
 
 import Avatar from "../avatar/Avatar";
@@ -12,6 +12,8 @@ function FriendPreview({
   senderUid,
   handleRemoveFromFriends,
   handleOpenChat,
+  onStartVideoCall,
+  onStartAudioCall,
 }) {
   const avatarProps = {
     imageUrl: friend.imageUrl,
@@ -36,6 +38,16 @@ function FriendPreview({
           className="icon-btn icon-big"
           onClick={() => handleRemoveFromFriends(senderUid, friend.uid)}
         ></FontAwesomeIcon>
+        <FontAwesomeIcon
+          icon={faPhone}
+          className="icon-btn"
+          onClick={onStartAudioCall}
+        />
+        <FontAwesomeIcon
+          icon={faVideo}
+          className="icon-btn"
+          onClick={onStartVideoCall}
+        />
       </div>
     </div>
   );

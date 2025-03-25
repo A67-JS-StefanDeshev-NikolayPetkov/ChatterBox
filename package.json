@@ -16,6 +16,8 @@
     "@types/react-router-dom": "^5.3.3",
     "firebase": "^11.4.0",
     "libphonenumber-js": "^1.12.6",
+    "peer": "^1.0.2",
+    "peerjs": "^1.5.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-firebase-hooks": "^5.1.1",

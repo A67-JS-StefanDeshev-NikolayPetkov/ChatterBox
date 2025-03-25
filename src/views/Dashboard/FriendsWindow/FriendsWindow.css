@@ -3,3 +3,19 @@
   min-width: 400px;
   background-color: orange;
 }
+
+.video-call-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.local-video,
+.remote-video {
+  width: 300px;
+  height: 200px;
+  background-color: black;
+  border-radius: 10px;
+}
