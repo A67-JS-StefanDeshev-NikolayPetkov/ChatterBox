@@ -68,10 +68,14 @@ export const searchUsers = async (searchBy = "username", searchValue) => {
         // return (
         //   user[1][searchBy].toLowerCase() === searchValue.toLowerCase()
         // );
-
-        return user[1].details[searchBy]
-          .toLowerCase()
-          .includes(searchValue.toLowerCase());
+        console.log;
+        return user[1]?.details?.[searchBy]
+          ?.toLowerCase()
+          ?.includes(searchValue?.toLowerCase())
+          ? user[1].details[searchBy]
+              .toLowerCase()
+              .includes(searchValue.toLowerCase())
+          : false;
       });
 
       return filteredUsers;
